@@ -42,7 +42,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         auth.signOut();
-        NavDirections action = ProfileFragmentDirections.actionProfileFragmentToSplashFragment();
+        NavDirections action = ProfileFragmentDirections.actionProfileFragmentToSignInFragment();
         NavHostFragment.findNavController(this).navigate(action);
     }
 }

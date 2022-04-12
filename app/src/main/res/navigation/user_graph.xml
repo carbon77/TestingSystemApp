@@ -26,8 +26,8 @@
         android:label="@string/profile"
         tools:layout="@layout/profile_fragment">
         <action
-            android:id="@+id/action_profile_fragment_to_splash_fragment"
-            app:destination="@id/splash_fragment"
+            android:id="@+id/action_profile_fragment_to_sign_in_fragment"
+            app:destination="@id/sign_in_fragment"
             app:popUpTo="@id/profile_fragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -40,8 +40,8 @@
             android:id="@+id/action_sign_in_fragment_to_sign_up_fragment"
             app:destination="@id/sign_up_fragment" />
         <action
-            android:id="@+id/action_sign_in_fragment_to_splash_fragment"
-            app:destination="@id/splash_fragment"
+            android:id="@+id/action_sign_in_fragment_to_profile_fragment"
+            app:destination="@id/profile_fragment"
             app:popUpTo="@id/sign_in_fragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -50,9 +50,12 @@
         android:name="com.example.testsys.screens.SignUpFragment"
         android:label="@string/sign_up"
         tools:layout="@layout/sign_up_fragment">
+        <argument
+            android:name="email"
+            app:argType="string" />
         <action
-            android:id="@+id/action_sign_up_fragment_to_splash_fragment"
-            app:destination="@id/splash_fragment"
+            android:id="@+id/action_sign_up_fragment_to_profile_fragment"
+            app:destination="@id/profile_fragment"
             app:popUpTo="@id/sign_up_fragment"
             app:popUpToInclusive="true" />
     </fragment>
