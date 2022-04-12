@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Testing System</string>
+    <string name="sign_in">Sign In</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="sign_up">Sign up</string>
+    <string name="go_back">Go back</string>
+    <string name="username">Username</string>
+    <string name="sign_out">Sign out</string>
+    <string name="profile">Profile</string>
 </resources>
