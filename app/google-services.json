@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1003993116703",
+    "firebase_url": "https://android-testing-system-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "android-testing-system",
+    "storage_bucket": "android-testing-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003993116703:android:e4d06289b1e06f524da52a",
+        "android_client_info": {
+          "package_name": "com.example.testsys"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1003993116703-cv84a2gmqni4qa0ilo6uhlppeietfc7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAAiRS89ntrVlEOOxekoYCWkq5CAOL7qQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1003993116703-cv84a2gmqni4qa0ilo6uhlppeietfc7a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
