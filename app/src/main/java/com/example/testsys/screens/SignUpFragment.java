@@ -8,13 +8,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.SignInFragmentBinding;
+import com.example.testsys.databinding.SignUpFragmentBinding;
 
 public class SignUpFragment extends Fragment {
 
-    private SignInFragmentBinding binding;
+    private SignUpFragmentBinding binding;
 
     @Nullable
     @Override
@@ -25,6 +27,14 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = SignInFragmentBinding.bind(view);
+        binding = SignUpFragmentBinding.bind(view);
+        SignUpFragmentArgs args = SignUpFragmentArgs.fromBundle(requireArguments());
+        String email = args.getEmail();
+
+        binding.etEmail.setText(email);
+
+        binding.btnGoBack.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).popBackStack();
+        });
     }
 }
