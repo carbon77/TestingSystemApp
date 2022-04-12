@@ -9,4 +9,6 @@
     <string name="username">Username</string>
     <string name="sign_out">Sign out</string>
     <string name="profile">Profile</string>
+    <string name="registration_failed">Registration failed</string>
+    <string name="auth_failed">Authentication failed</string>
 </resources>

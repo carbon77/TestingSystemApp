@@ -53,7 +53,7 @@ public class SignInFragment extends Fragment {
                 NavDirections action = SignInFragmentDirections.actionSignInFragmentToProfileFragment();
                 NavHostFragment.findNavController(this).navigate(action);
             } else {
-                Toast.makeText(requireActivity(), "Authentication failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), getResources().getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
                 binding.etPassword.setText("");
             }
         });
