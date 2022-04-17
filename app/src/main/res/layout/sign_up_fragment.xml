@@ -9,11 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
-        android:textSize="26sp"/>
+        android:textSize="26sp" />
 
     <EditText
         android:id="@+id/et_username"
-        android:layout_width="250dp"
+        android:layout_width="@dimen/edit_text_width"
         android:layout_height="wrap_content"
         android:hint="@string/username"
         android:textSize="20sp"
@@ -22,7 +22,7 @@
 
     <EditText
         android:id="@+id/et_email"
-        android:layout_width="250dp"
+        android:layout_width="@dimen/edit_text_width"
         android:layout_height="wrap_content"
         android:hint="@string/email"
         android:textSize="20sp"
@@ -31,7 +31,7 @@
 
     <EditText
         android:id="@+id/et_password"
-        android:layout_width="250dp"
+        android:layout_width="@dimen/edit_text_width"
         android:layout_height="wrap_content"
         android:hint="@string/password"
         android:textSize="20sp"
@@ -40,15 +40,16 @@
 
     <Button
         android:id="@+id/btn_sign_up"
-        android:layout_width="200dp"
+        android:layout_width="@dimen/btn_width_auth"
         android:layout_height="wrap_content"
         android:text="@string/sign_up" />
 
     <Button
         android:id="@+id/btn_go_back"
-        android:layout_width="200dp"
+        android:layout_width="@dimen/btn_width_auth"
         android:layout_height="wrap_content"
-        android:text="@string/go_back" />
+        android:text="@string/go_back"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
 
 </LinearLayout>
