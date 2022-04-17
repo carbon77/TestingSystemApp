@@ -1,15 +1,8 @@
 package com.example.testsys.models;
 
-import androidx.navigation.NavDirections;
-import androidx.navigation.fragment.NavHostFragment;
-
-import com.example.testsys.screens.SignUpFragmentDirections;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 /*
 * UserService class has static methods to work with signed in user in Firebase

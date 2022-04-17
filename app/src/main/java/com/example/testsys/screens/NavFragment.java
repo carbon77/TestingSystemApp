@@ -32,7 +32,7 @@ public class NavFragment extends Fragment {
         navHostFragment = (NavHostFragment) getChildFragmentManager().findFragmentById(R.id.profile_nav_host_fragment);
         navController = navHostFragment.getNavController();
 
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupWithNavController(binding.toolbar, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(binding.toolbar, navController);
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
     }
 }
