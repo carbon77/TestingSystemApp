@@ -8,6 +8,14 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.testsys.screens.ProfileFragment"
-        android:label="ProfileFragment"
-        tools:layout="@layout/profile_fragment"/>
+        android:label="@string/profile"
+        tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.testsys.screens.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/testsFragment"
+        android:name="com.example.testsys.screens.TestsFragment"
+        android:label="TestsFragment" />
 </navigation>
