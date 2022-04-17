@@ -9,18 +9,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.SignInFragmentBinding;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.testsys.models.UserViewModel;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SignInFragment extends Fragment {
 
     private SignInFragmentBinding binding;
-
-    private FirebaseAuth auth;
+    private UserViewModel userViewModel;
 
     @Nullable
     @Override
@@ -32,7 +33,7 @@ public class SignInFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = SignInFragmentBinding.bind(view);
-        auth = FirebaseAuth.getInstance();
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         binding.btnGoToSignUp.setOnClickListener(this::goToSignUp);
         binding.btnSignIn.setOnClickListener(this::signIn);
@@ -47,15 +48,16 @@ public class SignInFragment extends Fragment {
     public void signIn(View v) {
         String email = binding.etEmail.getText().toString();
         String password = binding.etPassword.getText().toString();
+        userViewModel.signIn(email, password, this::userSignedIn, this::userCanceled);
+    }
 
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                NavDirections action = SignInFragmentDirections.actionSignInFragmentToProfileFragment();
-                NavHostFragment.findNavController(this).navigate(action);
-            } else {
-                Toast.makeText(requireActivity(), getResources().getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
-                binding.etPassword.setText("");
-            }
-        });
+    private void userCanceled() {
+        Toast.makeText(requireActivity(), getResources().getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
+        binding.etPassword.setText("");
+    }
+
+    private void userSignedIn(FirebaseUser user) {
+        NavDirections action = SignInFragmentDirections.actionSignInFragmentToProfileFragment();
+        NavHostFragment.findNavController(this).navigate(action);
     }
 }
