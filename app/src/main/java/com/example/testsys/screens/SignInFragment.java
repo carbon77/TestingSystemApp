@@ -57,7 +57,7 @@ public class SignInFragment extends Fragment {
     }
 
     private void userSignedIn(FirebaseUser user) {
-        NavDirections action = SignInFragmentDirections.actionSignInFragmentToProfileFragment();
+        NavDirections action = SignInFragmentDirections.actionSignInFragmentToNavFragment();
         NavHostFragment.findNavController(this).navigate(action);
     }
 }

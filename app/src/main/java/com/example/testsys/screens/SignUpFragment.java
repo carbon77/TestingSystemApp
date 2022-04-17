@@ -65,7 +65,7 @@ public class SignUpFragment extends Fragment {
     }
 
     private void goToProfile() {
-        NavDirections action = SignUpFragmentDirections.actionSignUpFragmentToProfileFragment();
+        NavDirections action = SignUpFragmentDirections.actionSignUpFragmentToNavFragment();
         NavHostFragment.findNavController(this).navigate(action);
     }
 }

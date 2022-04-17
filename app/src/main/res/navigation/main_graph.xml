@@ -10,25 +10,14 @@
         android:label="Splash"
         tools:layout="@layout/splash_fragment">
         <action
-            android:id="@+id/action_splashFragment_to_profile_fragment"
-            app:destination="@id/profile_fragment"
-            app:popUpTo="@id/splash_fragment"
-            app:popUpToInclusive="true" />
-        <action
             android:id="@+id/action_splashFragment_to_sign_in_fragment"
             app:destination="@id/sign_in_fragment"
             app:popUpTo="@id/splash_fragment"
             app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/profile_fragment"
-        android:name="com.example.testsys.screens.ProfileFragment"
-        android:label="@string/profile"
-        tools:layout="@layout/profile_fragment">
         <action
-            android:id="@+id/action_profile_fragment_to_sign_in_fragment"
-            app:destination="@id/sign_in_fragment"
-            app:popUpTo="@id/profile_fragment"
+            android:id="@+id/action_splash_fragment_to_navFragment"
+            app:destination="@id/navFragment"
+            app:popUpTo="@id/splash_fragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -40,8 +29,8 @@
             android:id="@+id/action_sign_in_fragment_to_sign_up_fragment"
             app:destination="@id/sign_up_fragment" />
         <action
-            android:id="@+id/action_sign_in_fragment_to_profile_fragment"
-            app:destination="@id/profile_fragment"
+            android:id="@+id/action_sign_in_fragment_to_navFragment"
+            app:destination="@id/navFragment"
             app:popUpTo="@id/sign_in_fragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -54,9 +43,20 @@
             android:name="email"
             app:argType="string" />
         <action
-            android:id="@+id/action_sign_up_fragment_to_profile_fragment"
-            app:destination="@id/profile_fragment"
+            android:id="@+id/action_sign_up_fragment_to_navFragment"
+            app:destination="@id/navFragment"
             app:popUpTo="@id/sign_up_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/navFragment"
+        android:name="com.example.testsys.screens.NavFragment"
+        android:label="NavFragment"
+        tools:layout="@layout/nav_fragment">
+        <action
+            android:id="@+id/action_navFragment_to_sign_in_fragment"
+            app:destination="@id/sign_in_fragment"
+            app:popUpTo="@id/navFragment"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

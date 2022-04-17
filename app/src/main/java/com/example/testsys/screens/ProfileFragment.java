@@ -7,14 +7,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavDirections;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.ProfileFragmentBinding;
 import com.example.testsys.models.UserViewModel;
 
-public class ProfileFragment extends Fragment implements View.OnClickListener {
+public class ProfileFragment extends Fragment {
 
     private ProfileFragmentBinding binding;
     private UserViewModel userViewModel;
@@ -32,14 +33,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             binding.tvEmail.setText(String.format("%s: %s", getResources().getString(R.string.email), user.getEmail()));
             binding.tvUsername.setText(String.format("%s: %s", getResources().getString(R.string.username), user.getDisplayName()));
-            binding.btnSingOut.setOnClickListener(this);
+            binding.btnSingOut.setOnClickListener(this::signOut);
         });
     }
 
-    @Override
-    public void onClick(View v) {
+    public void signOut(View v) {
         userViewModel.signOut();
-        NavDirections action = ProfileFragmentDirections.actionProfileFragmentToSignInFragment();
-        NavHostFragment.findNavController(this).navigate(action);
+        NavHostFragment navHostFragment =
+                (NavHostFragment) requireActivity()
+                .getSupportFragmentManager()
+                .findFragmentById(R.id.main_nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.nav_fragment, true).build();
+        navController.navigate(R.id.sign_in_fragment, null, navOptions);
     }
 }
