@@ -11,9 +11,7 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
-import com.example.testsys.models.UserViewModel;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.testsys.models.user.UserViewModel;
 
 public class SplashFragment extends Fragment {
 

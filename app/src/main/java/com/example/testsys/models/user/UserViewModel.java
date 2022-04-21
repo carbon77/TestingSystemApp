@@ -1,4 +1,4 @@
-package com.example.testsys.models;
+package com.example.testsys.models.user;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

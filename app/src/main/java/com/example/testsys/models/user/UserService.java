@@ -1,4 +1,4 @@
-package com.example.testsys.models;
+package com.example.testsys.models.user;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

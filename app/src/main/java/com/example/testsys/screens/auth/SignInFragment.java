@@ -15,7 +15,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.SignInFragmentBinding;
-import com.example.testsys.models.UserViewModel;
+import com.example.testsys.models.user.UserViewModel;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignInFragment extends Fragment {

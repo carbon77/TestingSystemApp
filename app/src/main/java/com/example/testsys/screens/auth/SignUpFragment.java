@@ -15,7 +15,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.SignUpFragmentBinding;
-import com.example.testsys.models.UserViewModel;
+import com.example.testsys.models.user.UserViewModel;
 
 public class SignUpFragment extends Fragment {
 
