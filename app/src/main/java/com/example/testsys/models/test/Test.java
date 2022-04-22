@@ -1,26 +1,33 @@
 package com.example.testsys.models.test;
 
-import java.util.Calendar;
-
 public class Test {
-    private final String id;
+    private String id;
     private String author;
-    private String title;
+    private String text;
     private int questionCount;
-    private Calendar creationDate;
-    private Calendar changeDate;
+    private String creationDate;
+    private String modificationDate;
     private int version;
 
-    public Test(String id, String author, String title) {
+    public Test() {
+
+    }
+
+    public Test(String id, String author, String title, int version, String creationDate, String modificationDate) {
         this.id = id;
         this.author = author;
-
-        this.title = title;
+        this.text = title;
+        this.version = version;
+        this.creationDate = creationDate;
+        this.modificationDate = modificationDate;
+        this.questionCount = 0;
     }
 
     public String getId() {
         return id;
     }
+
+    public void setId(String id) { this.id = id; }
 
     public String getAuthor() {
         return author;
@@ -30,12 +37,12 @@ public class Test {
         this.author = author;
     }
 
-    public String getTitle() {
-        return title;
+    public String getText() {
+        return text;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public int getQuestionCount() {
@@ -46,20 +53,12 @@ public class Test {
         this.questionCount = questionCount;
     }
 
-    public Calendar getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Calendar creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public Calendar getChangeDate() {
-        return changeDate;
-    }
-
-    public void setChangeDate(Calendar changeDate) {
-        this.changeDate = changeDate;
     }
 
     public int getVersion() {
@@ -68,5 +67,13 @@ public class Test {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public String getModificationDate() {
+        return modificationDate;
+    }
+
+    public void setModificationDate(String modificationDate) {
+        this.modificationDate = modificationDate;
     }
 }
