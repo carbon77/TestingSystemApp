@@ -18,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestFormFragmentBinding;
 import com.example.testsys.models.test.Test;
+import com.example.testsys.models.test.TestService;
 import com.example.testsys.models.user.UserViewModel;
 import com.example.testsys.utils.DateService;
 import com.google.firebase.database.DatabaseReference;
@@ -29,8 +30,6 @@ import java.util.GregorianCalendar;
 public class TestFormFragment extends Fragment {
     private NavController navController;
     private TestFormFragmentBinding binding;
-    private Test currentTest;
-    private UserViewModel userViewModel;
     private String testId;
     private String userId;
 
@@ -82,20 +81,7 @@ public class TestFormFragment extends Fragment {
         }
 
         String text = binding.etTestText.getText().toString();
-        int version = Integer.parseInt(binding.etTestVersion.getText().toString());
-        String creationDate = binding.etTestCreateDate.getText().toString();
-        String modificationDate = binding.etTestModificationDate.getText().toString();
-
-        currentTest = new Test(null, userId, text, version, creationDate, modificationDate);
-
-        DatabaseReference testRef = FirebaseDatabase.getInstance().getReference("tests").push();
-        testRef.setValue(currentTest);
-        testId = testRef.getKey();
-        currentTest.setId(testId);
-
-        DatabaseReference userTestRef = FirebaseDatabase.getInstance().getReference("userTest").child(userId);
-        userTestRef.child(testId).setValue(true);
-
+        TestService.createTest(userId, text);
         navController.navigateUp();
     }
 }
