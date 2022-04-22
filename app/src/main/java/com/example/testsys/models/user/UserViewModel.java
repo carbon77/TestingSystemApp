@@ -4,32 +4,36 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.firebase.auth.FirebaseUser;
-
 public class UserViewModel extends ViewModel {
-    private MutableLiveData<FirebaseUser> user;
+    private MutableLiveData<User> user;
 
-    public LiveData<FirebaseUser> getUser() {
+    public LiveData<User> getUser() {
         if (user == null) {
-            user = new MutableLiveData<FirebaseUser>();
+            user = new MutableLiveData<User>();
         }
-        user.setValue(UserService.loadUser());
+
+        UserService.loadCurrentUser(currentUser -> {
+            user.setValue(currentUser);
+        });
         return user;
     }
 
     public void signOut() {
         UserService.signOut();
+        user.setValue(null);
     }
 
-    public void signIn(String email, String password, UserService.UserListener completeListener, Runnable cancelListener) {
-        UserService.signIn(email, password, completeListener, cancelListener);
+    public void signIn(String email, String password, UserService.UserListener completeListener) {
+        UserService.signIn(email, password, currentUser -> {
+            user.setValue(currentUser);
+            completeListener.invoke(currentUser);
+        });
     }
 
-    public void signUp(String email, String password, UserService.UserListener completeListener, Runnable cancelListener) {
-        UserService.signUp(email, password, completeListener, cancelListener);
-    }
-
-    public void setUsername(String username, UserService.UserListener completeListener) {
-        UserService.setUsername(username, completeListener);
+    public void signUp(String email, String password, String username, UserService.UserListener completeListener) {
+        UserService.signUp(email, password, username, currentUser -> {
+            user.setValue(currentUser);
+            completeListener.invoke(currentUser);
+        });
     }
 }

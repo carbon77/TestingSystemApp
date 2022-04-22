@@ -41,7 +41,7 @@ public class TestsFragment extends Fragment {
         UserViewModel userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
-            userId = user.getUid();
+            userId = user.getId();
 
             DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
             Query query = dbRef.child("userTests").child(userId);

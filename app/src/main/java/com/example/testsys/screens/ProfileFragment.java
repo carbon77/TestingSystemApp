@@ -31,20 +31,27 @@ public class ProfileFragment extends Fragment {
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            if (user == null) {
+                goToSignIn();
+                return;
+            }
             binding.tvEmail.setText(String.format("%s: %s", getResources().getString(R.string.email), user.getEmail()));
-            binding.tvUsername.setText(String.format("%s: %s", getResources().getString(R.string.username), user.getDisplayName()));
+            binding.tvUsername.setText(String.format("%s: %s", getResources().getString(R.string.username), user.getUsername()));
             binding.btnSingOut.setOnClickListener(this::signOut);
         });
     }
 
-    public void signOut(View v) {
-        userViewModel.signOut();
-        NavHostFragment navHostFragment =
+    private void goToSignIn() {
+        NavHostFragment navHost =
                 (NavHostFragment) requireActivity()
-                .getSupportFragmentManager()
-                .findFragmentById(R.id.main_nav_host_fragment);
-        NavController navController = navHostFragment.getNavController();
+                        .getSupportFragmentManager()
+                        .findFragmentById(R.id.main_nav_host_fragment);
+        NavController navController = navHost.getNavController();
         NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.nav_fragment, true).build();
         navController.navigate(R.id.sign_in_fragment, null, navOptions);
+    }
+
+    public void signOut(View v) {
+        userViewModel.signOut();
     }
 }

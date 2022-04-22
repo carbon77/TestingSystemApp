@@ -15,8 +15,8 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.SignInFragmentBinding;
+import com.example.testsys.models.user.User;
 import com.example.testsys.models.user.UserViewModel;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SignInFragment extends Fragment {
 
@@ -48,15 +48,15 @@ public class SignInFragment extends Fragment {
     public void signIn(View v) {
         String email = binding.etEmail.getText().toString();
         String password = binding.etPassword.getText().toString();
-        userViewModel.signIn(email, password, this::userSignedIn, this::userCanceled);
+        userViewModel.signIn(email, password, this::completeSignedIn);
     }
 
-    private void userCanceled() {
-        Toast.makeText(requireActivity(), getResources().getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
-        binding.etPassword.setText("");
-    }
-
-    private void userSignedIn(FirebaseUser user) {
+    private void completeSignedIn(User user) {
+        if (user == null) {
+            Toast.makeText(requireActivity(), getResources().getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
+            binding.etPassword.setText("");
+            return;
+        }
         NavDirections action = SignInFragmentDirections.actionSignInFragmentToNavFragment();
         NavHostFragment.findNavController(this).navigate(action);
     }

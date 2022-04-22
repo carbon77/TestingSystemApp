@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.SignUpFragmentBinding;
+import com.example.testsys.models.user.User;
 import com.example.testsys.models.user.UserViewModel;
 
 public class SignUpFragment extends Fragment {
@@ -49,22 +50,19 @@ public class SignUpFragment extends Fragment {
         String email = binding.etEmail.getText().toString();
         String password = binding.etPassword.getText().toString();
 
-        userViewModel.signUp(
-                email,
-                password,
-                user -> {
-                    userViewModel.setUsername(username, u -> {
-                        goToProfile();
-                    });
-                },
-                () -> {
-                    Toast.makeText(requireContext(), getResources().getString(R.string.registration_failed), Toast.LENGTH_SHORT).show();
-                    binding.etPassword.setText("");
-                }
-        );
+        userViewModel.signUp(email, password, username, this::completeSignedUp);
     }
 
-    private void goToProfile() {
+    public void completeSignedUp(User user) {
+        if (user == null) {
+            Toast.makeText(requireContext(), getResources().getString(R.string.registration_failed), Toast.LENGTH_SHORT).show();
+            binding.etPassword.setText("");
+            return;
+        }
+        goToProfile();
+    }
+
+    public void goToProfile() {
         NavDirections action = SignUpFragmentDirections.actionSignUpFragmentToNavFragment();
         NavHostFragment.findNavController(this).navigate(action);
     }

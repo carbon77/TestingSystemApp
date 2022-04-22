@@ -2,34 +2,59 @@ package com.example.testsys.models.user;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.FirebaseDatabase;
 
 /*
 * UserService class has static methods to work with signed in user in Firebase
 * */
 public class UserService {
-    public static FirebaseUser loadUser() {
-        return FirebaseAuth.getInstance().getCurrentUser();
-    }
+    public static void loadCurrentUser(UserListener completeListener) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null) {
+            completeListener.invoke(null);
+            return;
+        }
 
-    public static void signIn(String email, String password, UserListener completeListener, Runnable canceledListener) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+        String id = firebaseUser.getUid();
+        FirebaseDatabase.getInstance().getReference().child("users").child(id).get().addOnCompleteListener(task -> {
            if (task.isSuccessful()) {
-               completeListener.invoke(loadUser());
+               User user = task.getResult().getValue(User.class);
+               user.setId(id);
+               completeListener.invoke(user);
            } else {
-               canceledListener.run();
+               completeListener.invoke(null);
            }
         });
     }
 
-    public static void signUp(String email, String password, UserListener completeListener, Runnable canceledListener) {
+    public static void signIn(String email, String password, UserListener completeListener) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+           if (task.isSuccessful()) {
+               loadCurrentUser(completeListener);
+           } else {
+               completeListener.invoke(null);
+           }
+        });
+    }
+
+    public static void signUp(String email, String password, String username, UserListener completeListener) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                completeListener.invoke(loadUser());
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                String id = firebaseUser.getUid();
+                User user = new User(null, email, username, username);
+                FirebaseDatabase.getInstance().getReference().child("users").child(id).setValue(user).addOnCompleteListener(t -> {
+                    if (t.isSuccessful()) {
+                        user.setId(id);
+                        completeListener.invoke(user);
+                    } else {
+                        completeListener.invoke(null);
+                    }
+                });
             } else {
-                canceledListener.run();
+                completeListener.invoke(null);
             }
         });
     }
@@ -38,23 +63,7 @@ public class UserService {
         FirebaseAuth.getInstance().signOut();
     }
 
-    public static void setUsername(String username, UserListener completeListener) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (user == null) {
-            return;
-        }
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(username)
-                .build();
-        user.updateProfile(profileUpdates).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                completeListener.invoke(user);
-            }
-        });
-    }
-
     public interface UserListener {
-        void invoke(FirebaseUser user);
+        void invoke(User user);
     }
 }
