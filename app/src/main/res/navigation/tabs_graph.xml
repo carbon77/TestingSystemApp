@@ -3,19 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profile_graph"
-    app:startDestination="@id/profileFragment">
+    app:startDestination="@id/profile_fragment">
 
     <fragment
-        android:id="@+id/profileFragment"
+        android:id="@+id/profile_fragment"
         android:name="com.example.testsys.screens.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/profile_fragment" />
     <fragment
-        android:id="@+id/settingsFragment"
+        android:id="@+id/settings_fragment"
         android:name="com.example.testsys.screens.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="Settings"
+        tools:layout="@layout/settings_fragment"/>
     <fragment
-        android:id="@+id/testsFragment"
+        android:id="@+id/tests_fragment"
         android:name="com.example.testsys.screens.TestsFragment"
-        android:label="TestsFragment" />
+        android:label="Tests"
+        tools:layout="@layout/tests_fragment"/>
 </navigation>
