@@ -32,10 +32,11 @@
                 android:id="@+id/et_test_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="number"
                 android:hint="Version"
                 android:layout_weight="1"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:textSize="14dp"/>
             <EditText
                 android:id="@+id/et_test_create_date"
                 android:layout_width="match_parent"
@@ -43,7 +44,8 @@
                 android:inputType="date"
                 android:hint="Creation date"
                 android:layout_weight="1"
-                android:focusable="false" />
+                android:focusable="false"
+                android:textSize="14dp" />
             <EditText
                 android:id="@+id/et_test_modification_date"
                 android:layout_width="match_parent"
@@ -51,7 +53,8 @@
                 android:inputType="date"
                 android:hint="Modification date"
                 android:layout_weight="1"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:textSize="14dp"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (supportActionBar == null) return;
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(navDestination.getId() == R.id.test_form_fragment);
+
         for (int id : NO_ACTION_BAR_DESTINATIONS) {
             if (id == navDestination.getId()) {
                 supportActionBar.hide();
