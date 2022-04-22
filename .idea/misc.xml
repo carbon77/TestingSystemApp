@@ -9,6 +9,8 @@
         <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/drawable/ic_check.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/drawable/ic_delete.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/drawable/ic_edit.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/drawable/ic_password_eye.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/drawable/ic_profile.xml" value="0.26614583333333336" />
@@ -28,6 +30,7 @@
         <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/layout/sign_up_fragment.xml" value="0.21195652173913043" />
         <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/layout/splash_fragment.xml" value="0.21195652173913043" />
         <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/layout/tabs_fragment.xml" value="0.15579710144927536" />
+        <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/layout/test_bottom_sheet.xml" value="0.25" />
         <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/layout/test_card_view.xml" value="0.4" />
         <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/layout/test_form_fragment.xml" value="0.25" />
         <entry key="..\:/Users/zakat/AndroidStudioProjects/TestingSystem/app/src/main/res/layout/tests_fragment.xml" value="0.4" />

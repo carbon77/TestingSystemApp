@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -50,7 +51,7 @@ public class TestsFragment extends Fragment {
                     .setLifecycleOwner(getViewLifecycleOwner())
                     .build();
 
-            adapter = new TestRecyclerAdapter(options);
+            adapter = new TestRecyclerAdapter(options, (AppCompatActivity) requireActivity());
             binding.testsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
             binding.testsRecyclerView.setAdapter(adapter);
         });

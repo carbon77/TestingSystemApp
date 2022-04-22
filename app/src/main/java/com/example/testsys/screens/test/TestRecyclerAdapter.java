@@ -5,9 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testsys.R;
+import com.example.testsys.TestModalBottomSheet;
 import com.example.testsys.databinding.TestCardViewBinding;
 import com.example.testsys.models.test.TestService;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -15,8 +17,11 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 public class TestRecyclerAdapter extends FirebaseRecyclerAdapter<String, TestRecyclerAdapter.TestViewHolder> {
 
-    public TestRecyclerAdapter(@NonNull FirebaseRecyclerOptions<String> options) {
+    private AppCompatActivity activity;
+
+    public TestRecyclerAdapter(@NonNull FirebaseRecyclerOptions<String> options, AppCompatActivity activity) {
         super(options);
+        this.activity = activity;
     }
 
     @Override
@@ -32,6 +37,10 @@ public class TestRecyclerAdapter extends FirebaseRecyclerAdapter<String, TestRec
             binding.testFormCreationDate.setText("Created: " + test.getCreationDate());
             binding.testFormCardBody.setVisibility(View.VISIBLE);
             binding.progressCircular.setVisibility(View.GONE);
+            binding.getRoot().setOnClickListener(v -> {
+                TestModalBottomSheet modal = new TestModalBottomSheet(test.getText());
+                modal.show(activity.getSupportFragmentManager(), "Modal");
+            });
         });
     }
 
