@@ -14,47 +14,87 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="5dp"
+        android:padding="10dp"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/et_test_text"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="Text of test"/>
+            android:hint="Text of test"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_test_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:inputType="textEmailAddress"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <EditText
-                android:id="@+id/et_test_version"
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:hint="Version"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_weight="1"
-                android:focusable="false"
-                android:textSize="14dp"/>
-            <EditText
-                android:id="@+id/et_test_create_date"
+                android:paddingEnd="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_test_version"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:inputType="textEmailAddress"
+                    android:focusable="false"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="date"
-                android:hint="Creation date"
+                android:hint="Created"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_weight="1"
-                android:focusable="false"
-                android:textSize="14dp" />
-            <EditText
-                android:id="@+id/et_test_modification_date"
+                android:paddingHorizontal="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_test_create_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:inputType="textEmailAddress"
+                    android:focusable="false"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="date"
-                android:hint="Modification date"
+                android:hint="Last modified"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_weight="1"
-                android:focusable="false"
-                android:textSize="14dp"/>
+                android:paddingStart="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_test_modification_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:inputType="textEmailAddress"
+                    android:focusable="false"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </LinearLayout>
 
