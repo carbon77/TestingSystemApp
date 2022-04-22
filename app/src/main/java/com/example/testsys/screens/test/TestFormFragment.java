@@ -19,6 +19,7 @@ import com.example.testsys.R;
 import com.example.testsys.databinding.TestFormFragmentBinding;
 import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestService;
+import com.example.testsys.models.user.User;
 import com.example.testsys.models.user.UserViewModel;
 import com.example.testsys.utils.DateService;
 import com.google.firebase.database.DatabaseReference;
@@ -30,8 +31,9 @@ import java.util.GregorianCalendar;
 public class TestFormFragment extends Fragment {
     private NavController navController;
     private TestFormFragmentBinding binding;
+    private UserViewModel userViewModel;
     private String testId;
-    private String userId;
+    private User user;
 
     public TestFormFragment() {
         super(R.layout.test_form_fragment);
@@ -46,8 +48,12 @@ public class TestFormFragment extends Fragment {
         NavHostFragment navHost = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
         navController = navHost.getNavController();
 
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        userViewModel.getUser().observe(getViewLifecycleOwner(), currentUser -> {
+            user = currentUser;
+        });
+
         testId = TestFormFragmentArgs.fromBundle(getArguments()).getTestId();
-        userId = TestFormFragmentArgs.fromBundle(getArguments()).getUserId();
 
         if (testId == null) {
             binding.etTestVersion.setText("1");
@@ -81,7 +87,7 @@ public class TestFormFragment extends Fragment {
         }
 
         String text = binding.etTestText.getText().toString();
-        TestService.createTest(userId, text);
+        TestService.createTest(user, text);
         navController.navigateUp();
     }
 }

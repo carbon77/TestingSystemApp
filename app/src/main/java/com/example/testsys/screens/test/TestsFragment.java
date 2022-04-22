@@ -59,7 +59,7 @@ public class TestsFragment extends Fragment {
     private void btnTestFormClick(View view) {
         NavHostFragment navHost = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
         NavController navController = navHost.getNavController();
-        NavDirections action = TabsFragmentDirections.actionTabsFragmentToTestFormFragment(null, userId);
+        NavDirections action = TabsFragmentDirections.actionTabsFragmentToTestFormFragment(null);
         navController.navigate(action);
     }
 }

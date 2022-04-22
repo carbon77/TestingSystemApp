@@ -28,7 +28,7 @@ public class TestRecyclerAdapter extends FirebaseRecyclerAdapter<String, TestRec
         TestService.loadTestById(testId, test -> {
             binding.testCardText.setText(test.getText());
             binding.testCardQuestionCount.setText("Questions count: " + test.getQuestionCount());
-            binding.textCardAuthor.setText("Author: " + test.getAuthor());
+            binding.textCardAuthor.setText("Author: " + test.getUserUsername());
             binding.testFormCreationDate.setText("Created: " + test.getCreationDate());
             binding.testFormCardBody.setVisibility(View.VISIBLE);
             binding.progressCircular.setVisibility(View.GONE);

@@ -70,8 +70,5 @@
             android:name="testId"
             app:argType="string"
             app:nullable="true" />
-        <argument
-            android:name="userId"
-            app:argType="string" />
     </fragment>
 </navigation>

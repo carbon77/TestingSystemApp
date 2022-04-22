@@ -2,7 +2,8 @@ package com.example.testsys.models.test;
 
 public class Test {
     private String id;
-    private String author;
+    private String userId;
+    private String userUsername;
     private String text;
     private int questionCount;
     private String creationDate;
@@ -13,13 +14,10 @@ public class Test {
 
     }
 
-    public Test(String id, String author, String title, int version, String creationDate, String modificationDate) {
+    public Test(String id, String author, String title) {
         this.id = id;
-        this.author = author;
+        this.userId = author;
         this.text = title;
-        this.version = version;
-        this.creationDate = creationDate;
-        this.modificationDate = modificationDate;
         this.questionCount = 0;
     }
 
@@ -29,12 +27,12 @@ public class Test {
 
     public void setId(String id) { this.id = id; }
 
-    public String getAuthor() {
-        return author;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getText() {
@@ -75,5 +73,13 @@ public class Test {
 
     public void setModificationDate(String modificationDate) {
         this.modificationDate = modificationDate;
+    }
+
+    public String getUserUsername() {
+        return userUsername;
+    }
+
+    public void setUserUsername(String userUsername) {
+        this.userUsername = userUsername;
     }
 }

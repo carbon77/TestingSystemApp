@@ -1,5 +1,6 @@
 package com.example.testsys.models.test;
 
+import com.example.testsys.models.user.User;
 import com.example.testsys.utils.DateService;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -10,29 +11,36 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class TestService {
-    static public Test createTest(String userId, String text) {
+    static public Test createTest(User user, String text) {
         String creationDate = DateService.fromCalendar(new GregorianCalendar());
         String modificationDate = DateService.fromCalendar(new GregorianCalendar());
 
-        Test test = new Test(null, userId, text, 1, creationDate, modificationDate);
+        Test test = new Test(null, user.getId(), text);
+        test.setCreationDate(creationDate);
+        test.setModificationDate(modificationDate);
+        test.setVersion(1);
+        test.setUserUsername(user.getUsername());
         DatabaseReference testRef = FirebaseDatabase.getInstance().getReference("tests").push();
         testRef.setValue(test);
 
         String testId = testRef.getKey();
         test.setId(testId);
 
-        DatabaseReference userTestRef = FirebaseDatabase.getInstance().getReference("userTests").child(userId);
+        DatabaseReference userTestRef = FirebaseDatabase
+                .getInstance()
+                .getReference("userTests")
+                .child(user.getId());
         userTestRef.child(testId).setValue(true);
 
         return test;
     }
 
-    static public void loadTestById(String id, TestListener successListener) {
+    static public void loadTestById(String id, TestListener completeListener) {
         FirebaseDatabase.getInstance().getReference().child("tests").child(id).get().addOnCompleteListener(task -> {
            if (task.isSuccessful()) {
                Test test = task.getResult().getValue(Test.class);
                test.setId(id);
-               successListener.invoke(test);
+               completeListener.invoke(test);
            }
         });
     }
