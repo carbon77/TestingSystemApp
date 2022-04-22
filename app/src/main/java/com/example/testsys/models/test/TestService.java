@@ -1,5 +1,6 @@
 package com.example.testsys.models.test;
 
+import com.example.testsys.models.ModelService;
 import com.example.testsys.models.user.User;
 import com.example.testsys.utils.DateService;
 import com.google.firebase.database.DatabaseReference;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class TestService {
+public class TestService extends ModelService {
     static public Test createTest(User user, String text) {
         String creationDate = DateService.fromCalendar(new GregorianCalendar());
         String modificationDate = DateService.fromCalendar(new GregorianCalendar());
@@ -20,23 +21,20 @@ public class TestService {
         test.setModificationDate(modificationDate);
         test.setVersion(1);
         test.setUserUsername(user.getUsername());
-        DatabaseReference testRef = FirebaseDatabase.getInstance().getReference("tests").push();
+        DatabaseReference testRef = dbRef.child("tests").push();
         testRef.setValue(test);
 
         String testId = testRef.getKey();
         test.setId(testId);
 
-        DatabaseReference userTestRef = FirebaseDatabase
-                .getInstance()
-                .getReference("userTests")
-                .child(user.getId());
+        DatabaseReference userTestRef = dbRef.child("userTests").child(user.getId());
         userTestRef.child(testId).setValue(true);
 
         return test;
     }
 
     static public void loadTestById(String id, TestListener completeListener) {
-        FirebaseDatabase.getInstance().getReference().child("tests").child(id).get().addOnCompleteListener(task -> {
+        dbRef.child("tests").child(id).get().addOnCompleteListener(task -> {
            if (task.isSuccessful()) {
                Test test = task.getResult().getValue(Test.class);
                test.setId(id);

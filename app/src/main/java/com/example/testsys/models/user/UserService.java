@@ -1,5 +1,8 @@
 package com.example.testsys.models.user;
 
+import android.util.Log;
+
+import com.example.testsys.models.ModelService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -8,19 +11,16 @@ import com.google.firebase.database.FirebaseDatabase;
 /*
 * UserService class has static methods to work with signed in user in Firebase
 * */
-public class UserService {
-    static private final FirebaseDatabase db = FirebaseDatabase.getInstance();
-    static private final DatabaseReference dbRef = db.getReference();
-
+public class UserService extends ModelService {
     public static void loadCurrentUser(UserListener completeListener) {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser firebaseUser = auth.getCurrentUser();
         if (firebaseUser == null) {
             completeListener.invoke(null);
             return;
         }
 
         String id = firebaseUser.getUid();
-        FirebaseDatabase.getInstance().getReference().child("users").child(id).get().addOnCompleteListener(task -> {
+        dbRef.child("users").child(id).get().addOnCompleteListener(task -> {
            if (task.isSuccessful()) {
                User user = task.getResult().getValue(User.class);
                user.setId(id);
@@ -32,7 +32,6 @@ public class UserService {
     }
 
     public static void signIn(String email, String password, UserListener completeListener) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
            if (task.isSuccessful()) {
                loadCurrentUser(completeListener);
@@ -43,17 +42,15 @@ public class UserService {
     }
 
     public static void signUp(String email, String password, String username, UserListener completeListener) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-
         dbRef.child("usernames").child(username).get().addOnCompleteListener(t -> {
-            if (t.isSuccessful()) {
+            if (!t.isSuccessful() || t.getResult().getValue() != null) {
                 completeListener.invoke(null);
                 return;
             }
 
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    FirebaseUser firebaseUser = auth.getCurrentUser();
                     String id = firebaseUser.getUid();
                     User user = new User(null, email, username, username);
                     createUserModel(id, user, completeListener);
@@ -82,7 +79,7 @@ public class UserService {
     }
 
     public static void signOut() {
-        FirebaseAuth.getInstance().signOut();
+        auth.signOut();
     }
 
     public interface UserListener {
