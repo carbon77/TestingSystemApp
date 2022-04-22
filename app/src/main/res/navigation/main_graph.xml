@@ -65,5 +65,13 @@
         android:id="@+id/test_form_fragment"
         android:name="com.example.testsys.screens.TestFormFragment"
         android:label="Test form"
-        tools:layout="@layout/test_form_fragment"/>
+        tools:layout="@layout/test_form_fragment">
+        <argument
+            android:name="testId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
 </navigation>
