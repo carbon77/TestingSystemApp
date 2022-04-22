@@ -1,4 +1,4 @@
-package com.example.testsys.screens;
+package com.example.testsys.screens.test;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestsFragmentBinding;
 import com.example.testsys.models.user.UserViewModel;
+import com.example.testsys.screens.TabsFragmentDirections;
 
 public class TestsFragment extends Fragment {
     private TestsFragmentBinding binding;

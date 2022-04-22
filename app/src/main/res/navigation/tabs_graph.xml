@@ -17,7 +17,7 @@
         tools:layout="@layout/settings_fragment"/>
     <fragment
         android:id="@+id/tests_fragment"
-        android:name="com.example.testsys.screens.TestsFragment"
+        android:name="com.example.testsys.screens.test.TestsFragment"
         android:label="Tests"
         tools:layout="@layout/tests_fragment"/>
 </navigation>

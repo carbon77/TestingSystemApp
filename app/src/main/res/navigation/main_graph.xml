@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/test_form_fragment"
-        android:name="com.example.testsys.screens.TestFormFragment"
+        android:name="com.example.testsys.screens.test.TestFormFragment"
         android:label="Test form"
         tools:layout="@layout/test_form_fragment">
         <argument

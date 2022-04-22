@@ -1,4 +1,4 @@
-package com.example.testsys.screens;
+package com.example.testsys.screens.test;
 
 import android.os.Bundle;
 import android.view.Menu;
