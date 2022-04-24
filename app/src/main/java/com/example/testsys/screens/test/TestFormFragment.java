@@ -63,6 +63,7 @@ public class TestFormFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.test_form_toolbar_menu, menu);
     }
 

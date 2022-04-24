@@ -1,14 +1,11 @@
 package com.example.testsys.models.test;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.testsys.models.user.User;
 
-import java.net.PortUnreachableException;
 import java.util.List;
 
 public class TestViewModel extends ViewModel {
@@ -32,9 +29,15 @@ public class TestViewModel extends ViewModel {
         return tests;
     }
 
-    public Test createTest(User user, String text) {
+    public void createTest(User user, String text) {
         Test test = TestService.createTest(user, text);
         tests.getValue().add(test);
-        return test;
+    }
+
+    public void updateTests(TestService.TestsListener completeListener) {
+        TestService.loadTests(uid, it -> {
+            completeListener.invoke(it);
+            tests.setValue(it);
+        });
     }
 }

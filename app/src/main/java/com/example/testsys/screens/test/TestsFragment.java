@@ -1,11 +1,12 @@
 package com.example.testsys.screens.test;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -15,16 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestsFragmentBinding;
-import com.example.testsys.models.test.TestService;
 import com.example.testsys.models.test.TestViewModel;
 import com.example.testsys.models.test.TestViewModelFactory;
 import com.example.testsys.models.user.UserViewModel;
 import com.example.testsys.screens.TabsFragmentDirections;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 public class TestsFragment extends Fragment {
     private TestsFragmentBinding binding;
@@ -41,6 +36,10 @@ public class TestsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = TestsFragmentBinding.bind(view);
+        setHasOptionsMenu(true);
+
+        binding.tvNoTests.setVisibility(View.GONE);
+        binding.testsRecyclerView.setVisibility(View.GONE);
 
         binding.btnTestForm.setOnClickListener(this::btnTestFormClick);
 
@@ -49,6 +48,19 @@ public class TestsFragment extends Fragment {
             userId = user.getId();
             initRecylerView();
         });
+
+        binding.testsRefreshLayout.setOnRefreshListener(() -> {
+            testViewModel.updateTests(tests -> {
+                adapter.notifyDataSetChanged();
+                binding.testsRefreshLayout.setRefreshing(false);
+            });
+        });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.tests_refresh_menu, menu);
     }
 
     private void initRecylerView() {
@@ -59,11 +71,9 @@ public class TestsFragment extends Fragment {
             binding.testsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
             if (tests.size() == 0) {
-                binding.testsRecyclerView.setVisibility(View.GONE);
                 binding.tvNoTests.setVisibility(View.VISIBLE);
             } else {
                 binding.testsRecyclerView.setVisibility(View.VISIBLE);
-                binding.tvNoTests.setVisibility(View.GONE);
             }
 
             binding.progressCircular.setVisibility(View.GONE);
