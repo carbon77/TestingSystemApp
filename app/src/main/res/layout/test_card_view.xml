@@ -27,26 +27,19 @@
             android:textColor="?android:attr/textColorSecondary"
             android:text="Questions count:"/>
         <TextView
-            android:id="@+id/text_card_author"
+            android:id="@+id/test_card_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="?android:attr/textColorSecondary"
             android:text="Author: "/>
         <TextView
-            android:id="@+id/test_form_creation_date"
+            android:id="@+id/test_creation_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="?android:attr/textColorSecondary"/>
     </LinearLayout>
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_circular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true"/>
 
 </com.google.android.material.card.MaterialCardView>

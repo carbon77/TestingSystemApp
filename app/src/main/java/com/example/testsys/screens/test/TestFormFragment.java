@@ -10,20 +10,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestFormFragmentBinding;
-import com.example.testsys.models.test.Test;
-import com.example.testsys.models.test.TestService;
+import com.example.testsys.models.test.TestViewModel;
+import com.example.testsys.models.test.TestViewModelFactory;
 import com.example.testsys.models.user.User;
 import com.example.testsys.models.user.UserViewModel;
 import com.example.testsys.utils.DateService;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -32,6 +29,7 @@ public class TestFormFragment extends Fragment {
     private NavController navController;
     private TestFormFragmentBinding binding;
     private UserViewModel userViewModel;
+    private TestViewModel testViewModel;
     private String testId;
     private User user;
 
@@ -51,10 +49,10 @@ public class TestFormFragment extends Fragment {
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         userViewModel.getUser().observe(getViewLifecycleOwner(), currentUser -> {
             user = currentUser;
+            testViewModel = new ViewModelProvider(requireActivity(), new TestViewModelFactory(user.getId())).get(TestViewModel.class);
         });
 
         testId = TestFormFragmentArgs.fromBundle(getArguments()).getTestId();
-
         if (testId == null) {
             binding.etTestVersion.setText("1");
             Calendar date = new GregorianCalendar();
@@ -87,7 +85,7 @@ public class TestFormFragment extends Fragment {
         }
 
         String text = binding.etTestText.getText().toString();
-        TestService.createTest(user, text);
+        testViewModel.createTest(user, text);
         navController.navigateUp();
     }
 }

@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestsFragmentBinding;
+import com.example.testsys.models.test.TestService;
+import com.example.testsys.models.test.TestViewModel;
+import com.example.testsys.models.test.TestViewModelFactory;
 import com.example.testsys.models.user.UserViewModel;
 import com.example.testsys.screens.TabsFragmentDirections;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -26,7 +29,9 @@ import com.google.firebase.database.Query;
 public class TestsFragment extends Fragment {
     private TestsFragmentBinding binding;
     private String userId;
-    private TestRecyclerAdapter adapter;
+    private TestsAdapter adapter;
+    private UserViewModel userViewModel;
+    private TestViewModel testViewModel;
 
     public TestsFragment() {
         super(R.layout.tests_fragment);
@@ -39,21 +44,29 @@ public class TestsFragment extends Fragment {
 
         binding.btnTestForm.setOnClickListener(this::btnTestFormClick);
 
-        UserViewModel userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
-
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             userId = user.getId();
+            initRecylerView();
+        });
+    }
 
-            DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-            Query query = dbRef.child("userTests").child(userId);
-            FirebaseRecyclerOptions<String> options = new FirebaseRecyclerOptions.Builder<String>()
-                    .setQuery(query, DataSnapshot::getKey)
-                    .setLifecycleOwner(getViewLifecycleOwner())
-                    .build();
-
-            adapter = new TestRecyclerAdapter(options, (AppCompatActivity) requireActivity());
-            binding.testsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+    private void initRecylerView() {
+        testViewModel = new ViewModelProvider(requireActivity(), new TestViewModelFactory(userId)).get(TestViewModel.class);
+        testViewModel.getTests().observe(getViewLifecycleOwner(), tests -> {
+            adapter = new TestsAdapter(tests);
             binding.testsRecyclerView.setAdapter(adapter);
+            binding.testsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            if (tests.size() == 0) {
+                binding.testsRecyclerView.setVisibility(View.GONE);
+                binding.tvNoTests.setVisibility(View.VISIBLE);
+            } else {
+                binding.testsRecyclerView.setVisibility(View.VISIBLE);
+                binding.tvNoTests.setVisibility(View.GONE);
+            }
+
+            binding.progressCircular.setVisibility(View.GONE);
         });
     }
 
