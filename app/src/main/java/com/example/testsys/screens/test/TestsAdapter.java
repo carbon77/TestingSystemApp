@@ -5,9 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testsys.R;
+import com.example.testsys.TestModalBottomSheet;
 import com.example.testsys.databinding.TestCardViewBinding;
 import com.example.testsys.models.test.Test;
 
@@ -15,8 +17,10 @@ import java.util.List;
 
 public class TestsAdapter extends RecyclerView.Adapter<TestsAdapter.TestViewHolder> {
     private List<Test> tests;
+    private AppCompatActivity activity;
 
-    public TestsAdapter(List<Test> tests) {
+    public TestsAdapter(AppCompatActivity activity, List<Test> tests) {
+        this.activity = activity;
         this.tests = tests;
     }
 
@@ -36,6 +40,10 @@ public class TestsAdapter extends RecyclerView.Adapter<TestsAdapter.TestViewHold
         binding.testCardAuthor.setText("Author: " + test.getUserUsername());
         binding.testCreationDate.setText("Created: " + test.getCreationDate());
         binding.testCardQuestionCount.setText("Question count: " + test.getQuestionCount());
+        binding.getRoot().setOnClickListener(v -> {
+            TestModalBottomSheet modal = new TestModalBottomSheet(test.getText());
+            modal.show(activity.getSupportFragmentManager(), "TestCardModal");
+        });
     }
 
     @Override
