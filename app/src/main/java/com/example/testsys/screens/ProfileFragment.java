@@ -53,5 +53,6 @@ public class ProfileFragment extends Fragment {
 
     public void signOut(View v) {
         userViewModel.signOut();
+        getActivity().getViewModelStore().clear();
     }
 }
