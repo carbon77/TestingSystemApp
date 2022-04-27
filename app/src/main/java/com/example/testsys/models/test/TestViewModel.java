@@ -21,7 +21,7 @@ public class TestViewModel extends ViewModel {
         if (tests == null) {
             tests = new MutableLiveData<>();
 
-            TestService.loadTests(uid, it -> {
+            TestService.loadTestsByUid(uid, it -> {
                 tests.setValue(it);
             });
         }
@@ -35,7 +35,7 @@ public class TestViewModel extends ViewModel {
     }
 
     public void updateTests(TestService.TestsListener completeListener) {
-        TestService.loadTests(uid, it -> {
+        TestService.loadTestsByUid(uid, it -> {
             completeListener.invoke(it);
             tests.setValue(it);
         });

@@ -3,6 +3,8 @@ package com.example.testsys.models.test;
 import com.example.testsys.models.ModelService;
 import com.example.testsys.models.user.User;
 import com.example.testsys.utils.DateService;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
@@ -21,28 +23,45 @@ public class TestService extends ModelService {
         test.setVersion(1);
         test.setUserUsername(user.getUsername());
 
-        DatabaseReference testRef = dbRef.child("tests").child(user.getId()).push();
+        DatabaseReference testRef = dbRef.child("tests").push();
         testRef.setValue(test);
 
         String testId = testRef.getKey();
         test.setId(testId);
 
+        dbRef.child("userTest").child(user.getId()).child(testId).setValue(true);
+        dbRef.child("testUser").child(testId).child(user.getId()).setValue(true);
+
         return test;
     }
 
-    static public void loadTests(String uid, TestsListener completeListener) {
+    static public void loadTestsByUid(String uid, TestsListener completeListener) {
         List<Test> tests = new ArrayList<>();
 
-        dbRef.child("tests").child(uid).get().addOnCompleteListener(task -> {
-           if (task.isSuccessful()) {
-               for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
-                   Test test = dataSnapshot.getValue(Test.class);
-                   test.setId(dataSnapshot.getKey());
-                   tests.add(test);
-               }
+        dbRef.child("userTest").child(uid).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<Task<Void>> tasks = new ArrayList<>();
 
-               completeListener.invoke(tests);
-           }
+                for (DataSnapshot snapshot : task.getResult().getChildren()) {
+                    String testId = snapshot.getKey();
+
+                    tasks.add(dbRef.child("tests").child(testId).get().continueWith(t -> {
+                        if (t.isSuccessful()) {
+                            Test test = t.getResult().getValue(Test.class);
+                            test.setId(testId);
+                            tests.add(test);
+                        }
+
+                        return null;
+                    }));
+                }
+
+                Tasks.whenAll(tasks).addOnCompleteListener(t -> {
+                   if (t.isSuccessful()) {
+                       completeListener.invoke(tests);
+                   }
+                });
+            }
         });
     }
 
