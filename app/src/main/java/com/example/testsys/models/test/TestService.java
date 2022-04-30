@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class TestService extends ModelService {
     static public Test createTest(User user, String text) {
@@ -35,7 +36,7 @@ public class TestService extends ModelService {
         return test;
     }
 
-    static public void loadTestsByUid(String uid, TestsListener completeListener) {
+    static public void loadTestsByUid(String uid, Consumer<List<Test>> completeListener) {
         List<Test> tests = new ArrayList<>();
 
         dbRef.child("userTest").child(uid).get().addOnCompleteListener(task -> {
@@ -58,28 +59,20 @@ public class TestService extends ModelService {
 
                 Tasks.whenAll(tasks).addOnCompleteListener(t -> {
                    if (t.isSuccessful()) {
-                       completeListener.invoke(tests);
+                       completeListener.accept(tests);
                    }
                 });
             }
         });
     }
 
-    static public void loadTestById(String id, TestListener completeListener) {
+    static public void loadTestById(String id, Consumer<Test> completeListener) {
         dbRef.child("tests").child(auth.getCurrentUser().getUid()).child(id).get().addOnCompleteListener(task -> {
            if (task.isSuccessful()) {
                Test test = task.getResult().getValue(Test.class);
                test.setId(id);
-               completeListener.invoke(test);
+               completeListener.accept(test);
            }
         });
-    }
-
-    public interface TestListener {
-        void invoke(Test test);
-    }
-
-    public interface TestsListener {
-        void invoke(List<Test> tests);
     }
 }

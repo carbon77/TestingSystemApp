@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.testsys.models.user.User;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class TestViewModel extends ViewModel {
     private MutableLiveData<List<Test>> tests;
@@ -34,9 +35,9 @@ public class TestViewModel extends ViewModel {
         tests.getValue().add(test);
     }
 
-    public void updateTests(TestService.TestsListener completeListener) {
+    public void updateTests(Consumer<List<Test>> completeListener) {
         TestService.loadTestsByUid(uid, it -> {
-            completeListener.invoke(it);
+            completeListener.accept(it);
             tests.setValue(it);
         });
     }

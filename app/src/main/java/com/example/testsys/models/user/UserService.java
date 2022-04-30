@@ -1,21 +1,18 @@
 package com.example.testsys.models.user;
 
-import android.util.Log;
-
 import com.example.testsys.models.ModelService;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.function.Consumer;
 
 /*
 * UserService class has static methods to work with signed in user in Firebase
 * */
 public class UserService extends ModelService {
-    public static void loadCurrentUser(UserListener completeListener) {
+    public static void loadCurrentUser(Consumer<User> completeListener) {
         FirebaseUser firebaseUser = auth.getCurrentUser();
         if (firebaseUser == null) {
-            completeListener.invoke(null);
+            completeListener.accept(null);
             return;
         }
 
@@ -24,27 +21,27 @@ public class UserService extends ModelService {
            if (task.isSuccessful()) {
                User user = task.getResult().getValue(User.class);
                user.setId(id);
-               completeListener.invoke(user);
+               completeListener.accept(user);
            } else {
-               completeListener.invoke(null);
+               completeListener.accept(null);
            }
         });
     }
 
-    public static void signIn(String email, String password, UserListener completeListener) {
+    public static void signIn(String email, String password, Consumer<User> completeListener) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
            if (task.isSuccessful()) {
                loadCurrentUser(completeListener);
            } else {
-               completeListener.invoke(null);
+               completeListener.accept(null);
            }
         });
     }
 
-    public static void signUp(String email, String password, String username, UserListener completeListener) {
+    public static void signUp(String email, String password, String username, Consumer<User> completeListener) {
         dbRef.child("usernames").child(username).get().addOnCompleteListener(t -> {
             if (!t.isSuccessful() || t.getResult().getValue() != null) {
-                completeListener.invoke(null);
+                completeListener.accept(null);
                 return;
             }
 
@@ -55,34 +52,30 @@ public class UserService extends ModelService {
                     User user = new User(null, email, username, username);
                     createUserModel(id, user, completeListener);
                 } else {
-                    completeListener.invoke(null);
+                    completeListener.accept(null);
                 }
             });
         });
     }
 
-    private static void createUserModel(String id, User user, UserListener completeListener) {
+    private static void createUserModel(String id, User user, Consumer<User> completeListener) {
         dbRef.child("users").child(id).setValue(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 user.setId(id);
                 dbRef.child("usernames").child(user.getUsername()).setValue(id).addOnCompleteListener(t -> {
                    if (t.isSuccessful()) {
-                       completeListener.invoke(user);
+                       completeListener.accept(user);
                    } else {
-                       completeListener.invoke(null);
+                       completeListener.accept(null);
                    }
                 });
             } else {
-                completeListener.invoke(null);
+                completeListener.accept(null);
             }
         });
     }
 
     public static void signOut() {
         auth.signOut();
-    }
-
-    public interface UserListener {
-        void invoke(User user);
     }
 }
