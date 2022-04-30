@@ -8,11 +8,13 @@ public class Question {
     private String testId;
     private String text;
     private QuestionType type;
-    private final Map<String, Boolean> answers;
+    private Map<String, Boolean> answers;
 
-    public Question(String id, String testId, String text, QuestionType type) {
-        this.id = id;
-        this.testId = testId;
+    public Question() {
+
+    }
+
+    public Question(String text, QuestionType type) {
         this.text = text;
         this.type = type;
         answers = new HashMap<>();

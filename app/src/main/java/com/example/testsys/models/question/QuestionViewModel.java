@@ -24,4 +24,8 @@ public class QuestionViewModel extends ViewModel {
 
         return questions;
     }
+
+    public void createQuestion(Question question) {
+        questions.getValue().add(QuestionService.createQuestion(question));
+    }
 }
