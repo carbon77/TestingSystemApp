@@ -1,4 +1,4 @@
-package com.example.testsys;
+package com.example.testsys.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.testsys.R;
 import com.example.testsys.databinding.TestBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
