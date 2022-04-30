@@ -17,14 +17,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestsFragmentBinding;
+import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestViewModel;
 import com.example.testsys.models.test.TestViewModelFactory;
 import com.example.testsys.models.user.UserViewModel;
 import com.example.testsys.screens.TabsFragmentDirections;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestsFragment extends Fragment {
     private TestsFragmentBinding binding;
-    private String userId;
+    private String uid;
+    private List<Test> tests;
     private TestsAdapter adapter;
     private UserViewModel userViewModel;
     private TestViewModel testViewModel;
@@ -36,9 +41,13 @@ public class TestsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        uid = "";
+        tests = new ArrayList<>();
+
         binding = TestsFragmentBinding.bind(view);
         setHasOptionsMenu(true);
 
+        // Showing only progress circular
         binding.tvNoTests.setVisibility(View.GONE);
         binding.testsRecyclerView.setVisibility(View.GONE);
 
@@ -46,12 +55,15 @@ public class TestsFragment extends Fragment {
 
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
-            userId = user.getId();
+            uid = user.getId();
             initRecylerView();
         });
 
+        // Refreshing for tests
         binding.testsRefreshLayout.setOnRefreshListener(() -> {
             testViewModel.updateTests(tests -> {
+                this.tests.clear();
+                this.tests.addAll(tests);
                 adapter.notifyDataSetChanged();
                 binding.testsRefreshLayout.setRefreshing(false);
             });
@@ -65,16 +77,22 @@ public class TestsFragment extends Fragment {
     }
 
     private void initRecylerView() {
-        testViewModel = new ViewModelProvider(requireActivity(), new TestViewModelFactory(userId)).get(TestViewModel.class);
+        testViewModel = new ViewModelProvider(requireActivity(), new TestViewModelFactory(uid)).get(TestViewModel.class);
+        adapter = new TestsAdapter((AppCompatActivity) requireActivity(), tests, uid);
+        binding.testsRecyclerView.setAdapter(adapter);
+        binding.testsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         testViewModel.getTests().observe(getViewLifecycleOwner(), tests -> {
-            adapter = new TestsAdapter((AppCompatActivity) requireActivity(), tests);
-            binding.testsRecyclerView.setAdapter(adapter);
-            binding.testsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            this.tests.clear();
+            this.tests.addAll(tests);
+            adapter.notifyDataSetChanged();
 
             if (tests.size() == 0) {
                 binding.tvNoTests.setVisibility(View.VISIBLE);
+                binding.testsRecyclerView.setVisibility(View.GONE);
             } else {
                 binding.testsRecyclerView.setVisibility(View.VISIBLE);
+                binding.tvNoTests.setVisibility(View.GONE);
             }
 
             binding.progressCircular.setVisibility(View.GONE);

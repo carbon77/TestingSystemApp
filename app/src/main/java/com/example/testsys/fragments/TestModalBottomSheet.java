@@ -7,18 +7,27 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestBottomSheetBinding;
+import com.example.testsys.models.test.Test;
+import com.example.testsys.models.test.TestViewModel;
+import com.example.testsys.models.test.TestViewModelFactory;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class TestModalBottomSheet extends BottomSheetDialogFragment {
-    private String title;
-    private TestBottomSheetBinding binding;
+import java.util.function.Consumer;
 
-    public TestModalBottomSheet(String title) {
+public class TestModalBottomSheet extends BottomSheetDialogFragment {
+    private Test test;
+    private TestBottomSheetBinding binding;
+    private TestViewModel testViewModel;
+    private String uid;
+
+    public TestModalBottomSheet(Test test, String uid) {
         super();
-        this.title = title;
+        this.test = test;
+        this.uid = uid;
     }
 
     @Nullable
@@ -31,6 +40,13 @@ public class TestModalBottomSheet extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = TestBottomSheetBinding.bind(view);
-        binding.testBottomSheetTitle.setText(title);
+        binding.testBottomSheetTitle.setText(test.getText());
+
+        testViewModel = new ViewModelProvider(requireActivity(), new TestViewModelFactory(uid)).get(TestViewModel.class);
+        binding.deleteBtnTestSheet.setOnClickListener(v -> {
+            testViewModel.deleteTest(test.getId(), uid, () -> {
+                getDialog().hide();
+            });
+        });
     }
 }

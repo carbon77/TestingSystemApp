@@ -18,10 +18,12 @@ import java.util.List;
 public class TestsAdapter extends RecyclerView.Adapter<TestsAdapter.TestViewHolder> {
     private List<Test> tests;
     private AppCompatActivity activity;
+    private String uid;
 
-    public TestsAdapter(AppCompatActivity activity, List<Test> tests) {
+    public TestsAdapter(AppCompatActivity activity, List<Test> tests, String uid) {
         this.activity = activity;
         this.tests = tests;
+        this.uid = uid;
     }
 
     @NonNull
@@ -41,7 +43,7 @@ public class TestsAdapter extends RecyclerView.Adapter<TestsAdapter.TestViewHold
         binding.testCreationDate.setText("Created: " + test.getCreationDate());
         binding.testCardQuestionCount.setText("Question count: " + test.getQuestionCount());
         binding.getRoot().setOnClickListener(v -> {
-            TestModalBottomSheet modal = new TestModalBottomSheet(test.getText());
+            TestModalBottomSheet modal = new TestModalBottomSheet(test, uid);
             modal.show(activity.getSupportFragmentManager(), "TestCardModal");
         });
     }

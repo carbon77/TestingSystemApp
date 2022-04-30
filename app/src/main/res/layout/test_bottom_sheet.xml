@@ -52,6 +52,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/delete_btn_test_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
