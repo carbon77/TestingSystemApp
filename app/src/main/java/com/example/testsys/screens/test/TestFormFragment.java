@@ -13,17 +13,27 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestFormFragmentBinding;
+import com.example.testsys.models.question.Question;
+import com.example.testsys.models.question.QuestionService;
+import com.example.testsys.models.question.QuestionType;
+import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestViewModel;
 import com.example.testsys.models.test.TestViewModelFactory;
 import com.example.testsys.models.user.User;
 import com.example.testsys.models.user.UserViewModel;
+import com.example.testsys.screens.test.question.QuestionFormAdapter;
 import com.example.testsys.utils.DateService;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TestFormFragment extends Fragment {
     private NavController navController;
@@ -32,6 +42,8 @@ public class TestFormFragment extends Fragment {
     private TestViewModel testViewModel;
     private String testId;
     private User user;
+    private List<Question> questions;
+    private QuestionFormAdapter adapter;
 
     public TestFormFragment() {
         super(R.layout.test_form_fragment);
@@ -58,7 +70,15 @@ public class TestFormFragment extends Fragment {
             Calendar date = new GregorianCalendar();
             binding.etTestCreateDate.setText(DateService.fromCalendar(date));
             binding.etTestModificationDate.setText(DateService.fromCalendar(date));
+
+            questions = new ArrayList<>();
         }
+
+        adapter = new QuestionFormAdapter(questions);
+        binding.questionRecyclerView.setAdapter(adapter);
+        binding.questionRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        addQuestion();
     }
 
     @Override
@@ -73,9 +93,17 @@ public class TestFormFragment extends Fragment {
             case R.id.save_test_item:
                 saveTest();
                 break;
+            case R.id.add_question_item:
+                addQuestion();
+                break;
         }
 
         return false;
+    }
+
+    private void addQuestion() {
+        questions.add(new Question("", QuestionType.RADIO));
+        adapter.notifyDataSetChanged();
     }
 
     private void saveTest() {
@@ -85,8 +113,27 @@ public class TestFormFragment extends Fragment {
             return;
         }
 
+        boolean flag = false;
+        for (Question q : questions) {
+            if (q.getText().equals("")) {
+                flag = true;
+                break;
+            }
+        }
+
+        if (flag) {
+            Toast.makeText(requireContext(), "Fill questions", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String text = binding.etTestText.getText().toString();
-        testViewModel.createTest(user, text);
-        navController.navigateUp();
+        Test test = testViewModel.createTest(user, text);
+        QuestionService.createQuestions(test.getId(), questions, () -> {
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("questionCount", questions.size());
+            testViewModel.updateTest(test.getId(), updates, () -> {});
+
+            navController.navigateUp();
+        });
     }
 }
