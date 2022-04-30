@@ -10,6 +10,7 @@ import com.example.testsys.models.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class TestViewModel extends ViewModel {
@@ -62,6 +63,21 @@ public class TestViewModel extends ViewModel {
             tests.setValue(copy);
             completeListener.run();
         });
+    }
 
+    public void updateTest(String testId, Map<String, Object> updates, Runnable completeListener) {
+        TestService.updateTest(testId, updates, test -> {
+            Log.e("TestViewModel", "updated");
+            List<Test> copy = new ArrayList<>(tests.getValue());
+
+            for (int i = 0; i < copy.size(); i++) {
+                if (copy.get(i).getId().equals(testId)) {
+                    copy.set(i, test);
+                }
+            }
+
+            tests.setValue(copy);
+            completeListener.run();
+        });
     }
 }

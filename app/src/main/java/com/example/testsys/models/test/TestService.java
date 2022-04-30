@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class TestService extends ModelService {
@@ -86,5 +87,18 @@ public class TestService extends ModelService {
         Tasks.whenAll(tasks).addOnSuccessListener(v -> {
             completeListener.run();
         });
+    }
+
+    static public void updateTest(String testId, Map<String, Object> updates, Consumer<Test> completeListener) {
+        dbRef.child("tests")
+                .child(testId)
+                .updateChildren(updates)
+                .addOnSuccessListener(v -> {
+                    dbRef.child("tests").child(testId).get().addOnSuccessListener(dataSnapshot -> {
+                        Test test = dataSnapshot.getValue(Test.class);
+                        test.setId(dataSnapshot.getKey());
+                        completeListener.accept(test);
+                    });
+                });
     }
 }
