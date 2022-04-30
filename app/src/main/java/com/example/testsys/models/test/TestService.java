@@ -75,4 +75,16 @@ public class TestService extends ModelService {
            }
         });
     }
+
+    static public void deleteTest(String testId, String uid, Runnable completeListener) {
+        List<Task<Void>> tasks = new ArrayList<>();
+        tasks.add(dbRef.child("tests").child(testId).removeValue());
+        tasks.add(dbRef.child("userTest").child(uid).child(testId).removeValue());
+        tasks.add(dbRef.child("testUser").child(testId).child(uid).removeValue());
+        tasks.add(dbRef.child("questions").child(testId).removeValue());
+
+        Tasks.whenAll(tasks).addOnSuccessListener(v -> {
+            completeListener.run();
+        });
+    }
 }

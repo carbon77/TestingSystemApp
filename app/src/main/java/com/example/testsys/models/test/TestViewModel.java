@@ -1,11 +1,14 @@
 package com.example.testsys.models.test;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.testsys.models.user.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -30,9 +33,12 @@ public class TestViewModel extends ViewModel {
         return tests;
     }
 
-    public void createTest(User user, String text) {
+    public Test createTest(User user, String text) {
         Test test = TestService.createTest(user, text);
-        tests.getValue().add(test);
+        List<Test> copy = new ArrayList<>(tests.getValue());
+        copy.add(test);
+        tests.setValue(copy);
+        return test;
     }
 
     public void updateTests(Consumer<List<Test>> completeListener) {
@@ -40,5 +46,22 @@ public class TestViewModel extends ViewModel {
             completeListener.accept(it);
             tests.setValue(it);
         });
+    }
+
+    public void deleteTest(String testId, String uid, Runnable completeListener) {
+        List<Test> copy = new ArrayList<>(tests.getValue());
+
+        TestService.deleteTest(testId, uid, () -> {
+            for (int i = 0; i < copy.size(); i++) {
+                if (copy.get(i).getId().equals(testId)) {
+                    copy.remove(i);
+                    break;
+                }
+            }
+
+            tests.setValue(copy);
+            completeListener.run();
+        });
+
     }
 }
