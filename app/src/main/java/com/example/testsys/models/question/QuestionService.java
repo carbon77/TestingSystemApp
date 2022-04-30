@@ -2,12 +2,16 @@ package com.example.testsys.models.question;
 
 import com.example.testsys.models.ModelService;
 import com.example.testsys.models.test.Test;
+import com.example.testsys.models.test.TestService;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class QuestionService extends ModelService {
@@ -26,32 +30,28 @@ public class QuestionService extends ModelService {
         });
     }
 
-    public static Question createQuestion(Question question) {
+    public static Task<Void> createQuestion(Question question) {
         DatabaseReference questionRef = dbRef.child("questions").child(question.getTestId()).push();
-        questionRef.setValue(question);
-        question.setId(questionRef.getKey());
-        questionRef.child("answers").setValue(question.getAnswers());
-        return question;
+
+        return questionRef.setValue(question).continueWith(task -> {
+            if (task.isSuccessful()) {
+                question.setId(questionRef.getKey());
+            }
+
+            return null;
+        });
     }
 
     public static void createQuestions(String testId, List<Question> questions, Runnable completeListener) {
+        List<Task<Void>> tasks = new ArrayList<>();
+
         for (Question q : questions) {
             q.setTestId(testId);
-            createQuestion(q);
+            tasks.add(createQuestion(q));
         }
 
-        dbRef.child("tests").child(testId).get().continueWith(task -> {
-           if (task.isSuccessful()) {
-               int questionCount = task.getResult().getValue(Test.class).getQuestionCount();
-
-               dbRef.child("tests").child(testId).child("questionCount").setValue(questionCount + questions.size()).addOnCompleteListener(t -> {
-                   if (t.isSuccessful()) {
-                       completeListener.run();
-                   }
-               });
-           }
-
-           return null;
+        Tasks.whenAll(tasks).addOnSuccessListener(s -> {
+            completeListener.run();
         });
     }
 }
