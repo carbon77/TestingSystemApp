@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Question {
-    private final String id;
-    private final String testId;
+    private String id;
+    private String testId;
     private String text;
     private QuestionType type;
     private final Map<String, Boolean> answers;
@@ -29,6 +29,14 @@ public class Question {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTestId(String testId) {
+        this.testId = testId;
     }
 
     public String getTestId() {
