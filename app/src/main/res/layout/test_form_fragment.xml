@@ -80,7 +80,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Last modified"
+                android:hint="Modified"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_weight="1"
                 android:paddingStart="5dp">
