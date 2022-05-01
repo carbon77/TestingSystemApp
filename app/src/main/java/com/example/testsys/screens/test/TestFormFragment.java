@@ -74,7 +74,7 @@ public class TestFormFragment extends Fragment {
             questions = new ArrayList<>();
         }
 
-        adapter = new QuestionFormAdapter(questions);
+        adapter = new QuestionFormAdapter(questions, requireActivity());
         binding.questionRecyclerView.setAdapter(adapter);
         binding.questionRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
