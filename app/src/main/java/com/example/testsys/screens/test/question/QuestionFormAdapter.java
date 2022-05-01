@@ -3,22 +3,28 @@ package com.example.testsys.screens.test.question;
 import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testsys.R;
+import com.example.testsys.databinding.QuestionFormFragmentBinding;
 import com.example.testsys.models.question.Question;
+import com.example.testsys.utils.ViewAnimationUtils;
 
 import java.util.List;
 
 public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHolder> {
     private Activity activity;
     private List<Question> questions;
+    private QuestionFormFragmentBinding binding;
 
     public QuestionFormAdapter(List<Question> questions, Activity activity) {
         this.questions = questions;
@@ -39,39 +45,53 @@ public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHo
     @Override
     public void onBindViewHolder(@NonNull QuestionFormViewHolder holder, int position) {
         int pos = holder.getLayoutPosition();
+        binding = holder.getBinding();
         holder.setQuestion(questions.get(pos));
         holder.getListener().updatePosition(pos);
-        holder.getBinding().etQuestionText.setText(questions.get(pos).getText());
-        holder.getBinding().tvQuestionPos.setText(String.valueOf(pos + 1));
+        binding.etQuestionText.setText(questions.get(pos).getText());
+        binding.tvQuestionPos.setText(String.valueOf(pos + 1));
+
+        binding.answersView.setVisibility(View.GONE);
+        binding.answersViewBtn.setOnClickListener(v -> {
+            if (binding.answersView.getVisibility() == View.GONE) {
+                TransitionManager.beginDelayedTransition(binding.answersView, new AutoTransition());
+                binding.answersView.setVisibility(View.VISIBLE);
+                binding.answersViewIcon.setImageResource(R.drawable.ic_move_up);
+            } else {
+                TransitionManager.beginDelayedTransition(binding.answersView, new AutoTransition());
+                binding.answersView.setVisibility(View.GONE);
+                binding.answersViewIcon.setImageResource(R.drawable.ic_move_down);
+            }
+        });
 
         initQuestionActionButtons(holder, pos);
     }
 
     private void initQuestionActionButtons(@NonNull QuestionFormViewHolder holder, int pos) {
         if (pos == 0) {
-            holder.getBinding().moveUpQuestionBtn.setVisibility(View.GONE);
-            holder.getBinding().moveDownQuestionBtn.setVisibility(View.GONE);
+            binding.moveUpQuestionBtn.setVisibility(View.GONE);
+            binding.moveDownQuestionBtn.setVisibility(View.GONE);
         } else if (pos == questions.size() - 1) {
-            holder.getBinding().moveUpQuestionBtn.setVisibility(View.VISIBLE);
-            holder.getBinding().moveDownQuestionBtn.setVisibility(View.GONE);
+            binding.moveUpQuestionBtn.setVisibility(View.VISIBLE);
+            binding.moveDownQuestionBtn.setVisibility(View.GONE);
         } else {
-            holder.getBinding().moveUpQuestionBtn.setVisibility(View.VISIBLE);
-            holder.getBinding().moveDownQuestionBtn.setVisibility(View.VISIBLE);
+            binding.moveUpQuestionBtn.setVisibility(View.VISIBLE);
+            binding.moveDownQuestionBtn.setVisibility(View.VISIBLE);
         }
 
-        holder.getBinding().deleteQuestionBtn.setOnClickListener(v -> {
+        binding.deleteQuestionBtn.setOnClickListener(v -> {
             questions.remove(pos);
             notifyDataSetChanged();
         });
 
-        holder.getBinding().moveUpQuestionBtn.setOnClickListener(v -> {
+        binding.moveUpQuestionBtn.setOnClickListener(v -> {
             Question temp = questions.get(pos);
             questions.set(pos, questions.get(pos - 1));
             questions.set(pos - 1, temp);
             notifyDataSetChanged();
         });
 
-        holder.getBinding().moveDownQuestionBtn.setOnClickListener(v -> {
+        binding.moveDownQuestionBtn.setOnClickListener(v -> {
             Question temp = questions.get(pos);
             questions.set(pos, questions.get(pos + 1));
             questions.set(pos + 1, temp);
