@@ -18,15 +18,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+            <Button
+                android:id="@+id/move_up_question_btn"
+                app:icon="@drawable/ic_move_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"/>
+            <Button
+                android:id="@+id/move_down_question_btn"
+                app:icon="@drawable/ic_move_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:layout_marginHorizontal="15dp"/>
+            <Button
+                android:id="@+id/delete_question_btn"
+                app:icon="@drawable/ic_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"/>
+
+        </LinearLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Text">
+            android:hint="Text"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Small"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_question_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -34,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
             android:hint="Type"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
             <AutoCompleteTextView
                 android:id="@+id/tv_question_type"
