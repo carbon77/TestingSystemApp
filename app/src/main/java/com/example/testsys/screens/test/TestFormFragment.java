@@ -113,6 +113,11 @@ public class TestFormFragment extends Fragment {
             return;
         }
 
+        if (questions.size() == 0) {
+            Toast.makeText(requireContext(), "Questions are required!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         boolean flag = false;
         for (Question q : questions) {
             if (q.getText().equals("")) {
