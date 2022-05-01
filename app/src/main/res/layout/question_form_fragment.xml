@@ -28,20 +28,22 @@
                 app:icon="@drawable/ic_move_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.App.Button.OutlinedButton.IconOnly"/>
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:layout_marginRight="6dp"/>
             <Button
                 android:id="@+id/move_down_question_btn"
                 app:icon="@drawable/ic_move_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                android:layout_marginHorizontal="15dp"/>
+                android:layout_marginHorizontal="6dp"/>
             <Button
                 android:id="@+id/delete_question_btn"
                 app:icon="@drawable/ic_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.App.Button.OutlinedButton.IconOnly"/>
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:layout_marginLeft="6dp"/>
 
         </LinearLayout>
         <com.google.android.material.textfield.TextInputLayout
