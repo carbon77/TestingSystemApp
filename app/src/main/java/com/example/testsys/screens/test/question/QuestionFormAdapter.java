@@ -38,9 +38,9 @@ public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHo
         String[] items = new String[] { "Radio", "Checkbox" };
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_form_fragment, parent, false);
-        ArrayAdapter<String> adapter = new ArrayAdapter(activity, android.R.layout.simple_list_item_1, items);
+        ArrayAdapter<String> questionTypeAdapter = new ArrayAdapter(activity, android.R.layout.simple_list_item_1, items);
 
-        return new QuestionFormViewHolder(view, new EditTextListener(), adapter);
+        return new QuestionFormViewHolder(view, new EditTextListener(), questionTypeAdapter);
     }
 
     @Override

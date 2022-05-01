@@ -12,17 +12,17 @@ import com.example.testsys.models.question.QuestionType;
 public class QuestionFormViewHolder extends RecyclerView.ViewHolder {
     private QuestionFormFragmentBinding binding;
     private QuestionFormAdapter.EditTextListener listener;
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> questionTypeAdapter;
     private Question question;
 
-    public QuestionFormViewHolder(View view, QuestionFormAdapter.EditTextListener listener, ArrayAdapter<String> adapter) {
+    public QuestionFormViewHolder(View view, QuestionFormAdapter.EditTextListener listener, ArrayAdapter<String> questionTypeAdapter) {
         super(view);
-        this.adapter = adapter;
+        this.questionTypeAdapter = questionTypeAdapter;
         this.listener = listener;
         this.binding = QuestionFormFragmentBinding.bind(view);
 
         binding.etQuestionText.addTextChangedListener(listener);
-        binding.tvQuestionType.setAdapter(adapter);
+        binding.tvQuestionType.setAdapter(questionTypeAdapter);
         binding.tvQuestionType.setOnItemClickListener((parent, view1, position, id) -> {
             QuestionType t = position == 0 ? QuestionType.RADIO : QuestionType.CHECKBOX;
             question.setType(t);
