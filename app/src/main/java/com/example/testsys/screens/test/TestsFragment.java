@@ -33,6 +33,7 @@ public class TestsFragment extends Fragment {
     private TestsAdapter adapter;
     private UserViewModel userViewModel;
     private TestViewModel testViewModel;
+    private NavController navController;
 
     public TestsFragment() {
         super(R.layout.tests_fragment);
@@ -43,6 +44,8 @@ public class TestsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         uid = "";
         tests = new ArrayList<>();
+
+        navController = NavHostFragment.findNavController(this);
 
         binding = TestsFragmentBinding.bind(view);
         setHasOptionsMenu(true);
@@ -78,7 +81,7 @@ public class TestsFragment extends Fragment {
 
     private void initRecylerView() {
         testViewModel = new ViewModelProvider(requireActivity(), new TestViewModelFactory(uid)).get(TestViewModel.class);
-        adapter = new TestsAdapter((AppCompatActivity) requireActivity(), tests, uid);
+        adapter = new TestsAdapter((AppCompatActivity) requireActivity(), tests, uid, navController);
         binding.testsRecyclerView.setAdapter(adapter);
         binding.testsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

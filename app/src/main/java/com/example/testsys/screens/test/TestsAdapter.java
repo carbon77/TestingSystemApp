@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testsys.R;
@@ -19,11 +21,13 @@ public class TestsAdapter extends RecyclerView.Adapter<TestsAdapter.TestViewHold
     private List<Test> tests;
     private AppCompatActivity activity;
     private String uid;
+    private NavController navController;
 
-    public TestsAdapter(AppCompatActivity activity, List<Test> tests, String uid) {
+    public TestsAdapter(AppCompatActivity activity, List<Test> tests, String uid, NavController navController) {
         this.activity = activity;
         this.tests = tests;
         this.uid = uid;
+        this.navController = navController;
     }
 
     @NonNull
@@ -43,8 +47,8 @@ public class TestsAdapter extends RecyclerView.Adapter<TestsAdapter.TestViewHold
         binding.testCreationDate.setText("Created: " + test.getCreationDate());
         binding.testCardQuestionCount.setText("Question count: " + test.getQuestionCount());
         binding.getRoot().setOnClickListener(v -> {
-            TestModalBottomSheet modal = new TestModalBottomSheet(test, uid);
-            modal.show(activity.getSupportFragmentManager(), "TestCardModal");
+            NavDirections action = TestsFragmentDirections.actionTestsFragmentToTestModalBottomSheet(test.getId());
+            navController.navigate(action);
         });
     }
 

@@ -8,27 +8,26 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestBottomSheetBinding;
 import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestViewModel;
 import com.example.testsys.models.test.TestViewModelFactory;
+import com.example.testsys.models.user.User;
+import com.example.testsys.models.user.UserViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.function.Consumer;
 
 public class TestModalBottomSheet extends BottomSheetDialogFragment {
     private Test test;
+    private User user;
+    private String testId;
     private TestBottomSheetBinding binding;
     private TestViewModel testViewModel;
-    private String uid;
-
-    public TestModalBottomSheet(Test test, String uid) {
-        super();
-        this.test = test;
-        this.uid = uid;
-    }
+    private UserViewModel userViewModel;
 
     @Nullable
     @Override
@@ -40,12 +39,29 @@ public class TestModalBottomSheet extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = TestBottomSheetBinding.bind(view);
-        binding.testBottomSheetTitle.setText(test.getText());
+        testId = TestModalBottomSheetArgs.fromBundle(getArguments()).getTestId();
 
-        testViewModel = new ViewModelProvider(requireActivity(), new TestViewModelFactory(uid)).get(TestViewModel.class);
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            this.user = user;
+
+            testViewModel = new ViewModelProvider(requireActivity(), new TestViewModelFactory(user.getId())).get(TestViewModel.class);
+            testViewModel.getTests().observe(getViewLifecycleOwner(), tests -> {
+                for (Test test : tests) {
+                    if (test.getId().equals(testId)) {
+                        this.test = test;
+                    }
+                }
+
+                binding.testBottomSheetTitle.setText(test.getText());
+            });
+        });
+
+
+
         binding.deleteBtnTestSheet.setOnClickListener(v -> {
-            testViewModel.deleteTest(test.getId(), uid, () -> {
-                getDialog().hide();
+            testViewModel.deleteTest(test.getId(), user.getId(), () -> {
+                NavHostFragment.findNavController(this).navigateUp();
             });
         });
     }

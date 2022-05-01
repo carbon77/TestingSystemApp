@@ -19,5 +19,17 @@
         android:id="@+id/tests_fragment"
         android:name="com.example.testsys.screens.test.TestsFragment"
         android:label="Tests"
-        tools:layout="@layout/tests_fragment"/>
+        tools:layout="@layout/tests_fragment">
+        <action
+            android:id="@+id/action_tests_fragment_to_testModalBottomSheet"
+            app:destination="@id/testModalBottomSheet" />
+    </fragment>
+    <dialog
+        android:id="@+id/testModalBottomSheet"
+        android:name="com.example.testsys.fragments.TestModalBottomSheet"
+        android:label="Tests">
+        <argument
+            android:name="testId"
+            app:argType="string" />
+    </dialog>
 </navigation>
