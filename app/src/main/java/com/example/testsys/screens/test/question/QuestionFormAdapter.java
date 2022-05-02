@@ -17,8 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.testsys.R;
 import com.example.testsys.databinding.QuestionFormFragmentBinding;
 import com.example.testsys.models.question.Question;
+import com.example.testsys.models.question.QuestionType;
 import com.example.testsys.utils.ViewAnimationUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHolder> {
@@ -38,36 +40,38 @@ public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHo
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_form_fragment, parent, false);
         ArrayAdapter<String> questionTypeAdapter = new ArrayAdapter(activity, android.R.layout.simple_list_item_1, items);
+        AnswersAdapter answersAdapter = new AnswersAdapter(new ArrayList<>(), null);
+        EditTextListener listener = new EditTextListener();
 
-        return new QuestionFormViewHolder(view, new EditTextListener(), questionTypeAdapter);
+        return new QuestionFormViewHolder(view, listener, questionTypeAdapter, answersAdapter);
     }
 
     @Override
     public void onBindViewHolder(@NonNull QuestionFormViewHolder holder, int position) {
         int pos = holder.getLayoutPosition();
-        binding = holder.getBinding();
-        holder.setQuestion(questions.get(pos));
+        Question question = questions.get(pos);
         holder.getListener().updatePosition(pos);
-        binding.etQuestionText.setText(questions.get(pos).getText());
+        holder.getAnswersAdapter().setAnswers(question.getAnswers());
+
+        binding = holder.getBinding();
+        binding.etQuestionText.setText(question.getText());
         binding.tvQuestionPos.setText(String.valueOf(pos + 1));
 
-        binding.answersView.setVisibility(View.GONE);
-        binding.answersViewBtn.setOnClickListener(v -> {
-            if (binding.answersView.getVisibility() == View.GONE) {
-                TransitionManager.beginDelayedTransition(binding.answersView, new AutoTransition());
-                binding.answersView.setVisibility(View.VISIBLE);
-                binding.answersViewIcon.setImageResource(R.drawable.ic_move_up);
-            } else {
-                TransitionManager.beginDelayedTransition(binding.answersView, new AutoTransition());
-                binding.answersView.setVisibility(View.GONE);
-                binding.answersViewIcon.setImageResource(R.drawable.ic_move_down);
-            }
+        binding.tvQuestionType.setText(question.getTypeName(), false);
+        binding.tvQuestionType.setOnItemClickListener((parent, view1, p, id) -> {
+            QuestionType t = p == 0 ? QuestionType.RADIO : QuestionType.CHECKBOX;
+            question.setType(t);
         });
 
-        initQuestionActionButtons(holder, pos);
+        binding.addAnswerBtn.setOnClickListener(v -> {
+            question.addAnswer("", false);
+            holder.getAnswersAdapter().notifyDataSetChanged();
+        });
+
+        initQuestionActionButtons(pos);
     }
 
-    private void initQuestionActionButtons(@NonNull QuestionFormViewHolder holder, int pos) {
+    private void initQuestionActionButtons(int pos) {
         if (pos == 0) {
             binding.moveUpQuestionBtn.setVisibility(View.GONE);
             binding.moveDownQuestionBtn.setVisibility(View.GONE);
