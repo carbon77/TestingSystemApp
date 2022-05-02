@@ -19,8 +19,6 @@ import com.example.testsys.models.user.User;
 import com.example.testsys.models.user.UserViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import java.util.function.Consumer;
-
 public class TestModalBottomSheet extends BottomSheetDialogFragment {
     private Test test;
     private User user;
@@ -57,12 +55,21 @@ public class TestModalBottomSheet extends BottomSheetDialogFragment {
             });
         });
 
-
-
         binding.deleteBtnTestSheet.setOnClickListener(v -> {
             testViewModel.deleteTest(test.getId(), user.getId(), () -> {
                 NavHostFragment.findNavController(this).navigateUp();
             });
+        });
+
+        binding.editTestBtnTestSheet.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString("testId", testId);
+            NavHostFragment navHost = (NavHostFragment) requireActivity()
+                    .getSupportFragmentManager()
+                    .findFragmentById(R.id.main_nav_host_fragment);
+
+            getDialog().dismiss();
+            navHost.getNavController().navigate(R.id.test_form_fragment, args);
         });
     }
 }
