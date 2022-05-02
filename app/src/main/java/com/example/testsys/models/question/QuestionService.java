@@ -38,7 +38,7 @@ public class QuestionService extends ModelService {
         });
     }
 
-    public static void createQuestions(String testId, List<Question> questions, Runnable completeListener) {
+    public static void createQuestions(String testId, List<Question> questions, Consumer<List<Question>> completeListener) {
         List<Task<Void>> tasks = new ArrayList<>();
 
         for (Question q : questions) {
@@ -47,7 +47,7 @@ public class QuestionService extends ModelService {
         }
 
         Tasks.whenAll(tasks).addOnSuccessListener(s -> {
-            completeListener.run();
+            completeListener.accept(questions);
         });
     }
 }

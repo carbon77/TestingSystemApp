@@ -19,10 +19,8 @@ import com.example.testsys.R;
 import com.example.testsys.databinding.TestFormFragmentBinding;
 import com.example.testsys.models.question.Answer;
 import com.example.testsys.models.question.Question;
-import com.example.testsys.models.question.QuestionService;
 import com.example.testsys.models.question.QuestionType;
 import com.example.testsys.models.question.QuestionViewModel;
-import com.example.testsys.models.question.QuestionViewModelFactory;
 import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestViewModel;
 import com.example.testsys.models.test.TestViewModelFactory;
@@ -30,6 +28,7 @@ import com.example.testsys.models.user.User;
 import com.example.testsys.models.user.UserViewModel;
 import com.example.testsys.screens.test.question.QuestionFormAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,13 +89,15 @@ public class TestFormFragment extends Fragment {
         binding.etTestModificationDate.setText(test.getModificationDate());
         binding.etTestVersion.setText(String.valueOf(test.getVersion()));
 
-        questionViewModel = new ViewModelProvider(
-                requireActivity(),
-                new QuestionViewModelFactory(testId)).get(QuestionViewModel.class);
-
+        questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
         questionViewModel.getQuestions().observe(getViewLifecycleOwner(), questions -> {
-            this.questions = questions;
-            adapter = new QuestionFormAdapter(questions, requireActivity());
+            if (questions == null) {
+                this.questions = new ArrayList<>();
+            } else {
+                this.questions = questions;
+            }
+
+            adapter = new QuestionFormAdapter(this.questions, requireActivity());
             binding.questionRecyclerView.setAdapter(adapter);
             binding.questionRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
@@ -104,6 +105,7 @@ public class TestFormFragment extends Fragment {
                 addQuestion();
             }
         });
+        questionViewModel.updateTestId(testId);
     }
 
     @Override
@@ -192,9 +194,9 @@ public class TestFormFragment extends Fragment {
         test.setText(binding.etTestText.getText().toString());
         testViewModel.createTest(test, t -> {
             navController.navigateUp();
-            QuestionService.createQuestions(t.getId(), questions, () -> {
+            questionViewModel.createQuestions(t.getId(), questions, qs -> {
                 Map<String, Object> updates = new HashMap<>();
-                updates.put("questionCount", questions.size());
+                updates.put("questionCount", qs.size());
                 testViewModel.updateTest(t.getId(), updates, () -> {});
             });
         });
