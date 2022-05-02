@@ -108,7 +108,7 @@ public class TestFormFragment extends Fragment {
 
     private void saveTest() {
         if (binding.etTestText.getText().toString().equals("")) {
-            binding.etTestText.setError("This field is required!");
+            binding.etTestTextLayout.setError("This field is required!");
             Toast.makeText(requireContext(), "Check the form", Toast.LENGTH_SHORT).show();
             return;
         }
