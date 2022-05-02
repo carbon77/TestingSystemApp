@@ -13,6 +13,11 @@ public class Answer {
         this.correct = correct;
     }
 
+    public Answer(Answer answer) {
+        text = answer.text;
+        correct = answer.correct;
+    }
+
     public String getText() {
         return text;
     }

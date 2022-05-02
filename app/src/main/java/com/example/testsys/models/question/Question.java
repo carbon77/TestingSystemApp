@@ -2,6 +2,7 @@ package com.example.testsys.models.question;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class Question {
     private String id;
@@ -18,6 +19,18 @@ public class Question {
         this.text = text;
         this.type = type;
         answers = new HashMap<>();
+    }
+
+    public Question(Question question) {
+        id = question.id;
+        testId = question.testId;
+        text = question.text;
+        type = question.type;
+        answers = new HashMap<>();
+
+        question.answers.forEach((s, answer) -> {
+            answers.put(s, new Answer(answer));
+        });
     }
 
     public void addAnswer(String text, boolean correct) {
