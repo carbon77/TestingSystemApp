@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionViewModel extends ViewModel {
@@ -17,6 +18,12 @@ public class QuestionViewModel extends ViewModel {
 
     public LiveData<List<Question>> getQuestions() {
         if (questions == null) {
+            questions = new MutableLiveData<>();
+        }
+
+        if (testId == null) {
+            questions.setValue(new ArrayList<>());
+        } else {
             QuestionService.getQuestions(testId, it -> {
                 questions.setValue(it);
             });
