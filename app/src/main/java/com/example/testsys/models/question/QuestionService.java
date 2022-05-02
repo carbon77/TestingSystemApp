@@ -1,17 +1,13 @@
 package com.example.testsys.models.question;
 
 import com.example.testsys.models.ModelService;
-import com.example.testsys.models.test.Test;
-import com.example.testsys.models.test.TestService;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class QuestionService extends ModelService {
@@ -21,7 +17,7 @@ public class QuestionService extends ModelService {
                 List<Question> questions = new ArrayList<>();
 
                 for (DataSnapshot snapshot : task.getResult().getChildren()) {
-                    Question question = task.getResult().getValue(Question.class);
+                    Question question = snapshot.getValue(Question.class);
                     questions.add(question);
                 }
 
