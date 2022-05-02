@@ -1,6 +1,7 @@
 package com.example.testsys.models.question;
 
 import com.example.testsys.models.ModelService;
+import com.example.testsys.models.test.Test;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
@@ -8,6 +9,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class QuestionService extends ModelService {
@@ -18,6 +20,7 @@ public class QuestionService extends ModelService {
 
                 for (DataSnapshot snapshot : task.getResult().getChildren()) {
                     Question question = snapshot.getValue(Question.class);
+                    question.setId(snapshot.getKey());
                     questions.add(question);
                 }
 
@@ -48,6 +51,27 @@ public class QuestionService extends ModelService {
 
         Tasks.whenAll(tasks).addOnSuccessListener(s -> {
             completeListener.accept(questions);
+        });
+    }
+
+    static public void updateQuestions(String testId, Map<String, Object> updates, Consumer<List<Question>> completeListener) {
+        dbRef.child("questions")
+                .child(testId)
+                .updateChildren(updates)
+                .addOnSuccessListener(v -> {
+                    getQuestions(testId, completeListener);
+                });
+    }
+
+    static public void deleteQuestions(String testId, List<String> questionIds, Runnable completeListener) {
+        List<Task<Void>> tasks = new ArrayList<>();
+
+        for (String id : questionIds) {
+            tasks.add(dbRef.child("questions").child(testId).child(id).removeValue());
+        }
+
+        Tasks.whenAll(tasks).addOnSuccessListener(v -> {
+            completeListener.run();
         });
     }
 }
