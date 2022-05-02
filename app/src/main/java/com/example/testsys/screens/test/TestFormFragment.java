@@ -27,8 +27,10 @@ import com.example.testsys.models.test.TestViewModelFactory;
 import com.example.testsys.models.user.User;
 import com.example.testsys.models.user.UserViewModel;
 import com.example.testsys.screens.test.question.QuestionFormAdapter;
+import com.example.testsys.utils.DateService;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,6 +137,20 @@ public class TestFormFragment extends Fragment {
 
     private void saveTest() {
         if (validateForm()) return;
+
+        if (testId != null) {
+            String text = binding.etTestText.getText().toString();
+            if (test.getText() != text) {
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("text", text);
+                updates.put("modificationDate", DateService.fromCalendar(new GregorianCalendar()));
+                testViewModel.updateTest(testId, updates, () -> {
+                    navController.navigateUp();
+                });
+            }
+
+            return;
+        }
 
         test.setText(binding.etTestText.getText().toString());
         testViewModel.createTest(test, t -> {
