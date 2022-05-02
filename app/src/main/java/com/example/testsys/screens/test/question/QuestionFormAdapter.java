@@ -68,9 +68,14 @@ public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHo
     }
 
     private void initQuestionActionButtons(int pos) {
-        if (pos == 0) {
+        if (pos == 0 && questions.size() == 1) {
+            binding.moveDownQuestionBtn.setVisibility(View.GONE);
             binding.moveUpQuestionBtn.setVisibility(View.GONE);
-        } else if (pos == questions.size() - 1) {
+        } else if (pos == 0) {
+            binding.moveUpQuestionBtn.setVisibility(View.GONE);
+            binding.moveDownQuestionBtn.setVisibility(View.VISIBLE);
+        }
+        else if (pos == questions.size() - 1) {
             binding.moveUpQuestionBtn.setVisibility(View.VISIBLE);
             binding.moveDownQuestionBtn.setVisibility(View.GONE);
         } else {
