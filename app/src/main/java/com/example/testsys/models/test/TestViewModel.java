@@ -34,12 +34,13 @@ public class TestViewModel extends ViewModel {
         return tests;
     }
 
-    public Test createTest(User user, String text) {
-        Test test = TestService.createTest(user, text);
-        List<Test> copy = new ArrayList<>(tests.getValue());
-        copy.add(test);
-        tests.setValue(copy);
-        return test;
+    public void createTest(Test test, Consumer<Test> completeListener) {
+        TestService.createTest(test, newTest -> {
+            List<Test> copy = new ArrayList<>(tests.getValue());
+            copy.add(newTest);
+            completeListener.accept(newTest);
+            tests.setValue(copy);
+        });
     }
 
     public void updateTests(Consumer<List<Test>> completeListener) {

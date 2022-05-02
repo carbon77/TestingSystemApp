@@ -15,26 +15,21 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class TestService extends ModelService {
-    static public Test createTest(User user, String text) {
-        String creationDate = DateService.fromCalendar(new GregorianCalendar());
-        String modificationDate = DateService.fromCalendar(new GregorianCalendar());
-
-        Test test = new Test(null, user.getId(), text);
-        test.setCreationDate(creationDate);
-        test.setModificationDate(modificationDate);
-        test.setVersion(1);
-        test.setUserUsername(user.getUsername());
-
+    static public void createTest(Test test, Consumer<Test> completeListener) {
         DatabaseReference testRef = dbRef.child("tests").push();
-        testRef.setValue(test);
+        testRef.setValue(test).continueWith(v -> {
+            String testId = testRef.getKey();
+            test.setId(testId);
+            List<Task<Void>> tasks = new ArrayList<>();
+            tasks.add(dbRef.child("userTest").child(test.getUserId()).child(testId).setValue(true));
+            tasks.add(dbRef.child("testUser").child(testId).child(test.getUserId()).setValue(true));
 
-        String testId = testRef.getKey();
-        test.setId(testId);
+            Tasks.whenAll(tasks).addOnSuccessListener(t -> {
+                completeListener.accept(test);
+            });
 
-        dbRef.child("userTest").child(user.getId()).child(testId).setValue(true);
-        dbRef.child("testUser").child(testId).child(user.getId()).setValue(true);
-
-        return test;
+            return null;
+        });
     }
 
     static public void loadTestsByUid(String uid, Consumer<List<Test>> completeListener) {
