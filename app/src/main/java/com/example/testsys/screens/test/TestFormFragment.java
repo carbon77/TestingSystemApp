@@ -66,6 +66,9 @@ public class TestFormFragment extends Fragment {
 
         testId = TestFormFragmentArgs.fromBundle(getArguments()).getTestId();
 
+        binding.testForm.setVisibility(View.GONE);
+        binding.questionsView.setVisibility(View.GONE);
+
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         userViewModel.getUser().observe(getViewLifecycleOwner(), currentUser -> {
             user = currentUser;
@@ -109,6 +112,10 @@ public class TestFormFragment extends Fragment {
             adapter = new QuestionFormAdapter(this.newQuestions, requireActivity());
             binding.questionRecyclerView.setAdapter(adapter);
             binding.questionRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+            binding.testForm.setVisibility(View.VISIBLE);
+            binding.questionsView.setVisibility(View.VISIBLE);
+            binding.progressCircular.setVisibility(View.GONE);
         });
         questionViewModel.updateTestId(testId);
     }
