@@ -1,5 +1,11 @@
 package com.example.testsys.models.test;
 
+import com.example.testsys.models.user.User;
+import com.example.testsys.utils.DateService;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 public class Test {
     private String id;
     private String userId;
@@ -19,6 +25,16 @@ public class Test {
         this.userId = author;
         this.text = title;
         this.questionCount = 0;
+    }
+
+    public Test(User user) {
+        Calendar today = new GregorianCalendar();
+        this.userId = user.getId();
+        this.userUsername = user.getUsername();
+        this.questionCount = 0;
+        this.creationDate = DateService.fromCalendar(today);
+        this.modificationDate = DateService.fromCalendar(today);
+        this.version = 1;
     }
 
     public String getId() {
