@@ -46,6 +46,10 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         binding.answerCheckbox.setOnCheckedChangeListener((v, isChecked) -> {
             answers.get(pos).setCorrect(isChecked);
         });
+        binding.deleteAnswerBtn.setOnClickListener(v -> {
+            answers.remove(pos);
+            notifyDataSetChanged();
+        });
     }
 
     @Override
