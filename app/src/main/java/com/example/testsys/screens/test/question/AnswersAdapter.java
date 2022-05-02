@@ -34,7 +34,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
     public void onBindViewHolder(@NonNull AnswerViewHolder holder, int position) {
         int pos = holder.getLayoutPosition();
         holder.getListener().updatePosition(pos);
-        Answer answer = answers.get(getAnswerKey(pos));
+        Answer answer = (Answer) answers.values().toArray()[pos];
 
         binding = holder.getBinding();
         binding.etAnswerText.setText(answer.getText());
@@ -43,7 +43,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
             answer.setCorrect(isChecked);
         });
         binding.deleteAnswerBtn.setOnClickListener(v -> {
-            answers.remove(getAnswerKey(pos));
+            answers.remove(answers.keySet().toArray()[pos]);
             notifyDataSetChanged();
         });
     }
@@ -92,16 +92,12 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            answers.get(getAnswerKey(position)).setText(s.toString());
+            answers.get(answers.keySet().toArray()[position]).setText(s.toString());
         }
 
         @Override
         public void afterTextChanged(Editable s) {
 
         }
-    }
-
-    private String getAnswerKey(int position) {
-        return position + "_key";
     }
 }
