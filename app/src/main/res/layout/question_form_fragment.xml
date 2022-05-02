@@ -103,11 +103,18 @@
             android:id="@+id/answers_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/answers_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/add_answer_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Answers"/>
+                app:icon="@drawable/ic_plus"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:text="Add question"/>
         </LinearLayout>
     </LinearLayout>
 
