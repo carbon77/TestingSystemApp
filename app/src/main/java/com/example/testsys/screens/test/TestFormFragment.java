@@ -34,6 +34,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TestFormFragment extends Fragment {
     private NavController navController;
@@ -45,6 +46,7 @@ public class TestFormFragment extends Fragment {
     private Test test;
     private User user;
     private List<Question> questions;
+    private List<Question> newQuestions;
     private QuestionFormAdapter adapter;
 
     public TestFormFragment() {
@@ -95,17 +97,18 @@ public class TestFormFragment extends Fragment {
         questionViewModel.getQuestions().observe(getViewLifecycleOwner(), questions -> {
             if (questions == null) {
                 this.questions = new ArrayList<>();
+                this.questions.add(new Question("", QuestionType.RADIO));
             } else {
                 this.questions = questions;
             }
 
-            adapter = new QuestionFormAdapter(this.questions, requireActivity());
+            this.newQuestions = new ArrayList<>();
+            this.questions.forEach(question -> {
+                newQuestions.add(new Question(question));
+            });
+            adapter = new QuestionFormAdapter(this.newQuestions, requireActivity());
             binding.questionRecyclerView.setAdapter(adapter);
             binding.questionRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-            if (this.questions.size() == 0) {
-                addQuestion();
-            }
         });
         questionViewModel.updateTestId(testId);
     }
@@ -131,31 +134,22 @@ public class TestFormFragment extends Fragment {
     }
 
     private void addQuestion() {
-        questions.add(new Question("", QuestionType.RADIO));
+        newQuestions.add(new Question("", QuestionType.RADIO));
         adapter.notifyDataSetChanged();
     }
 
     private void saveTest() {
-        if (validateForm()) return;
+        if (validateForm(newQuestions)) return;
 
         if (testId != null) {
-            String text = binding.etTestText.getText().toString();
-            if (test.getText() != text) {
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("text", text);
-                updates.put("modificationDate", DateService.fromCalendar(new GregorianCalendar()));
-                testViewModel.updateTest(testId, updates, () -> {
-                    navController.navigateUp();
-                });
-            }
-
+            updateQuestions();
             return;
         }
 
         test.setText(binding.etTestText.getText().toString());
         testViewModel.createTest(test, t -> {
             navController.navigateUp();
-            questionViewModel.createQuestions(t.getId(), questions, qs -> {
+            questionViewModel.createQuestions(t.getId(), newQuestions   , qs -> {
                 Map<String, Object> updates = new HashMap<>();
                 updates.put("questionCount", qs.size());
                 testViewModel.updateTest(t.getId(), updates, () -> {});
@@ -164,7 +158,110 @@ public class TestFormFragment extends Fragment {
 
     }
 
-    private boolean validateForm() {
+    private void updateQuestions() {
+        Map<String, Object> testUpdates = new HashMap<>();
+        Map<String, Object> questionUpdates = new HashMap<>();
+        boolean isModified = false;
+
+        String testText = binding.etTestText.getText().toString();
+        List<Question> questionsToCreate = new ArrayList<>();
+        List<String> questionsToDeleteIds = new ArrayList<>();
+        List<String> oldQuestionsIds = questions.stream().map(q -> q.getId()).collect(Collectors.toList());
+        List<String> newQuestionsIds = newQuestions.stream().map(q -> q.getId() == null ? "" : q.getId()).collect(Collectors.toList());
+
+        if (!test.getText().equals(testText)) {
+            testUpdates.put("text", testText);
+            isModified = true;
+        }
+
+        if (test.getQuestionCount() != newQuestions.size()) {
+            testUpdates.put("questionCount", newQuestions.size());
+            isModified = true;
+        }
+
+        for (Question question : newQuestions) {
+            // New created question
+            if (question.getId() == null) {
+                questionsToCreate.add(question);
+                isModified = true;
+                continue;
+            }
+
+            Question oldQuestion = questions.stream()
+                    .filter(oldQ -> question.getId().equals(oldQ.getId()))
+                    .findFirst()
+                    .orElse(null);
+
+            // If text changed
+            if (!question.getText().equals(oldQuestion.getText())) {
+                questionUpdates.put(question.getId() + "/text", question.getText());
+                isModified = true;
+            }
+
+            // If question type changed
+            if (question.getType() != oldQuestion.getType()) {
+                questionUpdates.put(question.getId() + "/type", question.getType());
+                isModified = true;
+            }
+
+            for (Map.Entry<String, Answer> entry : question.getAnswers().entrySet()) {
+                // Created new answer
+                if (!oldQuestion.getAnswers().containsKey(entry.getKey())) {
+                    questionUpdates.put(question.getId() + "/answers/" + entry.getKey() + "/correct", entry.getValue().getCorrect());
+                    questionUpdates.put(question.getId() + "/answers/" + entry.getKey() + "/text", entry.getValue().getText());
+                    isModified = true;
+                    continue;
+                }
+
+                Answer oldAnswer = oldQuestion.getAnswers().get(entry.getKey());
+
+                // If answer text changed
+                if (!oldAnswer.getText().equals(entry.getValue().getText())) {
+                    questionUpdates.put(question.getId() + "/answers/" + entry.getKey() + "/text", entry.getValue().getText());
+                    isModified = true;
+                }
+
+                // If answer correct changed
+                if (oldAnswer.getCorrect() != entry.getValue().getCorrect()) {
+                    questionUpdates.put(question.getId() + "/answers/" + entry.getKey() + "/correct", entry.getValue().getCorrect());
+                    isModified = true;
+                }
+            }
+
+            // Deleted answers
+            for (Map.Entry<String, Answer> entry : oldQuestion.getAnswers().entrySet()) {
+                if (!question.getAnswers().containsKey(entry.getKey())) {
+                    questionUpdates.put(question.getId() + "/answers/" + entry.getKey(), null);
+                    isModified = true;
+                }
+            }
+        }
+
+        // Deleted questions
+        for (String oldId : oldQuestionsIds) {
+            if (!newQuestionsIds.contains(oldId)) {
+                questionsToDeleteIds.add(oldId);
+            }
+        }
+
+        if (!isModified) {
+            navController.navigateUp();
+            return;
+        }
+
+        testUpdates.put("modificationDate", DateService.fromCalendar(new GregorianCalendar()));
+        questionViewModel.createQuestions(testId, questionsToCreate, qs -> {
+            questionViewModel.deleteQuestions(testId, questionsToDeleteIds, () -> {
+                questionViewModel.updateQuestions(testId, questionUpdates, newQs -> {
+                    testViewModel.updateTest(testId, testUpdates, () -> {
+                        navController.navigateUp();
+                    });
+                });
+            });
+        });
+    }
+
+    private boolean validateForm(List<Question> questions) {
         // Test text can't be empty
         if (binding.etTestText.getText().toString().equals("")) {
             binding.etTestTextLayout.setError("This field is required!");
