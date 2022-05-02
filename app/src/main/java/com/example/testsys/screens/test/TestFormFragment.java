@@ -107,27 +107,58 @@ public class TestFormFragment extends Fragment {
     }
 
     private void saveTest() {
+        // Test text can't be empty
         if (binding.etTestText.getText().toString().equals("")) {
             binding.etTestTextLayout.setError("This field is required!");
             Toast.makeText(requireContext(), "Check the form", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Test must have questions
         if (questions.size() == 0) {
             Toast.makeText(requireContext(), "Questions are required!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        boolean flag = false;
+        boolean incorrectQuestion = false;
         for (Question q : questions) {
+            // Question text can't be empty
             if (q.getText().equals("")) {
-                flag = true;
+                incorrectQuestion = true;
+                Toast.makeText(requireContext(), "Fill questions", Toast.LENGTH_SHORT).show();
+                break;
+            }
+
+            // Question must have answers
+            if (q.getAnswers().size() == 0) {
+                incorrectQuestion = true;
+                Toast.makeText(requireContext(), "Fill answers", Toast.LENGTH_SHORT).show();
+                break;
+            }
+
+            int countAnswersRadio = 0;
+            for (Question.Answer answer : q.getAnswers()) {
+                // Answer text can't be empty
+                if (answer.getText().equals("")) {
+                    incorrectQuestion = true;
+                    Toast.makeText(requireContext(), "Fill questions", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
+                if (q.getType() == QuestionType.RADIO && answer.isCorrect()) {
+                    countAnswersRadio++;
+                }
+            }
+
+            // When question type is RADIO, it has to have only 1 correct answer
+            if (q.getType() == QuestionType.RADIO && countAnswersRadio != 1) {
+                incorrectQuestion = true;
+                Toast.makeText(requireContext(), "Radio question has to have only 1 correct answer", Toast.LENGTH_SHORT).show();
                 break;
             }
         }
 
-        if (flag) {
-            Toast.makeText(requireContext(), "Fill questions", Toast.LENGTH_SHORT).show();
+        if (incorrectQuestion) {
             return;
         }
 
