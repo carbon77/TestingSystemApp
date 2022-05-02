@@ -2,17 +2,15 @@ package com.example.testsys.screens.test.question;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testsys.R;
-import com.example.testsys.databinding.AnswerItemCheckboxBinding;
+import com.example.testsys.databinding.AnswerItemBinding;
 import com.example.testsys.models.question.Question;
 import com.example.testsys.models.question.QuestionType;
 
@@ -21,7 +19,7 @@ import java.util.List;
 public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerViewHolder> {
     private List<Question.Answer> answers;
     private QuestionType type;
-    private AnswerItemCheckboxBinding binding;
+    private AnswerItemBinding binding;
 
     public AnswersAdapter(List<Question.Answer> answers, QuestionType type) {
         this.answers = answers;
@@ -31,7 +29,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
     @NonNull
     @Override
     public AnswerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.answer_item_checkbox, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.answer_item, parent, false);
         return new AnswerViewHolder(view, new EditTextListener());
     }
 
@@ -68,17 +66,17 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
     }
 
     static class AnswerViewHolder extends RecyclerView.ViewHolder {
-        private AnswerItemCheckboxBinding binding;
+        private AnswerItemBinding binding;
         private EditTextListener listener;
 
         public AnswerViewHolder(@NonNull View view, EditTextListener listener) {
             super(view);
             this.listener = listener;
-            binding = AnswerItemCheckboxBinding.bind(view);
+            binding = AnswerItemBinding.bind(view);
             binding.etAnswerText.addTextChangedListener(listener);
         }
 
-        public AnswerItemCheckboxBinding getBinding() {
+        public AnswerItemBinding getBinding() {
             return binding;
         }
 
