@@ -134,17 +134,32 @@ public class TestFormFragment extends Fragment {
     }
 
     private void saveTest() {
+        if (validateForm()) return;
+
+        test.setText(binding.etTestText.getText().toString());
+        testViewModel.createTest(test, t -> {
+            navController.navigateUp();
+            questionViewModel.createQuestions(t.getId(), questions, qs -> {
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("questionCount", qs.size());
+                testViewModel.updateTest(t.getId(), updates, () -> {});
+            });
+        });
+
+    }
+
+    private boolean validateForm() {
         // Test text can't be empty
         if (binding.etTestText.getText().toString().equals("")) {
             binding.etTestTextLayout.setError("This field is required!");
             Toast.makeText(requireContext(), "Check the form", Toast.LENGTH_SHORT).show();
-            return;
+            return true;
         }
 
         // Test must have questions
         if (questions.size() == 0) {
             Toast.makeText(requireContext(), "Questions are required!", Toast.LENGTH_SHORT).show();
-            return;
+            return true;
         }
 
         boolean incorrectQuestion = false;
@@ -187,19 +202,6 @@ public class TestFormFragment extends Fragment {
             }
         }
 
-        if (incorrectQuestion) {
-            return;
-        }
-
-        test.setText(binding.etTestText.getText().toString());
-        testViewModel.createTest(test, t -> {
-            navController.navigateUp();
-            questionViewModel.createQuestions(t.getId(), questions, qs -> {
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("questionCount", qs.size());
-                testViewModel.updateTest(t.getId(), updates, () -> {});
-            });
-        });
-
+        return incorrectQuestion;
     }
 }
