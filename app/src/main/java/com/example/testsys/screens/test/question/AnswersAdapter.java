@@ -43,8 +43,8 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         binding = holder.getBinding();
         binding.etAnswerText.setText(answers.get(pos).getText());
         binding.answerCheckbox.setChecked(answers.get(pos).isCorrect());
-        binding.answerCheckbox.setOnClickListener(v -> {
-            answers.get(pos).setCorrect(binding.answerCheckbox.isChecked());
+        binding.answerCheckbox.setOnCheckedChangeListener((v, isChecked) -> {
+            answers.get(pos).setCorrect(isChecked);
         });
     }
 
