@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.QuestionFormFragmentBinding;
-import com.example.testsys.models.question.Question;
-import com.example.testsys.models.question.QuestionType;
 
 public class QuestionFormViewHolder extends RecyclerView.ViewHolder {
     private QuestionFormFragmentBinding binding;

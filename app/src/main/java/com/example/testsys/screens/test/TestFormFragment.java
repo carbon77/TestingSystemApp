@@ -17,20 +17,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestFormFragmentBinding;
+import com.example.testsys.models.question.Answer;
 import com.example.testsys.models.question.Question;
 import com.example.testsys.models.question.QuestionService;
 import com.example.testsys.models.question.QuestionType;
+import com.example.testsys.models.question.QuestionViewModel;
+import com.example.testsys.models.question.QuestionViewModelFactory;
 import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestViewModel;
 import com.example.testsys.models.test.TestViewModelFactory;
 import com.example.testsys.models.user.User;
 import com.example.testsys.models.user.UserViewModel;
 import com.example.testsys.screens.test.question.QuestionFormAdapter;
-import com.example.testsys.utils.DateService;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,9 @@ public class TestFormFragment extends Fragment {
     private TestFormFragmentBinding binding;
     private UserViewModel userViewModel;
     private TestViewModel testViewModel;
+    private QuestionViewModel questionViewModel;
     private String testId;
+    private Test test;
     private User user;
     private List<Question> questions;
     private QuestionFormAdapter adapter;
@@ -55,30 +56,54 @@ public class TestFormFragment extends Fragment {
         binding = TestFormFragmentBinding.bind(view);
         setHasOptionsMenu(true);
 
-        NavHostFragment navHost = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
+        NavHostFragment navHost = (NavHostFragment) requireActivity()
+                .getSupportFragmentManager()
+                .findFragmentById(R.id.main_nav_host_fragment);
         navController = navHost.getNavController();
+
+        testId = TestFormFragmentArgs.fromBundle(getArguments()).getTestId();
 
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         userViewModel.getUser().observe(getViewLifecycleOwner(), currentUser -> {
             user = currentUser;
-            testViewModel = new ViewModelProvider(requireActivity(), new TestViewModelFactory(user.getId())).get(TestViewModel.class);
+            testViewModel = new ViewModelProvider(
+                    requireActivity(),
+                    new TestViewModelFactory(user.getId())).get(TestViewModel.class);
+            testViewModel.getTests().observe(getViewLifecycleOwner(), this::initTest);
         });
+    }
 
-        testId = TestFormFragmentArgs.fromBundle(getArguments()).getTestId();
+    private void initTest(List<Test> tests) {
         if (testId == null) {
-            binding.etTestVersion.setText("1");
-            Calendar date = new GregorianCalendar();
-            binding.etTestCreateDate.setText(DateService.fromCalendar(date));
-            binding.etTestModificationDate.setText(DateService.fromCalendar(date));
-
-            questions = new ArrayList<>();
+            test = new Test(user);
+        } else {
+            for (Test t : tests) {
+                if (t.getId() == testId) {
+                    test = t;
+                    break;
+                }
+            }
         }
 
-        adapter = new QuestionFormAdapter(questions, requireActivity());
-        binding.questionRecyclerView.setAdapter(adapter);
-        binding.questionRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.etTestText.setText(test.getText());
+        binding.etTestCreateDate.setText(test.getCreationDate());
+        binding.etTestModificationDate.setText(test.getModificationDate());
+        binding.etTestVersion.setText(String.valueOf(test.getVersion()));
 
-        addQuestion();
+        questionViewModel = new ViewModelProvider(
+                requireActivity(),
+                new QuestionViewModelFactory(testId)).get(QuestionViewModel.class);
+
+        questionViewModel.getQuestions().observe(getViewLifecycleOwner(), questions -> {
+            this.questions = questions;
+            adapter = new QuestionFormAdapter(questions, requireActivity());
+            binding.questionRecyclerView.setAdapter(adapter);
+            binding.questionRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+            if (this.questions.size() == 0) {
+                addQuestion();
+            }
+        });
     }
 
     @Override
@@ -137,7 +162,9 @@ public class TestFormFragment extends Fragment {
             }
 
             int countAnswersRadio = 0;
-            for (Question.Answer answer : q.getAnswers()) {
+            for (Map.Entry<String, Answer> entry : q.getAnswers().entrySet()) {
+                Answer answer = entry.getValue();
+
                 // Answer text can't be empty
                 if (answer.getText().equals("")) {
                     incorrectQuestion = true;
@@ -145,7 +172,7 @@ public class TestFormFragment extends Fragment {
                     break;
                 }
 
-                if (q.getType() == QuestionType.RADIO && answer.isCorrect()) {
+                if (q.getType() == QuestionType.RADIO && answer.getCorrect()) {
                     countAnswersRadio++;
                 }
             }
@@ -162,14 +189,15 @@ public class TestFormFragment extends Fragment {
             return;
         }
 
-        String text = binding.etTestText.getText().toString();
-        Test test = testViewModel.createTest(user, text);
-        QuestionService.createQuestions(test.getId(), questions, () -> {
-            Map<String, Object> updates = new HashMap<>();
-            updates.put("questionCount", questions.size());
-            testViewModel.updateTest(test.getId(), updates, () -> {});
-
+        test.setText(binding.etTestText.getText().toString());
+        testViewModel.createTest(test, t -> {
             navController.navigateUp();
+            QuestionService.createQuestions(t.getId(), questions, () -> {
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("questionCount", questions.size());
+                testViewModel.updateTest(t.getId(), updates, () -> {});
+            });
         });
+
     }
 }

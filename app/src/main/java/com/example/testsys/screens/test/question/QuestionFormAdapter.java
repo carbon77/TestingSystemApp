@@ -3,13 +3,10 @@ package com.example.testsys.screens.test.question;
 import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.transition.AutoTransition;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,9 +15,8 @@ import com.example.testsys.R;
 import com.example.testsys.databinding.QuestionFormFragmentBinding;
 import com.example.testsys.models.question.Question;
 import com.example.testsys.models.question.QuestionType;
-import com.example.testsys.utils.ViewAnimationUtils;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHolder> {
@@ -40,7 +36,7 @@ public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHo
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_form_fragment, parent, false);
         ArrayAdapter<String> questionTypeAdapter = new ArrayAdapter(activity, android.R.layout.simple_list_item_1, items);
-        AnswersAdapter answersAdapter = new AnswersAdapter(new ArrayList<>(), null);
+        AnswersAdapter answersAdapter = new AnswersAdapter(new HashMap<>());
         EditTextListener listener = new EditTextListener();
 
         return new QuestionFormViewHolder(view, listener, questionTypeAdapter, answersAdapter);

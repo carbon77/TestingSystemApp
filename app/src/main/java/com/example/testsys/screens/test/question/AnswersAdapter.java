@@ -11,19 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.AnswerItemBinding;
-import com.example.testsys.models.question.Question;
-import com.example.testsys.models.question.QuestionType;
+import com.example.testsys.models.question.Answer;
 
-import java.util.List;
+import java.util.Map;
 
 public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerViewHolder> {
-    private List<Question.Answer> answers;
-    private QuestionType type;
+    private Map<String, Answer> answers;
     private AnswerItemBinding binding;
 
-    public AnswersAdapter(List<Question.Answer> answers, QuestionType type) {
+    public AnswersAdapter(Map<String, Answer> answers) {
         this.answers = answers;
-        this.type = type;
     }
 
     @NonNull
@@ -37,15 +34,16 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
     public void onBindViewHolder(@NonNull AnswerViewHolder holder, int position) {
         int pos = holder.getLayoutPosition();
         holder.getListener().updatePosition(pos);
+        Answer answer = answers.get(getAnswerKey(pos));
 
         binding = holder.getBinding();
-        binding.etAnswerText.setText(answers.get(pos).getText());
-        binding.answerCheckbox.setChecked(answers.get(pos).isCorrect());
+        binding.etAnswerText.setText(answer.getText());
+        binding.answerCheckbox.setChecked(answer.getCorrect());
         binding.answerCheckbox.setOnCheckedChangeListener((v, isChecked) -> {
-            answers.get(pos).setCorrect(isChecked);
+            answer.setCorrect(isChecked);
         });
         binding.deleteAnswerBtn.setOnClickListener(v -> {
-            answers.remove(pos);
+            answers.remove(getAnswerKey(pos));
             notifyDataSetChanged();
         });
     }
@@ -55,13 +53,8 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
         return answers.size();
     }
 
-    public void setAnswers(List<Question.Answer> answers) {
+    public void setAnswers(Map<String, Answer> answers) {
         this.answers = answers;
-        notifyDataSetChanged();
-    }
-
-    public void setType(QuestionType type) {
-        this.type = type;
         notifyDataSetChanged();
     }
 
@@ -99,12 +92,16 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVi
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            answers.get(position).setText(s.toString());
+            answers.get(getAnswerKey(position)).setText(s.toString());
         }
 
         @Override
         public void afterTextChanged(Editable s) {
 
         }
+    }
+
+    private String getAnswerKey(int position) {
+        return position + "_key";
     }
 }
