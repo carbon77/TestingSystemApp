@@ -1,14 +1,14 @@
 package com.example.testsys.models.question;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Question {
     private String id;
     private String testId;
     private String text;
     private QuestionType type;
-    private List<Answer> answers;
+    private Map<String, Answer> answers;
 
     public Question() {
 
@@ -17,11 +17,16 @@ public class Question {
     public Question(String text, QuestionType type) {
         this.text = text;
         this.type = type;
-        answers = new ArrayList<>();
+        answers = new HashMap<>();
     }
 
     public void addAnswer(String text, boolean correct) {
-        answers.add(new Answer(text, correct));
+        if (answers.size() == 0) {
+            answers.put("0_key", new Answer(text, correct));
+        } else {
+            String key = answers.size() + "_key";
+            answers.put(key, new Answer(text, correct));
+        }
     }
 
     public void setAnswer(int index, boolean newCorrect) {
@@ -64,37 +69,7 @@ public class Question {
         this.text = text;
     }
 
-    public List<Answer> getAnswers() {
+    public Map<String, Answer> getAnswers() {
         return answers;
-    }
-
-    public static class Answer {
-        private String text;
-        private boolean correct;
-
-        public Answer() {
-
-        }
-
-        public Answer(String text, boolean correct) {
-            this.text = text;
-            this.correct = correct;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public void setText(String text) {
-            this.text = text;
-        }
-
-        public boolean isCorrect() {
-            return correct;
-        }
-
-        public void setCorrect(boolean correct) {
-            this.correct = correct;
-        }
     }
 }
