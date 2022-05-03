@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestBottomSheetBinding;
+import com.example.testsys.models.question.QuestionViewModel;
 import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestViewModel;
 import com.example.testsys.models.test.TestViewModelFactory;
@@ -57,11 +58,15 @@ public class TestModalBottomSheet extends BottomSheetDialogFragment {
 
         binding.deleteBtnTestSheet.setOnClickListener(v -> {
             testViewModel.deleteTest(test.getId(), user.getId(), () -> {
+                testViewModel.updateTests(tests -> {});
                 NavHostFragment.findNavController(this).navigateUp();
             });
         });
 
         binding.editTestBtnTestSheet.setOnClickListener(v -> {
+            QuestionViewModel questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
+            questionViewModel.updateTestId(testId);
+
             Bundle args = new Bundle();
             args.putString("testId", testId);
             NavHostFragment navHost = (NavHostFragment) requireActivity()

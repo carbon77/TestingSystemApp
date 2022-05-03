@@ -77,24 +77,6 @@ public class TestFormFragment extends Fragment {
                     new TestViewModelFactory(user.getId())).get(TestViewModel.class);
             testViewModel.getTests().observe(getViewLifecycleOwner(), this::initTest);
         });
-    }
-
-    private void initTest(List<Test> tests) {
-        if (testId == null) {
-            test = new Test(user);
-        } else {
-            for (Test t : tests) {
-                if (t.getId() == testId) {
-                    test = t;
-                    break;
-                }
-            }
-        }
-
-        binding.etTestText.setText(test.getText());
-        binding.etTestCreateDate.setText(test.getCreationDate());
-        binding.etTestModificationDate.setText(test.getModificationDate());
-        binding.etTestVersion.setText(String.valueOf(test.getVersion()));
 
         questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
         questionViewModel.getQuestions().observe(getViewLifecycleOwner(), questions -> {
@@ -117,7 +99,24 @@ public class TestFormFragment extends Fragment {
             binding.questionsView.setVisibility(View.VISIBLE);
             binding.progressCircular.setVisibility(View.GONE);
         });
-        questionViewModel.updateTestId(testId);
+    }
+
+    private void initTest(List<Test> tests) {
+        if (testId == null) {
+            test = new Test(user);
+        } else {
+            for (Test t : tests) {
+                if (t.getId().equals(testId)) {
+                    test = t;
+                    break;
+                }
+            }
+        }
+
+        binding.etTestText.setText(test.getText());
+        binding.etTestCreateDate.setText(test.getCreationDate());
+        binding.etTestModificationDate.setText(test.getModificationDate());
+        binding.etTestVersion.setText(String.valueOf(test.getVersion()));
     }
 
     @Override
@@ -148,6 +147,10 @@ public class TestFormFragment extends Fragment {
     private void saveTest() {
         if (validateForm(newQuestions)) return;
 
+        binding.testForm.setVisibility(View.GONE);
+        binding.questionsView.setVisibility(View.GONE);
+        binding.progressCircular.setVisibility(View.VISIBLE);
+
         if (testId != null) {
             updateQuestions();
             return;
@@ -155,11 +158,13 @@ public class TestFormFragment extends Fragment {
 
         test.setText(binding.etTestText.getText().toString());
         testViewModel.createTest(test, t -> {
-            navController.navigateUp();
-            questionViewModel.createQuestions(t.getId(), newQuestions   , qs -> {
+            questionViewModel.createQuestions(t.getId(), newQuestions, qs -> {
                 Map<String, Object> updates = new HashMap<>();
                 updates.put("questionCount", qs.size());
-                testViewModel.updateTest(t.getId(), updates, () -> {});
+                testViewModel.updateTest(t.getId(), updates, () -> {
+                    testViewModel.updateTests(tests -> {});
+                    navController.navigateUp();
+                });
             });
         });
 
@@ -261,6 +266,7 @@ public class TestFormFragment extends Fragment {
             questionViewModel.deleteQuestions(testId, questionsToDeleteIds, () -> {
                 questionViewModel.updateQuestions(testId, questionUpdates, newQs -> {
                     testViewModel.updateTest(testId, testUpdates, () -> {
+                        testViewModel.updateTests(tests -> {});
                         navController.navigateUp();
                     });
                 });

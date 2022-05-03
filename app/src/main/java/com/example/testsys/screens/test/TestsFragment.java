@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestsFragmentBinding;
+import com.example.testsys.models.question.QuestionViewModel;
 import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestViewModel;
 import com.example.testsys.models.test.TestViewModelFactory;
@@ -103,6 +104,9 @@ public class TestsFragment extends Fragment {
     }
 
     private void btnTestFormClick(View view) {
+        QuestionViewModel questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
+        questionViewModel.updateTestId(null);
+
         NavHostFragment navHost = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
         NavController navController = navHost.getNavController();
         NavDirections action = TabsFragmentDirections.actionTabsFragmentToTestFormFragment(null);
