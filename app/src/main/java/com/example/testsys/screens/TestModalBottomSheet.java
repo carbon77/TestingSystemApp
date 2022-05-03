@@ -1,4 +1,4 @@
-package com.example.testsys.fragments;
+package com.example.testsys.screens;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

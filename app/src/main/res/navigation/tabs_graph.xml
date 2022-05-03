@@ -26,7 +26,7 @@
     </fragment>
     <dialog
         android:id="@+id/testModalBottomSheet"
-        android:name="com.example.testsys.fragments.TestModalBottomSheet"
+        android:name="com.example.testsys.screens.TestModalBottomSheet"
         android:label="Tests">
         <argument
             android:name="testId"
