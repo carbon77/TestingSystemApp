@@ -10,27 +10,17 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class QuestionViewModel extends ViewModel {
-    private MutableLiveData<List<Question>> questions;
-    private String testId;
+    private MutableLiveData<List<Question>> questions = new MutableLiveData<>();
 
     public LiveData<List<Question>> getQuestions() {
-        if (questions == null) {
-            questions = new MutableLiveData<>();
-        }
-
         return questions;
     }
 
     public void createQuestions(String testId, List<Question> questions, Consumer<List<Question>> completeListener) {
-        QuestionService.createQuestions(testId, questions, qs -> {
-            completeListener.accept(qs);
-            this.questions.setValue(qs);
-        });
+        QuestionService.createQuestions(testId, questions, completeListener);
     }
 
     public void updateTestId(String testId) {
-        this.testId = testId;
-
         if (testId == null) {
             questions.setValue(null);
         } else {
@@ -41,16 +31,10 @@ public class QuestionViewModel extends ViewModel {
     }
 
     public void updateQuestions(String testId, Map<String, Object> updates, Consumer<List<Question>> completeListener) {
-        QuestionService.updateQuestions(testId, updates, qs -> {
-            completeListener.accept(qs);
-            questions.setValue(qs);
-        });
+        QuestionService.updateQuestions(testId, updates, completeListener);
     }
 
     public void deleteQuestions(String testId, List<String> questionIds, Runnable completeListener) {
-        QuestionService.deleteQuestions(testId, questionIds, () -> {
-            completeListener.run();
-            questions.setValue(null);
-        });
+        QuestionService.deleteQuestions(testId, questionIds, completeListener);
     }
 }

@@ -35,12 +35,7 @@ public class TestViewModel extends ViewModel {
     }
 
     public void createTest(Test test, Consumer<Test> completeListener) {
-        TestService.createTest(test, newTest -> {
-            List<Test> copy = new ArrayList<>(tests.getValue());
-            copy.add(newTest);
-            completeListener.accept(newTest);
-            tests.setValue(copy);
-        });
+        TestService.createTest(test, completeListener);
     }
 
     public void updateTests(Consumer<List<Test>> completeListener) {
@@ -51,33 +46,11 @@ public class TestViewModel extends ViewModel {
     }
 
     public void deleteTest(String testId, String uid, Runnable completeListener) {
-        List<Test> copy = new ArrayList<>(tests.getValue());
-
-        TestService.deleteTest(testId, uid, () -> {
-            for (int i = 0; i < copy.size(); i++) {
-                if (copy.get(i).getId().equals(testId)) {
-                    copy.remove(i);
-                    break;
-                }
-            }
-
-            tests.setValue(copy);
-            completeListener.run();
-        });
+        TestService.deleteTest(testId, uid, completeListener);
     }
 
     public void updateTest(String testId, Map<String, Object> updates, Runnable completeListener) {
         TestService.updateTest(testId, updates, test -> {
-            Log.e("TestViewModel", "updated");
-            List<Test> copy = new ArrayList<>(tests.getValue());
-
-            for (int i = 0; i < copy.size(); i++) {
-                if (copy.get(i).getId().equals(testId)) {
-                    copy.set(i, test);
-                }
-            }
-
-            tests.setValue(copy);
             completeListener.run();
         });
     }
