@@ -78,6 +78,9 @@ public class TestModalBottomSheet extends BottomSheetDialogFragment {
         });
 
         binding.startTestBtnTestSheet.setOnClickListener(v -> {
+            QuestionViewModel questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
+            questionViewModel.updateTestId(testId);
+
             Bundle args = new Bundle();
             args.putString("testId", testId);
             NavHostFragment navHost = (NavHostFragment) requireActivity()

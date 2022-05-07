@@ -2,6 +2,8 @@ package com.example.testsys.screens.test;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +22,8 @@ import com.example.testsys.models.testresult.TestResult;
 import com.example.testsys.models.testresult.TestResultViewModel;
 import com.example.testsys.models.user.User;
 import com.example.testsys.models.user.UserViewModel;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
@@ -32,6 +36,7 @@ public class TestPassFragment extends Fragment {
     private TestResult result;
     private List<TestResult.TestResultQuestion> testResultQuestions;
     private int progress;
+    private boolean isTabsInit = false;
 
     private UserViewModel userViewModel;
     private TestViewModel testViewModel;
@@ -69,8 +74,6 @@ public class TestPassFragment extends Fragment {
                         break;
                     }
                 }
-
-                questionViewModel.updateTestId(test.getId());
             });
         });
 
@@ -79,13 +82,18 @@ public class TestPassFragment extends Fragment {
             result = new TestResult(test, questions);
             testResultViewModel.updateTestResult(result);
             progressTestViewModel.updateProgress(0);
+
+            if (!isTabsInit) {
+                initTabs();
+                isTabsInit = true;
+            }
         });
 
         progressTestViewModel.getProgress().observe(getViewLifecycleOwner(), p -> {
+            progress = p;
+
             if (questions == null)
                 return;
-
-            progress = p;
 
             if (progress == questions.size() - 1) {
                 binding.btnTestPassNext.setVisibility(View.GONE);
@@ -104,10 +112,40 @@ public class TestPassFragment extends Fragment {
 
         binding.btnTestPassNext.setOnClickListener(v -> {
             progressTestViewModel.updateProgress(progress + 1);
+            binding.testPassTabs.getTabAt(progress).select();
         });
 
         binding.btnTestPassPrevious.setOnClickListener(v -> {
             progressTestViewModel.updateProgress(progress - 1);
+            binding.testPassTabs.getTabAt(progress).select();
         });
+
+        binding.testPassTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                progressTestViewModel.updateProgress(Integer.parseInt(tab.getText().toString()) - 1);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    private void initTabs() {
+        if (questions == null)
+            return;
+
+        for (int i = 0; i < questions.size(); i++) {
+            TabLayout.Tab tab = binding.testPassTabs.newTab();
+            tab.setText(String.valueOf(i + 1));
+            binding.testPassTabs.addTab(tab);
+        }
     }
 }
