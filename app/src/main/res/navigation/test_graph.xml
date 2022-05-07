@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/test_graph"
+    app:startDestination="@id/questionPassFragment">
+    <fragment
+        android:id="@+id/questionPassFragment"
+        android:name="com.example.testsys.screens.test.question.QuestionPassFragment"
+        android:label="QuestionPassFragment"
+        tools:layout="@layout/question_pass_fragment">
+        <action
+            android:id="@+id/action_questionPassFragment_self"
+            app:destination="@id/questionPassFragment" />
+    </fragment>
+</navigation>

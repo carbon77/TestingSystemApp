@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
@@ -59,10 +60,15 @@ public class TestDetailFragment extends Fragment {
             } else {
                 binding.tvTestDescription.setText(test.getDescription());
             }
+        });
 
-            binding.btnTestCancel.setOnClickListener(v -> {
-                NavHostFragment.findNavController(this).navigateUp();
-            });
+        binding.btnTestCancel.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigateUp();
+        });
+
+        binding.btnStartTest.setOnClickListener(v -> {
+            NavDirections action = TestDetailFragmentDirections.actionTestDetailFragmentToTestPassFragment(testId);
+            NavHostFragment.findNavController(this).navigate(action);
         });
     }
 }

@@ -81,5 +81,36 @@
          android:label="Test"
          tools:layout="@layout/test_detail_fragment">
          <argument android:name="testId" />
+         <action
+             android:id="@+id/action_testDetailFragment_to_testPassFragment"
+             app:destination="@id/test_pass_fragment"
+             app:popUpTo="@id/testDetailFragment"
+             app:popUpToInclusive="true" />
      </fragment>
- </navigation>
+    <fragment
+        android:id="@+id/test_pass_fragment"
+        android:name="com.example.testsys.screens.test.TestPassFragment"
+        android:label="TestPassFragment"
+        tools:layout="@layout/test_pass_fragment">
+        <action
+            android:id="@+id/action_testPassFragment_to_testPreviewFragment"
+            app:destination="@id/test_preview_fragment" />
+        <argument android:name="testId" />
+    </fragment>
+    <fragment
+        android:id="@+id/test_preview_fragment"
+        android:name="com.example.testsys.screens.test.TestPreviewFragment"
+        android:label="TestPreviewFragment"
+        tools:layout="@layout/test_preview_fragment">
+        <action
+            android:id="@+id/action_testPreviewFragment_to_tabs_fragment"
+            app:destination="@id/tabs_fragment"
+            app:popUpTo="@id/test_pass_fragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_test_preview_fragment_to_test_pass_fragment"
+            app:destination="@id/test_pass_fragment"
+            app:popUpTo="@id/test_preview_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
