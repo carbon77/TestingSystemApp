@@ -117,7 +117,7 @@ public class TestFormFragment extends Fragment {
             }
         }
 
-        binding.etTestText.setText(test.getText());
+        binding.etTestTitle.setText(test.getTitle());
         binding.etTestCreateDate.setText(test.getCreationDate());
         binding.etTestModificationDate.setText(test.getModificationDate());
         binding.etTestVersion.setText(String.valueOf(test.getVersion()));
@@ -162,7 +162,7 @@ public class TestFormFragment extends Fragment {
             return;
         }
 
-        test.setText(binding.etTestText.getText().toString());
+        test.setTitle(binding.etTestTitle.getText().toString());
         testViewModel.createTest(test, t -> {
             questionViewModel.createQuestions(t.getId(), newQuestions, qs -> {
                 Map<String, Object> updates = new HashMap<>();
@@ -181,13 +181,13 @@ public class TestFormFragment extends Fragment {
         Map<String, Object> questionUpdates = new HashMap<>();
         boolean isModified = false;
 
-        String testText = binding.etTestText.getText().toString();
+        String testText = binding.etTestTitle.getText().toString();
         List<Question> questionsToCreate = new ArrayList<>();
         List<String> questionsToDeleteIds = new ArrayList<>();
         List<String> oldQuestionsIds = questions.stream().map(q -> q.getId()).collect(Collectors.toList());
         List<String> newQuestionsIds = newQuestions.stream().map(q -> q.getId() == null ? "" : q.getId()).collect(Collectors.toList());
 
-        if (!test.getText().equals(testText)) {
+        if (!test.getTitle().equals(testText)) {
             testUpdates.put("text", testText);
             isModified = true;
         }
@@ -294,8 +294,8 @@ public class TestFormFragment extends Fragment {
 
     private boolean validateForm(List<Question> questions) {
         // Test text can't be empty
-        if (binding.etTestText.getText().toString().equals("")) {
-            binding.etTestTextLayout.setError("This field is required!");
+        if (binding.etTestTitle.getText().toString().equals("")) {
+            binding.etTestTitleLayout.setError("This field is required!");
             Toast.makeText(requireContext(), "Check the form", Toast.LENGTH_SHORT).show();
             return true;
         }

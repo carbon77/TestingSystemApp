@@ -10,7 +10,7 @@ public class Test {
     private String id;
     private String userId;
     private String userUsername;
-    private String text;
+    private String title;
     private int questionCount;
     private String creationDate;
     private String modificationDate;
@@ -23,7 +23,7 @@ public class Test {
     public Test(String id, String author, String title) {
         this.id = id;
         this.userId = author;
-        this.text = title;
+        this.title = title;
         this.questionCount = 0;
     }
 
@@ -51,12 +51,12 @@ public class Test {
         this.userId = userId;
     }
 
-    public String getText() {
-        return text;
+    public String getTitle() {
+        return title;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int getQuestionCount() {

@@ -52,7 +52,7 @@ public class TestModalBottomSheet extends BottomSheetDialogFragment {
                     }
                 }
 
-                binding.testBottomSheetTitle.setText(test.getText());
+                binding.testBottomSheetTitle.setText(test.getTitle());
             });
         });
 

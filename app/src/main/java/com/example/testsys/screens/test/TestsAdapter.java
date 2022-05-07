@@ -41,7 +41,7 @@ public class TestsAdapter extends RecyclerView.Adapter<TestsAdapter.TestViewHold
         TestCardViewBinding binding = holder.getBinding();
         Test test = tests.get(position);
 
-        binding.testCardText.setText(test.getText());
+        binding.testCardText.setText(test.getTitle());
         binding.testCardAuthor.setText("Author: " + test.getUserUsername());
         binding.testCreationDate.setText("Created: " + test.getCreationDate());
         binding.testCardQuestionCount.setText("Question count: " + test.getQuestionCount());
