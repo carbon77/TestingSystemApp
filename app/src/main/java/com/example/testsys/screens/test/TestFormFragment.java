@@ -228,6 +228,12 @@ public class TestFormFragment extends Fragment {
                 isModified = true;
             }
 
+            // If score changed
+            if (question.getScore() != oldQuestion.getScore()) {
+                questionUpdates.put(question.getId() + "/score", question.getScore());
+                isModified = true;
+            }
+
             for (Map.Entry<String, Answer> entry : question.getAnswers().entrySet()) {
                 // Created new answer
                 if (!oldQuestion.getAnswers().containsKey(entry.getKey())) {

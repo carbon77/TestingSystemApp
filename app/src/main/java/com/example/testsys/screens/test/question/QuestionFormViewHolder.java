@@ -11,25 +11,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.testsys.R;
 import com.example.testsys.databinding.QuestionFormFragmentBinding;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class QuestionFormViewHolder extends RecyclerView.ViewHolder {
     private QuestionFormFragmentBinding binding;
-    private QuestionFormAdapter.EditTextListener listener;
     private ArrayAdapter<String> questionTypeAdapter;
+    private Map<String, QuestionFormAdapter.EditTextListener> listeners;
     private AnswersAdapter answersAdapter;
 
     public QuestionFormViewHolder(
             View view,
-            QuestionFormAdapter.EditTextListener listener,
             ArrayAdapter<String> questionTypeAdapter,
+            Map<String, QuestionFormAdapter.EditTextListener> listeners,
             AnswersAdapter answersAdapter
     ) {
         super(view);
         this.questionTypeAdapter = questionTypeAdapter;
-        this.listener = listener;
         this.binding = QuestionFormFragmentBinding.bind(view);
         this.answersAdapter = answersAdapter;
+        this.listeners = listeners;
 
-        binding.etQuestionText.addTextChangedListener(listener);
+        binding.etQuestionText.addTextChangedListener(this.listeners.get("text"));
+        binding.tvQuestionScore.addTextChangedListener(this.listeners.get("score"));
         binding.tvQuestionType.setAdapter(questionTypeAdapter);
 
         binding.answersRecyclerView.setAdapter(this.answersAdapter);
@@ -49,8 +53,10 @@ public class QuestionFormViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public QuestionFormAdapter.EditTextListener getListener() {
-        return listener;
+    public void updatePosition(int position) {
+        for (QuestionFormAdapter.EditTextListener listener : listeners.values()) {
+            listener.updatePosition(position);
+        }
     }
 
     public QuestionFormFragmentBinding getBinding() {

@@ -18,6 +18,7 @@ import com.example.testsys.models.question.QuestionType;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHolder> {
     private Activity activity;
@@ -37,21 +38,24 @@ public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHo
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_form_fragment, parent, false);
         ArrayAdapter<String> questionTypeAdapter = new ArrayAdapter(activity, android.R.layout.simple_list_item_1, items);
         AnswersAdapter answersAdapter = new AnswersAdapter(new HashMap<>());
-        EditTextListener listener = new EditTextListener();
+        Map<String, EditTextListener> listeners = new HashMap<>();
+        listeners.put("text", new EditTextListener("text"));
+        listeners.put("score", new EditTextListener("score"));
 
-        return new QuestionFormViewHolder(view, listener, questionTypeAdapter, answersAdapter);
+        return new QuestionFormViewHolder(view, questionTypeAdapter, listeners, answersAdapter);
     }
 
     @Override
     public void onBindViewHolder(@NonNull QuestionFormViewHolder holder, int position) {
         int pos = holder.getLayoutPosition();
         Question question = questions.get(pos);
-        holder.getListener().updatePosition(pos);
+        holder.updatePosition(pos);
         holder.getAnswersAdapter().setAnswers(question.getAnswers());
 
         binding = holder.getBinding();
         binding.etQuestionText.setText(question.getText());
         binding.tvQuestionPos.setText(String.valueOf(pos + 1));
+        binding.tvQuestionScore.setText(String.valueOf(question.getScore()));
 
         binding.tvQuestionType.setText(question.getTypeName(), false);
         binding.tvQuestionType.setOnItemClickListener((parent, view1, p, id) -> {
@@ -117,6 +121,12 @@ public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHo
 
     class EditTextListener implements TextWatcher {
         private int position;
+        private String field;
+
+        public EditTextListener(String field) {
+            super();
+            this.field = field;
+        }
 
         public void updatePosition(int position) {
             this.position = position;
@@ -129,7 +139,13 @@ public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHo
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            questions.get(position).setText(s.toString());
+            if (field.equals("text")) {
+                questions.get(position).setText(s.toString());
+            } else if (field.equals("score")) {
+                if (s.toString().equals(""))
+                    return;
+                questions.get(position).setScore(Integer.parseInt(s.toString()));
+            }
         }
 
         @Override
