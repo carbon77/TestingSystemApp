@@ -80,7 +80,7 @@ public class TestResult {
         return questions;
     }
 
-    public List<TestResultQuestion> getQuestionsArray() {
+    public List<TestResultQuestion> questionsToArray() {
         List<TestResultQuestion> testResultQuestions = new ArrayList<>(questions.values());
         testResultQuestions.sort(Comparator.comparingInt(TestResult.TestResultQuestion::getOrder));
         return testResultQuestions;
