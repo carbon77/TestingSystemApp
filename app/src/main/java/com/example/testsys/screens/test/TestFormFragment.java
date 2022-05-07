@@ -118,6 +118,7 @@ public class TestFormFragment extends Fragment {
         }
 
         binding.etTestTitle.setText(test.getTitle());
+        binding.etTestDescription.setText(test.getDescription());
         binding.etTestCreateDate.setText(test.getCreationDate());
         binding.etTestModificationDate.setText(test.getModificationDate());
         binding.etTestVersion.setText(String.valueOf(test.getVersion()));
@@ -163,6 +164,7 @@ public class TestFormFragment extends Fragment {
         }
 
         test.setTitle(binding.etTestTitle.getText().toString());
+        test.setDescription(binding.etTestDescription.getText().toString());
         testViewModel.createTest(test, t -> {
             questionViewModel.createQuestions(t.getId(), newQuestions, qs -> {
                 Map<String, Object> updates = new HashMap<>();
@@ -181,19 +183,25 @@ public class TestFormFragment extends Fragment {
         Map<String, Object> questionUpdates = new HashMap<>();
         boolean isModified = false;
 
-        String testText = binding.etTestTitle.getText().toString();
+        String testTitle = binding.etTestTitle.getText().toString();
+        String testDescription = binding.etTestDescription.getText().toString();
         List<Question> questionsToCreate = new ArrayList<>();
         List<String> questionsToDeleteIds = new ArrayList<>();
         List<String> oldQuestionsIds = questions.stream().map(q -> q.getId()).collect(Collectors.toList());
         List<String> newQuestionsIds = newQuestions.stream().map(q -> q.getId() == null ? "" : q.getId()).collect(Collectors.toList());
 
-        if (!test.getTitle().equals(testText)) {
-            testUpdates.put("text", testText);
+        if (!test.getTitle().equals(testTitle)) {
+            testUpdates.put("text", testTitle);
             isModified = true;
         }
 
         if (test.getQuestionCount() != newQuestions.size()) {
             testUpdates.put("questionCount", newQuestions.size());
+            isModified = true;
+        }
+
+        if (!test.getDescription().equals(testDescription)) {
+            testUpdates.put("description", testDescription);
             isModified = true;
         }
 

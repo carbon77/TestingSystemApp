@@ -11,6 +11,7 @@ public class Test {
     private String userId;
     private String userUsername;
     private String title;
+    private String description;
     private int questionCount;
     private String creationDate;
     private String modificationDate;
@@ -20,10 +21,11 @@ public class Test {
 
     }
 
-    public Test(String id, String author, String title) {
+    public Test(String id, String author, String title, String description) {
         this.id = id;
         this.userId = author;
         this.title = title;
+        this.description = description;
         this.questionCount = 0;
     }
 
@@ -97,5 +99,13 @@ public class Test {
 
     public void setUserUsername(String userUsername) {
         this.userUsername = userUsername;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
