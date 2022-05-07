@@ -181,7 +181,8 @@ public class TestFormFragment extends Fragment {
     private void updateQuestions() {
         Map<String, Object> testUpdates = new HashMap<>();
         Map<String, Object> questionUpdates = new HashMap<>();
-        boolean isModified = false;
+        boolean isTestModified = false;
+        boolean isQuestionsModified = false;
 
         String testTitle = binding.etTestTitle.getText().toString();
         String testDescription = binding.etTestDescription.getText().toString();
@@ -191,25 +192,25 @@ public class TestFormFragment extends Fragment {
         List<String> newQuestionsIds = newQuestions.stream().map(q -> q.getId() == null ? "" : q.getId()).collect(Collectors.toList());
 
         if (!test.getTitle().equals(testTitle)) {
-            testUpdates.put("text", testTitle);
-            isModified = true;
+            testUpdates.put("title", testTitle);
+            isTestModified = true;
         }
 
         if (test.getQuestionCount() != newQuestions.size()) {
             testUpdates.put("questionCount", newQuestions.size());
-            isModified = true;
+            isTestModified = true;
         }
 
         if (!test.getDescription().equals(testDescription)) {
             testUpdates.put("description", testDescription);
-            isModified = true;
+            isTestModified = true;
         }
 
         for (Question question : newQuestions) {
             // New created question
             if (question.getId() == null) {
                 questionsToCreate.add(question);
-                isModified = true;
+                isQuestionsModified = true;
                 continue;
             }
 
@@ -221,25 +222,25 @@ public class TestFormFragment extends Fragment {
             // If text changed
             if (!question.getText().equals(oldQuestion.getText())) {
                 questionUpdates.put(question.getId() + "/text", question.getText());
-                isModified = true;
+                isQuestionsModified = true;
             }
 
             // If question type changed
             if (question.getType() != oldQuestion.getType()) {
                 questionUpdates.put(question.getId() + "/type", question.getType());
-                isModified = true;
+                isQuestionsModified = true;
             }
 
             // If order changed
             if (question.getOrder() != oldQuestion.getOrder()) {
                 questionUpdates.put(question.getId() + "/order", question.getOrder());
-                isModified = true;
+                isQuestionsModified = true;
             }
 
             // If score changed
             if (question.getScore() != oldQuestion.getScore()) {
                 questionUpdates.put(question.getId() + "/score", question.getScore());
-                isModified = true;
+                isQuestionsModified = true;
             }
 
             for (Map.Entry<String, Answer> entry : question.getAnswers().entrySet()) {
@@ -247,7 +248,7 @@ public class TestFormFragment extends Fragment {
                 if (!oldQuestion.getAnswers().containsKey(entry.getKey())) {
                     questionUpdates.put(question.getId() + "/answers/" + entry.getKey() + "/correct", entry.getValue().getCorrect());
                     questionUpdates.put(question.getId() + "/answers/" + entry.getKey() + "/text", entry.getValue().getText());
-                    isModified = true;
+                    isQuestionsModified = true;
                     continue;
                 }
 
@@ -256,13 +257,13 @@ public class TestFormFragment extends Fragment {
                 // If answer text changed
                 if (!oldAnswer.getText().equals(entry.getValue().getText())) {
                     questionUpdates.put(question.getId() + "/answers/" + entry.getKey() + "/text", entry.getValue().getText());
-                    isModified = true;
+                    isQuestionsModified = true;
                 }
 
                 // If answer correct changed
                 if (oldAnswer.getCorrect() != entry.getValue().getCorrect()) {
                     questionUpdates.put(question.getId() + "/answers/" + entry.getKey() + "/correct", entry.getValue().getCorrect());
-                    isModified = true;
+                    isQuestionsModified = true;
                 }
             }
 
@@ -270,7 +271,7 @@ public class TestFormFragment extends Fragment {
             for (Map.Entry<String, Answer> entry : oldQuestion.getAnswers().entrySet()) {
                 if (!question.getAnswers().containsKey(entry.getKey())) {
                     questionUpdates.put(question.getId() + "/answers/" + entry.getKey(), null);
-                    isModified = true;
+                    isQuestionsModified = true;
                 }
             }
         }
@@ -279,12 +280,17 @@ public class TestFormFragment extends Fragment {
         for (String oldId : oldQuestionsIds) {
             if (!newQuestionsIds.contains(oldId)) {
                 questionsToDeleteIds.add(oldId);
+                isQuestionsModified = true;
             }
         }
 
-        if (!isModified) {
+        if (!isTestModified && !isQuestionsModified) {
             navController.navigateUp();
             return;
+        }
+
+        if (isQuestionsModified) {
+            testUpdates.put("version", test.getVersion() + 1);
         }
 
         testUpdates.put("modificationDate", DateService.fromCalendar(new GregorianCalendar()));
