@@ -76,5 +76,16 @@ public class TestModalBottomSheet extends BottomSheetDialogFragment {
             getDialog().dismiss();
             navHost.getNavController().navigate(R.id.test_form_fragment, args);
         });
+
+        binding.startTestBtnTestSheet.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString("testId", testId);
+            NavHostFragment navHost = (NavHostFragment) requireActivity()
+                    .getSupportFragmentManager()
+                    .findFragmentById(R.id.main_nav_host_fragment);
+
+            getDialog().dismiss();
+            navHost.getNavController().navigate(R.id.testDetailFragment, args);
+        });
     }
 }
