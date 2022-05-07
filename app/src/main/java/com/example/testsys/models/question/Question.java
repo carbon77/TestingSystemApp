@@ -11,6 +11,7 @@ public class Question {
     private QuestionType type;
     private Map<String, Answer> answers;
     private int order;
+    private int score;
 
     public Question() {
 
@@ -28,6 +29,7 @@ public class Question {
         text = question.text;
         type = question.type;
         order = question.order;
+        score = question.score;
         answers = new HashMap<>();
 
         question.answers.forEach((s, answer) -> {
@@ -94,5 +96,13 @@ public class Question {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
