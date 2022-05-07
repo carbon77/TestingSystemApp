@@ -70,7 +70,7 @@ public class Question {
         return type;
     }
 
-    public String getTypeName() {
+    public String typeToString() {
         return type.toString();
     }
 

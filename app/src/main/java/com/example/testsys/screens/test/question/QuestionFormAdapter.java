@@ -57,7 +57,7 @@ public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHo
         binding.tvQuestionPos.setText(String.valueOf(pos + 1));
         binding.tvQuestionScore.setText(String.valueOf(question.getScore()));
 
-        binding.tvQuestionType.setText(question.getTypeName(), false);
+        binding.tvQuestionType.setText(question.typeToString(), false);
         binding.tvQuestionType.setOnItemClickListener((parent, view1, p, id) -> {
             QuestionType t = p == 0 ? QuestionType.RADIO : QuestionType.CHECKBOX;
             question.setType(t);
