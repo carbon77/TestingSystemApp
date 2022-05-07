@@ -90,6 +90,7 @@ public class TestResult {
         private String text;
         private int score;
         private int order;
+        private QuestionType type;
         private Map<String, Boolean> answers;
 
         public TestResultQuestion() {
@@ -101,6 +102,7 @@ public class TestResult {
             order = question.getOrder();
             score = 0;
             answers = new HashMap<>();
+            type = question.getType();
             int i = 0;
 
             for (Answer answer : question.getAnswers().values()) {
@@ -144,6 +146,14 @@ public class TestResult {
 
         public void setText(String text) {
             this.text = text;
+        }
+
+        public QuestionType getType() {
+            return type;
+        }
+
+        public void setType(QuestionType type) {
+            this.type = type;
         }
     }
 }

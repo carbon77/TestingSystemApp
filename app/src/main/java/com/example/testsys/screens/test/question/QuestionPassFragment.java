@@ -2,12 +2,12 @@ package com.example.testsys.screens.test.question;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.QuestionPassFragmentBinding;
@@ -38,12 +38,15 @@ public class QuestionPassFragment extends Fragment {
         progressTestViewModel = new ViewModelProvider(requireActivity()).get(ProgressTestViewModel.class);
 
         testResultViewModel.getTestResult().observe(getViewLifecycleOwner(), testResult -> {
-            questions = testResult.getQuestionsArray();
+            questions = testResult.questionsToArray();
 
             progressTestViewModel.getProgress().observe(getViewLifecycleOwner(), p -> {
                 progress = p;
 
                 binding.tvQuestionText.setText(questions.get(progress).getText());
+                CheckboxQuestionsAdapter adapter = new CheckboxQuestionsAdapter(questions.get(progress).getAnswers());
+                binding.checkboxQuestionRecyclerView.setAdapter(adapter);
+                binding.checkboxQuestionRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
             });
         });
     }
