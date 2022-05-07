@@ -10,6 +10,7 @@ public class Question {
     private String text;
     private QuestionType type;
     private Map<String, Answer> answers;
+    private int order;
 
     public Question() {
 
@@ -26,6 +27,7 @@ public class Question {
         testId = question.testId;
         text = question.text;
         type = question.type;
+        order = question.order;
         answers = new HashMap<>();
 
         question.answers.forEach((s, answer) -> {
@@ -84,5 +86,13 @@ public class Question {
 
     public Map<String, Answer> getAnswers() {
         return answers;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }

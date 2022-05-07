@@ -89,18 +89,25 @@ public class QuestionFormAdapter extends RecyclerView.Adapter<QuestionFormViewHo
         });
 
         binding.moveUpQuestionBtn.setOnClickListener(v -> {
-            Question temp = questions.get(pos);
-            questions.set(pos, questions.get(pos - 1));
-            questions.set(pos - 1, temp);
+            moveQuestions(pos, pos - 1);
             notifyDataSetChanged();
         });
 
         binding.moveDownQuestionBtn.setOnClickListener(v -> {
-            Question temp = questions.get(pos);
-            questions.set(pos, questions.get(pos + 1));
-            questions.set(pos + 1, temp);
+            moveQuestions(pos, pos + 1);
             notifyDataSetChanged();
         });
+    }
+
+    private void moveQuestions(int i1, int i2) {
+        Question temp = questions.get(i1);
+        int tempOrder = questions.get(i1).getOrder();
+
+        questions.get(i1).setOrder(questions.get(i2).getOrder());
+        questions.set(i1, questions.get(i2));
+
+        questions.get(i2).setOrder(tempOrder);
+        questions.set(i2, temp);
     }
 
     @Override

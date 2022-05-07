@@ -30,6 +30,7 @@ import com.example.testsys.screens.test.question.QuestionFormAdapter;
 import com.example.testsys.utils.DateService;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -82,8 +83,11 @@ public class TestFormFragment extends Fragment {
         questionViewModel.getQuestions().observe(getViewLifecycleOwner(), questions -> {
             if (questions == null) {
                 this.questions = new ArrayList<>();
-                this.questions.add(new Question("", QuestionType.RADIO));
+                Question question = new Question("", QuestionType.RADIO);
+                question.setOrder(0);
+                this.questions.add(question);
             } else {
+                questions.sort(Comparator.comparingInt(Question::getOrder));
                 this.questions = questions;
             }
 
@@ -140,7 +144,9 @@ public class TestFormFragment extends Fragment {
     }
 
     private void addQuestion() {
-        newQuestions.add(new Question("", QuestionType.RADIO));
+        Question question = new Question("", QuestionType.RADIO);
+        question.setOrder(newQuestions.get(newQuestions.size() - 1).getOrder() + 1);
+        newQuestions.add(question);
         adapter.notifyDataSetChanged();
     }
 
@@ -213,6 +219,12 @@ public class TestFormFragment extends Fragment {
             // If question type changed
             if (question.getType() != oldQuestion.getType()) {
                 questionUpdates.put(question.getId() + "/type", question.getType());
+                isModified = true;
+            }
+
+            // If order changed
+            if (question.getOrder() != oldQuestion.getOrder()) {
+                questionUpdates.put(question.getId() + "/order", question.getOrder());
                 isModified = true;
             }
 
