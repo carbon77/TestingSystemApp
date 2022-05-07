@@ -91,7 +91,7 @@ public class TestResult {
         private int score;
         private int order;
         private QuestionType type;
-        private Map<String, Boolean> answers;
+        private Map<String, Answer> answers;
 
         public TestResultQuestion() {
 
@@ -105,11 +105,11 @@ public class TestResult {
             type = question.getType();
             int i = 0;
 
-            for (Answer answer : question.getAnswers().values()) {
+            for (Map.Entry<String, Answer> entry : question.getAnswers().entrySet()) {
                 if (question.getType() == QuestionType.RADIO && i == 0) {
-                    answers.put(answer.getText(), true);
+                    answers.put(entry.getKey(), new Answer(entry.getValue().getText(), true));
                 } else {
-                    answers.put(answer.getText(), false);
+                    answers.put(entry.getKey(), new Answer(entry.getValue().getText(), false));
                 }
 
                 i++;
@@ -124,11 +124,11 @@ public class TestResult {
             this.score = score;
         }
 
-        public Map<String, Boolean> getAnswers() {
+        public Map<String, Answer> getAnswers() {
             return answers;
         }
 
-        public void setAnswers(Map<String, Boolean> answers) {
+        public void setAnswers(Map<String, Answer> answers) {
             this.answers = answers;
         }
 

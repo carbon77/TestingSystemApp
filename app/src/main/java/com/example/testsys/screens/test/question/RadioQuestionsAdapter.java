@@ -11,17 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.RadioAnswerItemBinding;
+import com.example.testsys.models.question.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class RadioQuestionsAdapter extends RecyclerView.Adapter<RadioQuestionsAdapter.RadioQuestionViewHolder> {
-    private Map<String, Boolean> answers;
+    private Map<String, Answer> answers;
     private String selectedAnswer;
     private List<RadioButton> radios;
 
-    public RadioQuestionsAdapter(Map<String, Boolean> answers) {
+    public RadioQuestionsAdapter(Map<String, Answer> answers) {
         this.answers = answers;
         this.selectedAnswer = (String) answers.keySet().toArray()[0];
         this.radios = new ArrayList<>();
@@ -38,25 +39,23 @@ public class RadioQuestionsAdapter extends RecyclerView.Adapter<RadioQuestionsAd
     @Override
     public void onBindViewHolder(@NonNull RadioQuestionViewHolder holder, int position) {
         RadioAnswerItemBinding binding = holder.getBinding();
-        String answerText = (String) answers.keySet().toArray()[position];
+        Answer answer = (Answer) answers.values().toArray()[position];
 
-        binding.tvAnswerText.setText(answerText);
-        answers.put(answerText, answers.get(answerText));
-        binding.radio.setChecked(answers.get(answerText));
+        binding.tvAnswerText.setText(answer.getText());
+        binding.radio.setChecked(answer.getCorrect());
 
         binding.radio.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 for (int i = 0; i < radios.size(); i++) {
                     if (i != holder.getLayoutPosition()) {
-                        String text = (String) answers.keySet().toArray()[i];
-                        answers.put(text, false);
-
+                        String key = (String) answers.keySet().toArray()[i];
+                        answers.get(key).setCorrect(false);
                         radios.get(i).setChecked(false);
                     }
                 }
 
-                String text = (String) answers.keySet().toArray()[holder.getLayoutPosition()];
-                answers.put(text, true);
+                String key = (String) answers.keySet().toArray()[holder.getLayoutPosition()];
+                answers.get(key).setCorrect(true);
             }
         });
         binding.getRoot().setOnClickListener(v -> {

@@ -9,13 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.CheckboxAnswerItemBinding;
+import com.example.testsys.models.question.Answer;
 
 import java.util.Map;
 
 public class CheckboxQuestionsAdapter extends RecyclerView.Adapter<CheckboxQuestionsAdapter.CheckboxQuestionViewHolder> {
-    private Map<String, Boolean> answers;
+    private Map<String, Answer> answers;
 
-    public CheckboxQuestionsAdapter(Map<String, Boolean> answers) {
+    public CheckboxQuestionsAdapter(Map<String, Answer> answers) {
         this.answers = answers;
     }
 
@@ -29,19 +30,19 @@ public class CheckboxQuestionsAdapter extends RecyclerView.Adapter<CheckboxQuest
     @Override
     public void onBindViewHolder(@NonNull CheckboxQuestionViewHolder holder, int position) {
         int pos = holder.getLayoutPosition();
-        String answerText = (String) answers.keySet().toArray()[pos];
+        Answer answer = (Answer) answers.values().toArray()[pos];
         CheckboxAnswerItemBinding binding = holder.getBinding();
 
-        binding.tvAnswerText.setText(answerText);
-        binding.checkbox.setChecked(answers.get(answerText));
+        binding.tvAnswerText.setText(answer.getText());
+        binding.checkbox.setChecked(answer.getCorrect());
 
         binding.checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            String text = (String) answers.keySet().toArray()[holder.getLayoutPosition()];
-            answers.put(text, isChecked);
+            String key = (String) answers.keySet().toArray()[holder.getLayoutPosition()];
+            answers.get(key).setCorrect(isChecked);
         });
         binding.getRoot().setOnClickListener(v -> {
-            String text = (String) answers.keySet().toArray()[holder.getLayoutPosition()];
-            binding.checkbox.setChecked(!answers.get(text));
+            String key = (String) answers.keySet().toArray()[holder.getLayoutPosition()];
+            binding.checkbox.setChecked(!answers.get(key).getCorrect());
         });
     }
 
