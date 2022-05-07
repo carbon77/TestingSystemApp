@@ -6,6 +6,8 @@ import com.example.testsys.models.question.QuestionType;
 import com.example.testsys.models.test.Test;
 import com.example.testsys.utils.DateService;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +31,8 @@ public class TestResult {
         this.passingDate = DateService.fromCalendar(new GregorianCalendar());
         this.questions = new HashMap<>();
 
-        for (Question question : questions) {
-            this.questions.put(question.getText(), new TestResultQuestion(question));
+        for (int i = 0; i < questions.size(); i++) {
+            this.questions.put(i + "_key", new TestResultQuestion(questions.get(i)));
         }
     }
 
@@ -78,7 +80,14 @@ public class TestResult {
         return questions;
     }
 
-    static class TestResultQuestion {
+    public List<TestResultQuestion> getQuestionsArray() {
+        List<TestResultQuestion> testResultQuestions = new ArrayList<>(questions.values());
+        testResultQuestions.sort(Comparator.comparingInt(TestResult.TestResultQuestion::getOrder));
+        return testResultQuestions;
+    }
+
+    public static class TestResultQuestion {
+        private String text;
         private int score;
         private int order;
         private Map<String, Boolean> answers;
@@ -88,6 +97,7 @@ public class TestResult {
         }
 
         public TestResultQuestion(Question question) {
+            text = question.getText();
             order = question.getOrder();
             score = 0;
             answers = new HashMap<>();
@@ -126,6 +136,14 @@ public class TestResult {
 
         public void setOrder(int order) {
             this.order = order;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
         }
     }
 }
