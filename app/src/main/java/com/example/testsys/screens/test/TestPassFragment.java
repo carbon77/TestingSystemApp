@@ -31,6 +31,7 @@ public class TestPassFragment extends Fragment {
     private List<Question> questions;
     private TestResult result;
     private List<TestResult.TestResultQuestion> testResultQuestions;
+    private int progress;
 
     private UserViewModel userViewModel;
     private TestViewModel testViewModel;
@@ -78,6 +79,35 @@ public class TestPassFragment extends Fragment {
             result = new TestResult(test, questions);
             testResultViewModel.updateTestResult(result);
             progressTestViewModel.updateProgress(0);
+        });
+
+        progressTestViewModel.getProgress().observe(getViewLifecycleOwner(), p -> {
+            if (questions == null)
+                return;
+
+            progress = p;
+
+            if (progress == questions.size() - 1) {
+                binding.btnTestPassNext.setVisibility(View.GONE);
+                binding.btnTestPassFinish.setVisibility(View.VISIBLE);
+            } else {
+                binding.btnTestPassNext.setVisibility(View.VISIBLE);
+                binding.btnTestPassFinish.setVisibility(View.GONE);
+            }
+
+            if (progress == 0) {
+                binding.btnTestPassPrevious.setVisibility(View.GONE);
+            } else {
+                binding.btnTestPassPrevious.setVisibility(View.VISIBLE);
+            }
+        });
+
+        binding.btnTestPassNext.setOnClickListener(v -> {
+            progressTestViewModel.updateProgress(progress + 1);
+        });
+
+        binding.btnTestPassPrevious.setOnClickListener(v -> {
+            progressTestViewModel.updateProgress(progress - 1);
         });
     }
 }
