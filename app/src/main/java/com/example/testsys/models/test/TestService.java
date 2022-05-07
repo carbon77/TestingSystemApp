@@ -78,6 +78,15 @@ public class TestService extends ModelService {
         tasks.add(dbRef.child("userTest").child(uid).child(testId).removeValue());
         tasks.add(dbRef.child("testUser").child(testId).child(uid).removeValue());
         tasks.add(dbRef.child("questions").child(testId).removeValue());
+        tasks.add(dbRef.child("testTestResult").child(testId).get().continueWith(testResultsSnapshot -> {
+            for (DataSnapshot testResultSnapshot : testResultsSnapshot.getResult().getChildren()) {
+                dbRef.child("testResults").child(testResultSnapshot.getKey()).removeValue();
+                dbRef.child("userTestResult").child(uid).child(testResultSnapshot.getKey()).removeValue();
+            }
+
+            return null;
+        }));
+        tasks.add(dbRef.child("testTestResult").child(testId).removeValue());
 
         Tasks.whenAll(tasks).addOnSuccessListener(v -> {
             completeListener.run();
