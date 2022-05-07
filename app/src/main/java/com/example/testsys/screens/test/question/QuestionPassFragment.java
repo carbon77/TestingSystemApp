@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.testsys.R;
 import com.example.testsys.databinding.QuestionPassFragmentBinding;
 import com.example.testsys.models.ProgressTestViewModel;
+import com.example.testsys.models.question.QuestionType;
 import com.example.testsys.models.testresult.TestResult;
 import com.example.testsys.models.testresult.TestResultViewModel;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class QuestionPassFragment extends Fragment {
     private QuestionPassFragmentBinding binding;
     private List<TestResult.TestResultQuestion> questions;
+    private TestResult.TestResultQuestion question;
     private int progress;
 
     private TestResultViewModel testResultViewModel;
@@ -42,11 +44,24 @@ public class QuestionPassFragment extends Fragment {
 
             progressTestViewModel.getProgress().observe(getViewLifecycleOwner(), p -> {
                 progress = p;
+                question = questions.get(progress);
 
-                binding.tvQuestionText.setText(questions.get(progress).getText());
-                CheckboxQuestionsAdapter adapter = new CheckboxQuestionsAdapter(questions.get(progress).getAnswers());
-                binding.checkboxQuestionRecyclerView.setAdapter(adapter);
-                binding.checkboxQuestionRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+                binding.tvQuestionText.setText(question.getText());
+
+                if (question.getType() == QuestionType.CHECKBOX) {
+                    CheckboxQuestionsAdapter adapter = new CheckboxQuestionsAdapter(question.getAnswers());
+                    binding.checkboxQuestionRecyclerView.setAdapter(adapter);
+                    binding.checkboxQuestionRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+                    binding.checkboxQuestionRecyclerView.setVisibility(View.VISIBLE);
+                    binding.radioQuestionRecyclerView.setVisibility(View.GONE);
+                } else if (question.getType() == QuestionType.RADIO) {
+                    RadioQuestionsAdapter adapter = new RadioQuestionsAdapter(question.getAnswers());
+                    binding.radioQuestionRecyclerView.setAdapter(adapter);
+                    binding.radioQuestionRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+                    binding.radioQuestionRecyclerView.setVisibility(View.VISIBLE);
+                    binding.checkboxQuestionRecyclerView.setVisibility(View.GONE);
+                }
+
             });
         });
     }
