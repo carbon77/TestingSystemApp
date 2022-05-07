@@ -90,6 +90,7 @@ public class TestResult {
         public TestResultQuestion(Question question) {
             order = question.getOrder();
             score = 0;
+            answers = new HashMap<>();
             int i = 0;
 
             for (Answer answer : question.getAnswers().values()) {
