@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
@@ -123,9 +124,8 @@ public class TestPassFragment extends Fragment {
 
         binding.btnTestPassFinish.setOnClickListener(v -> {
             calculateScores();
-            testResultViewModel.createTestResult(result, ts -> {
-                NavHostFragment.findNavController(this).navigateUp();
-            });
+            NavDirections action = TestPassFragmentDirections.actionTestPassFragmentToTestPreviewFragment(test.getTitle());
+            NavHostFragment.findNavController(this).navigate(action);
         });
 
         binding.testPassTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
