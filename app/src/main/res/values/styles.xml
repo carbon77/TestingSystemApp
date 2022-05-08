@@ -11,4 +11,10 @@
         <item name="iconTint">@color/grey</item>
         <item name="rippleColor">@color/grey</item>
     </style>
+
+    <style name="RightAnswerCard" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">?rightAnswerCardColor</item>
+        <item name="shapeAppearance">?attr/shapeAppearanceOverlay</item>
+        <item name="cardElevation">0dp</item>
+    </style>
 </resources>

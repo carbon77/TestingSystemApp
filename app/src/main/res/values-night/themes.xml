@@ -14,5 +14,6 @@
         <!-- Customize your theme here. -->
 
         <item name="strokeColor">@color/grey</item>
+        <item name="rightAnswerCardColor">@color/dark_green</item>
     </style>
 </resources>
