@@ -7,16 +7,16 @@
     <fragment
         android:id="@+id/question_pass_fragment"
         android:name="com.example.testsys.screens.test.question.QuestionPassFragment"
-        android:label="QuestionPassFragment"
+        android:label="Test passing"
         tools:layout="@layout/question_pass_fragment">
         <argument
             android:name="progress"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
         <argument
             android:name="subtitle"
+            android:defaultValue="none"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="none" />
+            app:nullable="true" />
     </fragment>
 </navigation>

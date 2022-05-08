@@ -57,7 +57,7 @@ public class TestPreviewFragment extends Fragment {
 
         binding.btnCancel.setOnClickListener(v -> {
             testResultViewModel.updateTestResult(result);
-            String testTitle = TestPreviewFragmentArgs.fromBundle(getArguments()).getTestTitle();
+            String testTitle = TestPreviewFragmentArgs.fromBundle(getArguments()).getSubtitle();
             String testId = TestPreviewFragmentArgs.fromBundle(getArguments()).getTestId();
             NavDirections action = TestPreviewFragmentDirections
                     .actionTestPreviewFragmentToTestPassFragment(testId, testTitle);
