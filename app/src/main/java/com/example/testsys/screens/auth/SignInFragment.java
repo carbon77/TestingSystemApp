@@ -34,7 +34,6 @@ public class SignInFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding = SignInFragmentBinding.bind(view);
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
-        userViewModel.getUser();
 
         binding.btnGoToSignUp.setOnClickListener(this::goToSignUp);
         binding.btnSignIn.setOnClickListener(this::signIn);

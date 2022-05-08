@@ -26,6 +26,7 @@ public class SplashFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        userViewModel.loadUser();
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             NavDirections action;
             if (user != null) {

@@ -7,14 +7,20 @@ import androidx.lifecycle.ViewModel;
 import java.util.function.Consumer;
 
 public class UserViewModel extends ViewModel {
-    private MutableLiveData<User> user = new MutableLiveData<>();
+    private MutableLiveData<User> user;
 
     public LiveData<User> getUser() {
-        UserService.loadCurrentUser(currentUser -> {
-            user.setValue(currentUser);
-        });
+        if (user == null) {
+            user = new MutableLiveData<>();
+        }
 
         return user;
+    }
+
+    public void loadUser() {
+        UserService.loadCurrentUser(user -> {
+            this.user.setValue(user);
+        });
     }
 
     public void signOut() {
