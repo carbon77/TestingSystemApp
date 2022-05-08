@@ -12,8 +12,11 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestDetailFragmentBinding;
+import com.example.testsys.models.question.QuestionViewModel;
 import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestViewModel;
+import com.example.testsys.models.testresult.TestResult;
+import com.example.testsys.models.testresult.TestResultViewModel;
 
 public class TestDetailFragment extends Fragment {
     private TestDetailFragmentBinding binding;
@@ -33,6 +36,9 @@ public class TestDetailFragment extends Fragment {
         testId = TestDetailFragmentArgs.fromBundle(getArguments()).getTestId();
 
         testViewModel = new ViewModelProvider(requireActivity()).get(TestViewModel.class);
+        QuestionViewModel questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
+        TestResultViewModel testResultViewModel = new ViewModelProvider(requireActivity()).get(TestResultViewModel.class);
+
         testViewModel.getTests().observe(getViewLifecycleOwner(), tests -> {
             for (Test t : tests) {
                 if (t.getId().equals(testId)) {
@@ -51,6 +57,10 @@ public class TestDetailFragment extends Fragment {
             } else {
                 binding.tvTestDescription.setText(test.getDescription());
             }
+        });
+
+        questionViewModel.getQuestions().observe(getViewLifecycleOwner(), questions -> {
+            testResultViewModel.updateTestResult(new TestResult(test, questions));
         });
 
         binding.btnTestCancel.setOnClickListener(v -> {
