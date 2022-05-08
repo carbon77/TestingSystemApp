@@ -17,28 +17,28 @@ import com.example.testsys.models.testresult.TestResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestReviewAdapter extends RecyclerView.Adapter<TestReviewAdapter.TestReviewViewHolder> {
+public class TestPreviewAdapter extends RecyclerView.Adapter<TestPreviewAdapter.TestPreviewViewHolder> {
     private List<TestResult.TestResultQuestion> questions;
     private Context context;
 
-    public TestReviewAdapter(List<TestResult.TestResultQuestion> questions, Context context) {
+    public TestPreviewAdapter(List<TestResult.TestResultQuestion> questions, Context context) {
         this.questions = questions;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public TestReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TestPreviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.test_result_item, parent, false);
-        return new TestReviewViewHolder(view);
+        return new TestPreviewViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TestReviewViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TestPreviewViewHolder holder, int position) {
         TestResultItemBinding binding = holder.getBinding();
         TestResult.TestResultQuestion question = questions.get(position);
         List<Answer> answers = new ArrayList<>(question.getAnswers().values());
-        QuestionReviewAdapter adapter = new QuestionReviewAdapter(answers, context);
+        QuestionPreviewAdapter adapter = new QuestionPreviewAdapter(answers, context);
 
         binding.tvQuestionText.setText((position + 1) + ". " + questions.get(position).getText());
         binding.recyclerView.setAdapter(adapter);
@@ -50,10 +50,10 @@ public class TestReviewAdapter extends RecyclerView.Adapter<TestReviewAdapter.Te
         return questions.size();
     }
 
-    public class TestReviewViewHolder extends RecyclerView.ViewHolder {
+    public class TestPreviewViewHolder extends RecyclerView.ViewHolder {
         TestResultItemBinding binding;
 
-        public TestReviewViewHolder(@NonNull View itemView) {
+        public TestPreviewViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = TestResultItemBinding.bind(itemView);
         }

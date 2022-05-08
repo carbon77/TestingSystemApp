@@ -9,30 +9,30 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testsys.R;
-import com.example.testsys.databinding.QuestionReviewItemBinding;
+import com.example.testsys.databinding.QuestionPreviewItemBinding;
 import com.example.testsys.models.question.Answer;
 
 import java.util.List;
 
-public class QuestionReviewAdapter extends RecyclerView.Adapter<QuestionReviewAdapter.QuestionReviewViewHolder> {
+public class QuestionPreviewAdapter extends RecyclerView.Adapter<QuestionPreviewAdapter.QuestionPreviewViewHolder> {
     private List<Answer> answers;
     private Context context;
 
-    public QuestionReviewAdapter(List<Answer> answers, Context context) {
+    public QuestionPreviewAdapter(List<Answer> answers, Context context) {
         this.answers = answers;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public QuestionReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_review_item, parent, false);
-        return new QuestionReviewViewHolder(view);
+    public QuestionPreviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_preview_item, parent, false);
+        return new QuestionPreviewViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull QuestionReviewViewHolder holder, int position) {
-        QuestionReviewItemBinding binding = holder.getBinding();
+    public void onBindViewHolder(@NonNull QuestionPreviewViewHolder holder, int position) {
+        QuestionPreviewItemBinding binding = holder.getBinding();
         binding.tvAnswerText.setText(answers.get(position).getText());
 
         if (!answers.get(position).getCorrect()) {
@@ -48,15 +48,15 @@ public class QuestionReviewAdapter extends RecyclerView.Adapter<QuestionReviewAd
         return answers.size();
     }
 
-    public class QuestionReviewViewHolder extends RecyclerView.ViewHolder {
-        QuestionReviewItemBinding binding;
+    public class QuestionPreviewViewHolder extends RecyclerView.ViewHolder {
+        QuestionPreviewItemBinding binding;
 
-        public QuestionReviewViewHolder(@NonNull View itemView) {
+        public QuestionPreviewViewHolder(@NonNull View itemView) {
             super(itemView);
-            binding = QuestionReviewItemBinding.bind(itemView);
+            binding = QuestionPreviewItemBinding.bind(itemView);
         }
 
-        public QuestionReviewItemBinding getBinding() {
+        public QuestionPreviewItemBinding getBinding() {
             return binding;
         }
     }
