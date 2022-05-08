@@ -14,14 +14,11 @@ import com.example.testsys.R;
 import com.example.testsys.databinding.TestDetailFragmentBinding;
 import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestViewModel;
-import com.example.testsys.models.test.TestViewModelFactory;
-import com.example.testsys.models.user.UserViewModel;
 
 public class TestDetailFragment extends Fragment {
     private TestDetailFragmentBinding binding;
     private String testId;
     private Test test;
-    private UserViewModel userViewModel;
     private TestViewModel testViewModel;
 
     public TestDetailFragment() {
@@ -35,20 +32,14 @@ public class TestDetailFragment extends Fragment {
         binding = TestDetailFragmentBinding.bind(view);
         testId = TestDetailFragmentArgs.fromBundle(getArguments()).getTestId();
 
-        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
-        userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
-            testViewModel = new ViewModelProvider(
-                    requireActivity(),
-                    new TestViewModelFactory(user.getId())
-            ).get(TestViewModel.class);
-
-            testViewModel.getTests().observe(getViewLifecycleOwner(), tests -> {
-                for (Test t : tests) {
-                    if (t.getId().equals(testId)) {
-                        test = t;
-                    }
+        testViewModel = new ViewModelProvider(requireActivity()).get(TestViewModel.class);
+        testViewModel.getTests().observe(getViewLifecycleOwner(), tests -> {
+            for (Test t : tests) {
+                if (t.getId().equals(testId)) {
+                    test = t;
+                    break;
                 }
-            });
+            }
 
             binding.tvTestTitle.setText(test.getTitle());
             binding.tvTestCreated.setText(test.getCreationDate());
