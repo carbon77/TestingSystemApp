@@ -26,6 +26,7 @@ public class TestModalBottomSheet extends BottomSheetDialogFragment {
     private TestBottomSheetBinding binding;
     private TestViewModel testViewModel;
     private UserViewModel userViewModel;
+    private QuestionViewModel questionViewModel;
 
     @Nullable
     @Override
@@ -41,6 +42,7 @@ public class TestModalBottomSheet extends BottomSheetDialogFragment {
 
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         testViewModel = new ViewModelProvider(requireActivity()).get(TestViewModel.class);
+        questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
 
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             this.user = user;
@@ -65,31 +67,29 @@ public class TestModalBottomSheet extends BottomSheetDialogFragment {
         });
 
         binding.editTestBtnTestSheet.setOnClickListener(v -> {
-            QuestionViewModel questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
-            questionViewModel.updateTestId(testId);
+            questionViewModel.updateTestId(testId, () -> {
+                Bundle args = new Bundle();
+                args.putString("testId", testId);
+                NavHostFragment navHost = (NavHostFragment) requireActivity()
+                        .getSupportFragmentManager()
+                        .findFragmentById(R.id.main_nav_host_fragment);
 
-            Bundle args = new Bundle();
-            args.putString("testId", testId);
-            NavHostFragment navHost = (NavHostFragment) requireActivity()
-                    .getSupportFragmentManager()
-                    .findFragmentById(R.id.main_nav_host_fragment);
-
-            getDialog().dismiss();
-            navHost.getNavController().navigate(R.id.test_form_fragment, args);
+                getDialog().dismiss();
+                navHost.getNavController().navigate(R.id.test_form_fragment, args);
+            });
         });
 
         binding.startTestBtnTestSheet.setOnClickListener(v -> {
-            QuestionViewModel questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
-            questionViewModel.updateTestId(testId);
+            questionViewModel.updateTestId(testId, () -> {
+                Bundle args = new Bundle();
+                args.putString("testId", testId);
+                NavHostFragment navHost = (NavHostFragment) requireActivity()
+                        .getSupportFragmentManager()
+                        .findFragmentById(R.id.main_nav_host_fragment);
 
-            Bundle args = new Bundle();
-            args.putString("testId", testId);
-            NavHostFragment navHost = (NavHostFragment) requireActivity()
-                    .getSupportFragmentManager()
-                    .findFragmentById(R.id.main_nav_host_fragment);
-
-            getDialog().dismiss();
-            navHost.getNavController().navigate(R.id.testDetailFragment, args);
+                getDialog().dismiss();
+                navHost.getNavController().navigate(R.id.testDetailFragment, args);
+            });
         });
     }
 }

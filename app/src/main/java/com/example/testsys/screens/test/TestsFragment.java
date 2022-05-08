@@ -100,11 +100,11 @@ public class TestsFragment extends Fragment {
 
     private void btnTestFormClick(View view) {
         QuestionViewModel questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
-        questionViewModel.updateTestId(null);
-
-        NavHostFragment navHost = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
-        NavController navController = navHost.getNavController();
-        NavDirections action = TabsFragmentDirections.actionTabsFragmentToTestFormFragment(null);
-        navController.navigate(action);
+        questionViewModel.updateTestId(null, () -> {
+            NavHostFragment navHost = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
+            NavController navController = navHost.getNavController();
+            NavDirections action = TabsFragmentDirections.actionTabsFragmentToTestFormFragment(null);
+            navController.navigate(action);
+        });
     }
 }
