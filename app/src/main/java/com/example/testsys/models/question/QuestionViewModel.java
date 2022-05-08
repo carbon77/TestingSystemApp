@@ -20,12 +20,14 @@ public class QuestionViewModel extends ViewModel {
         QuestionService.createQuestions(testId, questions, completeListener);
     }
 
-    public void updateTestId(String testId) {
+    public void updateTestId(String testId, Runnable completeListener) {
         if (testId == null) {
             questions.setValue(null);
+            completeListener.run();
         } else {
             QuestionService.getQuestions(testId, it -> {
                 questions.setValue(it);
+                completeListener.run();
             });
         }
     }
