@@ -58,9 +58,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if (navDestination.getId() == R.id.test_pass_fragment) {
+        if (navDestination.getId() == R.id.question_pass_fragment ||
+                navDestination.getId() == R.id.test_pass_fragment) {
             supportActionBar.setTitle("Passing test");
-            supportActionBar.setSubtitle(bundle.getString("testTitle"));
+            supportActionBar.setSubtitle(bundle.getString("subtitle"));
             return;
         } else if (navDestination.getId() == R.id.test_preview_fragment) {
             supportActionBar.setTitle("Preview");

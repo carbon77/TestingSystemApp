@@ -3,14 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/test_graph"
-    app:startDestination="@id/questionPassFragment">
+    app:startDestination="@id/question_pass_fragment">
     <fragment
-        android:id="@+id/questionPassFragment"
+        android:id="@+id/question_pass_fragment"
         android:name="com.example.testsys.screens.test.question.QuestionPassFragment"
         android:label="QuestionPassFragment"
         tools:layout="@layout/question_pass_fragment">
-        <action
-            android:id="@+id/action_questionPassFragment_self"
-            app:destination="@id/questionPassFragment" />
+        <argument
+            android:name="progress"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="subtitle"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="none" />
     </fragment>
 </navigation>
