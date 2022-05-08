@@ -36,7 +36,7 @@ public class TestPreviewFragment extends Fragment {
             this.testResult = testResult;
             this.questions = testResult.questionsToArray();
 
-            TestReviewAdapter adapter = new TestReviewAdapter(questions);
+            TestReviewAdapter adapter = new TestReviewAdapter(questions, requireContext());
             binding.testResultRecyclerView.setAdapter(adapter);
             binding.testResultRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         });
