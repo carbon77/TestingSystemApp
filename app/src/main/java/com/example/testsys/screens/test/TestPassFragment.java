@@ -38,7 +38,6 @@ public class TestPassFragment extends Fragment {
     private TestResult result;
     private List<TestResult.TestResultQuestion> testResultQuestions;
     private int progress;
-    private boolean isTabsInit = false;
 
     private UserViewModel userViewModel;
     private TestViewModel testViewModel;
@@ -85,10 +84,7 @@ public class TestPassFragment extends Fragment {
             testResultViewModel.updateTestResult(result);
             progressTestViewModel.updateProgress(0);
 
-            if (!isTabsInit) {
-                initTabs();
-                isTabsInit = true;
-            }
+            initTabs();
         });
 
         progressTestViewModel.getProgress().observe(getViewLifecycleOwner(), p -> {
@@ -124,7 +120,8 @@ public class TestPassFragment extends Fragment {
 
         binding.btnTestPassFinish.setOnClickListener(v -> {
             calculateScores();
-            NavDirections action = TestPassFragmentDirections.actionTestPassFragmentToTestPreviewFragment(test.getTitle());
+            NavDirections action = TestPassFragmentDirections
+                    .actionTestPassFragmentToTestPreviewFragment(test.getTitle(), testId);
             NavHostFragment.findNavController(this).navigate(action);
         });
 

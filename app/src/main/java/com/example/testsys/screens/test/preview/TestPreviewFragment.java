@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.testsys.R;
@@ -39,6 +41,14 @@ public class TestPreviewFragment extends Fragment {
             TestPreviewAdapter adapter = new TestPreviewAdapter(questions, requireContext());
             binding.testResultRecyclerView.setAdapter(adapter);
             binding.testResultRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        });
+
+        binding.btnCancel.setOnClickListener(v -> {
+            String testTitle = TestPreviewFragmentArgs.fromBundle(getArguments()).getTestTitle();
+            String testId = TestPreviewFragmentArgs.fromBundle(getArguments()).getTestId();
+            NavDirections action = TestPreviewFragmentDirections
+                    .actionTestPreviewFragmentToTestPassFragment(testId, testTitle);
+            NavHostFragment.findNavController(this).navigate(action);
         });
     }
 }
