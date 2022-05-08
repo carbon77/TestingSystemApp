@@ -6,12 +6,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.NavGraph;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.testsys.databinding.ActivityMainBinding;
@@ -19,6 +21,7 @@ import com.example.testsys.screens.TabsFragment;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private final int[] NO_ACTION_BAR_DESTINATIONS = {
@@ -55,7 +58,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        if (navDestination.getId() == R.id.test_pass_fragment) {
+            supportActionBar.setTitle("Passing test");
+            supportActionBar.setSubtitle(bundle.getString("testTitle"));
+            return;
+        }
+
         supportActionBar.setTitle(navDestination.getLabel());
+        supportActionBar.setSubtitle("");
     };
 
     @Override

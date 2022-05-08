@@ -67,7 +67,7 @@ public class TestDetailFragment extends Fragment {
         });
 
         binding.btnStartTest.setOnClickListener(v -> {
-            NavDirections action = TestDetailFragmentDirections.actionTestDetailFragmentToTestPassFragment(testId);
+            NavDirections action = TestDetailFragmentDirections.actionTestDetailFragmentToTestPassFragment(testId, test.getTitle());
             NavHostFragment.findNavController(this).navigate(action);
         });
     }

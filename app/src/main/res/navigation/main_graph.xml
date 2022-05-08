@@ -96,6 +96,7 @@
             android:id="@+id/action_testPassFragment_to_testPreviewFragment"
             app:destination="@id/test_preview_fragment" />
         <argument android:name="testId" />
+        <argument android:name="testTitle" />
     </fragment>
     <fragment
         android:id="@+id/test_preview_fragment"
