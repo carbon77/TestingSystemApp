@@ -7,13 +7,9 @@ import androidx.lifecycle.ViewModel;
 import java.util.function.Consumer;
 
 public class UserViewModel extends ViewModel {
-    private MutableLiveData<User> user;
+    private MutableLiveData<User> user = new MutableLiveData<>();
 
     public LiveData<User> getUser() {
-        if (user == null) {
-            user = new MutableLiveData<>();
-        }
-
         return user;
     }
 
