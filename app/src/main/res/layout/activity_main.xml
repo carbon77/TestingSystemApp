@@ -12,7 +12,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"/>
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        android:paddingVertical="5dp"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_nav_host_fragment"

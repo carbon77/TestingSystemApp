@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="25dp">
+    android:paddingBottom="16dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_test_title"
@@ -14,7 +14,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeWidth="1dp"
-        app:strokeColor="?attr/strokeColor">
+        app:strokeColor="?attr/strokeColor"
+        android:layout_margin="16dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +48,7 @@
         app:layout_constraintTop_toBottomOf="@+id/card_test_title"
         app:strokeColor="?attr/strokeColor"
         app:strokeWidth="1dp"
-        android:layout_marginTop="16dp">
+        android:layout_margin="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,23 +103,32 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <Button
-        android:id="@+id/btn_start_test"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start test"
+        android:orientation="horizontal"
+        android:gravity="end"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:paddingHorizontal="16dp">
+        <Button
+            android:id="@+id/btn_test_cancel"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_marginEnd="16dp"/>
 
-    <Button
-        android:id="@+id/btn_test_cancel"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:text="Cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_start_test" />
+        <Button
+            android:id="@+id/btn_start_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start test"/>
+
+    </LinearLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
