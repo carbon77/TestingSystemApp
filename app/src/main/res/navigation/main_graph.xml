@@ -46,7 +46,7 @@
          <action
              android:id="@+id/action_sign_up_fragment_to_navFragment"
              app:destination="@id/tabs_fragment"
-             app:popUpTo="@id/sign_up_fragment"
+             app:popUpTo="@id/sign_in_fragment"
              app:popUpToInclusive="true" />
      </fragment>
      <fragment
