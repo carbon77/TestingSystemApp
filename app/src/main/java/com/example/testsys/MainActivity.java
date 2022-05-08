@@ -62,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
             supportActionBar.setTitle("Passing test");
             supportActionBar.setSubtitle(bundle.getString("testTitle"));
             return;
+        } else if (navDestination.getId() == R.id.test_preview_fragment) {
+            supportActionBar.setTitle("Preview");
+            supportActionBar.setSubtitle(bundle.getString("testTitle"));
+            return;
         }
 
         supportActionBar.setTitle(navDestination.getLabel());
