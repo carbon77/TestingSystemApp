@@ -1,6 +1,8 @@
 package com.example.testsys.screens.test;
 
 import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -102,6 +104,19 @@ public class TestFormFragment extends Fragment {
             binding.testForm.setVisibility(View.VISIBLE);
             binding.questionsView.setVisibility(View.VISIBLE);
             binding.progressCircular.setVisibility(View.GONE);
+        });
+
+        binding.testInfoForm.setVisibility(View.GONE);
+        binding.testFormInfoBtn.setOnClickListener(v -> {
+            if (binding.testInfoForm.getVisibility() == View.GONE) {
+                TransitionManager.beginDelayedTransition(binding.testInfoForm, new AutoTransition());
+                binding.testInfoForm.setVisibility(View.VISIBLE);
+                binding.testInfoFormIcon.setImageResource(R.drawable.ic_move_up);
+            } else {
+                TransitionManager.beginDelayedTransition(binding.testInfoForm, new AutoTransition());
+                binding.testInfoForm.setVisibility(View.GONE);
+                binding.testInfoFormIcon.setImageResource(R.drawable.ic_move_down);
+            }
         });
     }
 
