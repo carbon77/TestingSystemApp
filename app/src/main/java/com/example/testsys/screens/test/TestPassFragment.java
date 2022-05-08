@@ -3,6 +3,7 @@ package com.example.testsys.screens.test;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -112,6 +113,22 @@ public class TestPassFragment extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                NavHostFragment navHostFragment = (NavHostFragment) requireActivity()
+                        .getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
+                Bundle args = new Bundle();
+                args.putString("subtitle", test.getTitle());
+                args.putString("testId", test.getId());
+
+                navHostFragment.getNavController().navigate(
+                        R.id.test_preview_fragment,
+                        args
+                );
             }
         });
     }
