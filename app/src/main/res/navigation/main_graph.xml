@@ -95,13 +95,15 @@
         <action
             android:id="@+id/action_testPassFragment_to_testPreviewFragment"
             app:destination="@id/test_preview_fragment" />
-        <argument android:name="testId" />
-        <argument android:name="testTitle" />
+        <argument android:name="testId"
+            app:argType="string" />
+        <argument android:name="testTitle"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/test_preview_fragment"
-        android:name="com.example.testsys.screens.test.TestPreviewFragment"
-        android:label="TestPreviewFragment"
+        android:name="com.example.testsys.screens.test.preview.TestPreviewFragment"
+        android:label="Result preview"
         tools:layout="@layout/test_preview_fragment">
         <action
             android:id="@+id/action_testPreviewFragment_to_tabs_fragment"
@@ -113,5 +115,8 @@
             app:destination="@id/test_pass_fragment"
             app:popUpTo="@id/test_preview_fragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="testTitle"
+            app:argType="string" />
     </fragment>
 </navigation>
