@@ -25,7 +25,6 @@ import com.example.testsys.models.question.QuestionType;
 import com.example.testsys.models.question.QuestionViewModel;
 import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestViewModel;
-import com.example.testsys.models.test.TestViewModelFactory;
 import com.example.testsys.models.user.User;
 import com.example.testsys.models.user.UserViewModel;
 import com.example.testsys.screens.test.question.QuestionFormAdapter;
@@ -73,15 +72,15 @@ public class TestFormFragment extends Fragment {
         binding.questionsView.setVisibility(View.GONE);
 
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        testViewModel = new ViewModelProvider(requireActivity()).get(TestViewModel.class);
+        questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
+        
         userViewModel.getUser().observe(getViewLifecycleOwner(), currentUser -> {
             user = currentUser;
-            testViewModel = new ViewModelProvider(
-                    requireActivity(),
-                    new TestViewModelFactory(user.getId())).get(TestViewModel.class);
-            testViewModel.getTests().observe(getViewLifecycleOwner(), this::initTest);
         });
 
-        questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
+        testViewModel.getTests().observe(getViewLifecycleOwner(), this::initTest);
+
         questionViewModel.getQuestions().observe(getViewLifecycleOwner(), questions -> {
             if (questions == null) {
                 this.questions = new ArrayList<>();

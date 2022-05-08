@@ -20,7 +20,6 @@ import com.example.testsys.databinding.TestsFragmentBinding;
 import com.example.testsys.models.question.QuestionViewModel;
 import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestViewModel;
-import com.example.testsys.models.test.TestViewModelFactory;
 import com.example.testsys.models.user.UserViewModel;
 import com.example.testsys.screens.TabsFragmentDirections;
 
@@ -58,9 +57,28 @@ public class TestsFragment extends Fragment {
         binding.btnTestForm.setOnClickListener(this::btnTestFormClick);
 
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        testViewModel = new ViewModelProvider(requireActivity()).get(TestViewModel.class);
+
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             uid = user.getId();
-            initRecylerView();
+            testViewModel.loadTests(uid);
+        });
+
+        testViewModel.getTests().observe(getViewLifecycleOwner(), tests -> {
+            this.tests = tests;
+            adapter = new TestsAdapter((AppCompatActivity) requireActivity(), tests, uid, navController);
+            binding.testsRecyclerView.setAdapter(adapter);
+            binding.testsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            if (tests.size() == 0) {
+                binding.tvNoTests.setVisibility(View.VISIBLE);
+                binding.testsRecyclerView.setVisibility(View.GONE);
+            } else {
+                binding.testsRecyclerView.setVisibility(View.VISIBLE);
+                binding.tvNoTests.setVisibility(View.GONE);
+            }
+
+            binding.progressCircular.setVisibility(View.GONE);
         });
 
         // Refreshing for tests
@@ -78,29 +96,6 @@ public class TestsFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.tests_refresh_menu, menu);
-    }
-
-    private void initRecylerView() {
-        testViewModel = new ViewModelProvider(requireActivity(), new TestViewModelFactory(uid)).get(TestViewModel.class);
-        adapter = new TestsAdapter((AppCompatActivity) requireActivity(), tests, uid, navController);
-        binding.testsRecyclerView.setAdapter(adapter);
-        binding.testsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        testViewModel.getTests().observe(getViewLifecycleOwner(), tests -> {
-            this.tests.clear();
-            this.tests.addAll(tests);
-            adapter.notifyDataSetChanged();
-
-            if (tests.size() == 0) {
-                binding.tvNoTests.setVisibility(View.VISIBLE);
-                binding.testsRecyclerView.setVisibility(View.GONE);
-            } else {
-                binding.testsRecyclerView.setVisibility(View.VISIBLE);
-                binding.tvNoTests.setVisibility(View.GONE);
-            }
-
-            binding.progressCircular.setVisibility(View.GONE);
-        });
     }
 
     private void btnTestFormClick(View view) {
