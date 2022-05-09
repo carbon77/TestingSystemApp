@@ -55,9 +55,10 @@ public class TestResultFragment extends Fragment {
                 binding.recyclerView.setAdapter(adapter);
                 binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+                int totalScores = questions.stream().map(Question::getScore).reduce(0, Integer::sum);
                 new MaterialAlertDialogBuilder(requireContext())
-                        .setTitle("Test passed")
-                        .setMessage("Scores: " + tr.getTotalScores())
+                        .setTitle(tr.isSuccessful() ? "The test is passed" : "The test is not passed")
+                        .setMessage(String.format("Scores: %.2f/%d", tr.getTotalScores(), totalScores))
                         .setPositiveButton("Close", (dialog, which) -> {
                             goToTabs();
                         })

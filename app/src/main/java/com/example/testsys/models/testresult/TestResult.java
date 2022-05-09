@@ -19,6 +19,7 @@ public class TestResult {
     private String userId;
     private String passingDate;
     private float totalScores;
+    private boolean isSuccessful;
     private Map<String, TestResultQuestion> questions;
 
     public TestResult() {
@@ -84,6 +85,14 @@ public class TestResult {
         List<TestResultQuestion> testResultQuestions = new ArrayList<>(questions.values());
         testResultQuestions.sort(Comparator.comparingInt(TestResult.TestResultQuestion::getOrder));
         return testResultQuestions;
+    }
+
+    public boolean isSuccessful() {
+        return isSuccessful;
+    }
+
+    public void setSuccessful(boolean successful) {
+        isSuccessful = successful;
     }
 
     public static class TestResultQuestion {

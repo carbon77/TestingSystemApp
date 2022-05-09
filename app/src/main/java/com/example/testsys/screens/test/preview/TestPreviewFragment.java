@@ -17,6 +17,8 @@ import com.example.testsys.models.question.Answer;
 import com.example.testsys.models.question.Question;
 import com.example.testsys.models.question.QuestionType;
 import com.example.testsys.models.question.QuestionViewModel;
+import com.example.testsys.models.test.Test;
+import com.example.testsys.models.test.TestViewModel;
 import com.example.testsys.models.testresult.TestResult;
 import com.example.testsys.models.testresult.TestResultViewModel;
 
@@ -26,7 +28,9 @@ import java.util.Map;
 public class TestPreviewFragment extends Fragment {
     TestPreviewFragmentBinding binding;
     TestResultViewModel testResultViewModel;
+    TestViewModel testViewModel;
     TestResult result;
+    Test test;
     List<TestResult.TestResultQuestion> resultQuestions;
     List<Question> questions;
 
@@ -38,8 +42,11 @@ public class TestPreviewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        String testId = TestPreviewFragmentArgs.fromBundle(getArguments()).getTestId();
+
         binding = TestPreviewFragmentBinding.bind(view);
         testResultViewModel = new ViewModelProvider(requireActivity()).get(TestResultViewModel.class);
+        testViewModel = new ViewModelProvider(requireActivity()).get(TestViewModel.class);
         QuestionViewModel questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
 
         testResultViewModel.getTestResult().observe(getViewLifecycleOwner(), testResult -> {
@@ -55,10 +62,18 @@ public class TestPreviewFragment extends Fragment {
             questions = qs;
         });
 
+        testViewModel.getTests().observe(getViewLifecycleOwner(), tests -> {
+            for (Test t : tests) {
+                if (t.getId().equals(testId)) {
+                    test = t;
+                    break;
+                }
+            }
+        });
+
         binding.btnCancel.setOnClickListener(v -> {
             testResultViewModel.updateTestResult(result);
             String testTitle = TestPreviewFragmentArgs.fromBundle(getArguments()).getSubtitle();
-            String testId = TestPreviewFragmentArgs.fromBundle(getArguments()).getTestId();
             NavDirections action = TestPreviewFragmentDirections
                     .actionTestPreviewFragmentToTestPassFragment(testId, testTitle);
             NavHostFragment.findNavController(this).navigate(action);
@@ -66,6 +81,11 @@ public class TestPreviewFragment extends Fragment {
 
         binding.btnFinish.setOnClickListener(v -> {
             calculateScores();
+
+            if (test.getMinScores() <= result.getTotalScores()) {
+                result.setSuccessful(true);
+            }
+
             testResultViewModel.createTestResult(result, it -> {
                 NavDirections action = TestPreviewFragmentDirections.actionTestPreviewFragmentToTestResultFragment();
                 NavHostFragment.findNavController(this).navigate(action);
