@@ -13,6 +13,7 @@ public class Test {
     private String title;
     private String description;
     private int questionCount;
+    private int totalScores;
     private String creationDate;
     private String modificationDate;
     private int version;
@@ -107,5 +108,13 @@ public class Test {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getTotalScores() {
+        return totalScores;
+    }
+
+    public void setTotalScores(int totalScores) {
+        this.totalScores = totalScores;
     }
 }

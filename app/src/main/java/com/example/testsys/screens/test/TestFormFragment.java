@@ -183,6 +183,7 @@ public class TestFormFragment extends Fragment {
             questionViewModel.createQuestions(t.getId(), newQuestions, qs -> {
                 Map<String, Object> updates = new HashMap<>();
                 updates.put("questionCount", qs.size());
+                updates.put("totalScores", calculateTotalScores());
                 testViewModel.updateTest(t.getId(), updates, () -> {
                     testViewModel.updateTests(tests -> {});
                     navController.navigateUp();
@@ -190,6 +191,16 @@ public class TestFormFragment extends Fragment {
             });
         });
 
+    }
+
+    private int calculateTotalScores() {
+        int totalScores = 0;
+
+        for (Question question : newQuestions) {
+            totalScores += question.getScore();
+        }
+
+        return totalScores;
     }
 
     private void updateQuestions() {
@@ -305,6 +316,7 @@ public class TestFormFragment extends Fragment {
 
         if (isQuestionsModified) {
             testUpdates.put("version", test.getVersion() + 1);
+            testUpdates.put("totalScores", calculateTotalScores());
         }
 
         testUpdates.put("modificationDate", DateService.fromCalendar(new GregorianCalendar()));
