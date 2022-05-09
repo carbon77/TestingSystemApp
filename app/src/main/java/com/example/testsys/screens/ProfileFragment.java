@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.testsys.R;
 import com.example.testsys.databinding.ProfileFragmentBinding;
 import com.example.testsys.models.user.UserViewModel;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 public class ProfileFragment extends Fragment {
 
@@ -35,10 +36,16 @@ public class ProfileFragment extends Fragment {
                 goToSignIn();
                 return;
             }
-            binding.tvEmail.setText(String.format("%s: %s", getResources().getString(R.string.email), user.getEmail()));
-            binding.tvUsername.setText(String.format("%s: %s", getResources().getString(R.string.username), user.getUsername()));
-            binding.btnSingOut.setOnClickListener(this::signOut);
+
+            binding.tvDisplayName.setText(user.getDisplayName());
+            binding.tvUsername.setText("@" + user.getUsername());
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Fresco.initialize(requireContext());
     }
 
     private void goToSignIn() {
@@ -49,10 +56,5 @@ public class ProfileFragment extends Fragment {
         NavController navController = navHost.getNavController();
         NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.nav_fragment, true).build();
         navController.navigate(R.id.sign_in_fragment, null, navOptions);
-    }
-
-    public void signOut(View v) {
-        userViewModel.signOut();
-        getActivity().getViewModelStore().clear();
     }
 }
