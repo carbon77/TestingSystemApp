@@ -1,7 +1,5 @@
 package com.example.testsys.models.user;
 
-import android.net.Uri;
-
 public class User {
     private String id;
     private String email;
@@ -18,6 +16,7 @@ public class User {
         this.email = email;
         this.displayName = displayName;
         this.username = username;
+        this.avatarUrl = "";
     }
 
     public String getId() {

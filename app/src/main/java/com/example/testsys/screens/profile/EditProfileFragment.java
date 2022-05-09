@@ -55,7 +55,11 @@ public class EditProfileFragment extends Fragment {
 
             binding.etDisplayName.addTextChangedListener(new EditTextListener("displayName"));
             binding.etEmail.addTextChangedListener(new EditTextListener("email"));
-            binding.avatarView.setImageURI(user.getAvatarUrl());
+            if (user.getAvatarUrl().equals("")) {
+                binding.avatarView.setActualImageResource(R.drawable.avatar_placeholder);
+            } else {
+                binding.avatarView.setImageURI(user.getAvatarUrl());
+            }
         });
 
         binding.btnGoBack.setOnClickListener(v -> {

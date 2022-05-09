@@ -45,7 +45,11 @@ public class ProfileFragment extends Fragment {
 
             binding.tvDisplayName.setText(user.getDisplayName());
             binding.tvUsername.setText("@" + user.getUsername());
-            binding.avatarImageView.setImageURI(user.getAvatarUrl());
+            if (user.getAvatarUrl().equals("")) {
+                binding.avatarImageView.setActualImageResource(R.drawable.avatar_placeholder);
+            } else {
+                binding.avatarImageView.setImageURI(user.getAvatarUrl());
+            }
         });
     }
 
@@ -67,9 +71,27 @@ public class ProfileFragment extends Fragment {
             case R.id.edit_profile_item:
                 goToEditProfile();
                 break;
+            case R.id.sign_out_item:
+                singOut();
+                break;
         }
 
         return false;
+    }
+
+    private void singOut() {
+        requireActivity().getViewModelStore().clear();
+        NavHostFragment navHost = (NavHostFragment) requireActivity()
+                .getSupportFragmentManager()
+                .findFragmentById(R.id.main_nav_host_fragment);
+        NavOptions navOptions = new NavOptions.Builder()
+                .setPopUpTo(R.id.profile_fragment, true)
+                .build();
+        navHost.getNavController().navigate(
+                R.id.sign_in_fragment,
+                null,
+                navOptions
+        );
     }
 
     private void goToEditProfile() {
