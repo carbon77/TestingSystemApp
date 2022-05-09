@@ -18,7 +18,7 @@ public class TestResult {
     private String testId;
     private String userId;
     private String passingDate;
-    private int totalScores;
+    private float totalScores;
     private Map<String, TestResultQuestion> questions;
 
     public TestResult() {
@@ -68,11 +68,11 @@ public class TestResult {
         this.passingDate = passingDate;
     }
 
-    public int getTotalScores() {
+    public float getTotalScores() {
         return totalScores;
     }
 
-    public void setTotalScores(int totalScores) {
+    public void setTotalScores(float totalScores) {
         this.totalScores = totalScores;
     }
 
@@ -88,7 +88,7 @@ public class TestResult {
 
     public static class TestResultQuestion {
         private String text;
-        private int score;
+        private float score;
         private int order;
         private QuestionType type;
         private Map<String, Answer> answers;
@@ -116,11 +116,11 @@ public class TestResult {
             }
         }
 
-        public int getScore() {
+        public float getScore() {
             return score;
         }
 
-        public void setScore(int score) {
+        public void setScore(float score) {
             this.score = score;
         }
 
