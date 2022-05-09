@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class TestResultViewModel extends ViewModel {
@@ -19,5 +20,13 @@ public class TestResultViewModel extends ViewModel {
 
     public void createTestResult(TestResult testResult, Consumer<TestResult> completeListener) {
         TestResultService.createTestResult(testResult, completeListener);
+    }
+
+    public void loadTestResultsByTest(String testId, Consumer<List<TestResult>> completeListener) {
+        TestResultService.loadResultsByTest(testId, completeListener);
+    }
+
+    public void loadTestResultsByUser(String uid, Consumer<List<TestResult>> completeListener) {
+        TestResultService.loadResultsByUser(uid, completeListener);
     }
 }
