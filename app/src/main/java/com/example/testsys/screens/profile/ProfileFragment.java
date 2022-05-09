@@ -20,6 +20,7 @@ import com.example.testsys.R;
 import com.example.testsys.databinding.ProfileFragmentBinding;
 import com.example.testsys.models.user.UserViewModel;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class ProfileFragment extends Fragment {
 
@@ -80,18 +81,27 @@ public class ProfileFragment extends Fragment {
     }
 
     private void singOut() {
-        requireActivity().getViewModelStore().clear();
-        NavHostFragment navHost = (NavHostFragment) requireActivity()
-                .getSupportFragmentManager()
-                .findFragmentById(R.id.main_nav_host_fragment);
-        NavOptions navOptions = new NavOptions.Builder()
-                .setPopUpTo(R.id.profile_fragment, true)
-                .build();
-        navHost.getNavController().navigate(
-                R.id.sign_in_fragment,
-                null,
-                navOptions
-        );
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Sign out")
+                .setMessage("Are you sure you want to sign out?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    requireActivity().getViewModelStore().clear();
+                    NavHostFragment navHost = (NavHostFragment) requireActivity()
+                            .getSupportFragmentManager()
+                            .findFragmentById(R.id.main_nav_host_fragment);
+                    NavOptions navOptions = new NavOptions.Builder()
+                            .setPopUpTo(R.id.profile_fragment, true)
+                            .build();
+                    navHost.getNavController().navigate(
+                            R.id.sign_in_fragment,
+                            null,
+                            navOptions
+                    );
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .show();
     }
 
     private void goToEditProfile() {
