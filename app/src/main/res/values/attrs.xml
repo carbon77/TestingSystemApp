@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="rightAnswerCardColor" format="color" />
+    <attr name="wrongAnswerCardColor" format="color" />
+    <attr name="extraAnswerCardColor" format="color" />
 </resources>

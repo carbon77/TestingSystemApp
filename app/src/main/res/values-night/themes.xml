@@ -15,5 +15,7 @@
 
         <item name="strokeColor">@color/grey</item>
         <item name="rightAnswerCardColor">@color/dark_green</item>
+        <item name="wrongAnswerCardColor">@color/dark_red</item>
+        <item name="extraAnswerCardColor">@color/dark_yellow</item>
     </style>
 </resources>

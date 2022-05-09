@@ -13,7 +13,6 @@
     </style>
 
     <style name="RightAnswerCard" parent="Widget.MaterialComponents.CardView">
-        <item name="cardBackgroundColor">?rightAnswerCardColor</item>
         <item name="shapeAppearance">?attr/shapeAppearanceOverlay</item>
         <item name="cardElevation">0dp</item>
     </style>
