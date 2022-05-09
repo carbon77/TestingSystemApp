@@ -14,28 +14,29 @@
         android:layout_marginBottom="15dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_username_layout"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="wrap_content"
         android:hint="@string/username"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="10dp">
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceBody2"
             android:inputType="text"
-            />
+            android:textAppearance="?attr/textAppearanceBody2" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_email_layout"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="wrap_content"
         android:hint="@string/email"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="10dp">
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_email"
@@ -48,16 +49,36 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_password_layout"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="wrap_content"
         android:hint="@string/password"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:endIconDrawable="@drawable/ic_password_eye"
         app:endIconMode="password_toggle"
-        android:layout_marginBottom="10dp">
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:inputType="textPassword"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="wrap_content"
+        android:hint="Password confirmation"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:endIconDrawable="@drawable/ic_password_eye"
+        app:endIconMode="password_toggle"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password_confirmation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceBody2"
