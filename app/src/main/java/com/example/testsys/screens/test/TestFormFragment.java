@@ -136,6 +136,7 @@ public class TestFormFragment extends Fragment {
         binding.etTestCreateDate.setText(test.getCreationDate());
         binding.etTestModificationDate.setText(test.getModificationDate());
         binding.etTestVersion.setText(String.valueOf(test.getVersion()));
+        binding.etTestMinScores.setText(String.valueOf(test.getMinScores()));
     }
 
     @Override
@@ -179,6 +180,7 @@ public class TestFormFragment extends Fragment {
 
         test.setTitle(binding.etTestTitle.getText().toString());
         test.setDescription(binding.etTestDescription.getText().toString());
+        test.setMinScores(Integer.parseInt(binding.etTestMinScores.getText().toString()));
         testViewModel.createTest(test, t -> {
             questionViewModel.createQuestions(t.getId(), newQuestions, qs -> {
                 Map<String, Object> updates = new HashMap<>();
@@ -190,7 +192,6 @@ public class TestFormFragment extends Fragment {
                 });
             });
         });
-
     }
 
     private int calculateTotalScores() {
@@ -211,6 +212,7 @@ public class TestFormFragment extends Fragment {
 
         String testTitle = binding.etTestTitle.getText().toString();
         String testDescription = binding.etTestDescription.getText().toString();
+        int minScores = Integer.parseInt(binding.etTestMinScores.getText().toString());
         List<Question> questionsToCreate = new ArrayList<>();
         List<String> questionsToDeleteIds = new ArrayList<>();
         List<String> oldQuestionsIds = questions.stream().map(q -> q.getId()).collect(Collectors.toList());
@@ -228,6 +230,11 @@ public class TestFormFragment extends Fragment {
 
         if (!test.getDescription().equals(testDescription)) {
             testUpdates.put("description", testDescription);
+            isTestModified = true;
+        }
+
+        if (test.getMinScores() != minScores) {
+            testUpdates.put("minScores", minScores);
             isTestModified = true;
         }
 

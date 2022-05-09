@@ -14,6 +14,7 @@ public class Test {
     private String description;
     private int questionCount;
     private int totalScores;
+    private int minScores;
     private String creationDate;
     private String modificationDate;
     private int version;
@@ -116,5 +117,13 @@ public class Test {
 
     public void setTotalScores(int totalScores) {
         this.totalScores = totalScores;
+    }
+
+    public int getMinScores() {
+        return minScores;
+    }
+
+    public void setMinScores(int minScores) {
+        this.minScores = minScores;
     }
 }
