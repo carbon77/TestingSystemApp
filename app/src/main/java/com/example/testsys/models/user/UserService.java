@@ -1,8 +1,12 @@
 package com.example.testsys.models.user;
 
 import com.example.testsys.models.ModelService;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /*
@@ -77,5 +81,15 @@ public class UserService extends ModelService {
 
     public static void signOut() {
         auth.signOut();
+    }
+
+    public static void updateUser(String uid, Map<String, Object> updates, Runnable completeListener) {
+        List<Task<Void>> tasks = new ArrayList<>();
+
+        tasks.add(dbRef.child("user").child(uid).updateChildren(updates));
+
+        if (updates.containsKey("email")) {
+            tasks.add(auth.getCurrentUser().updateEmail((String) updates.get("email")));
+        }
     }
 }
