@@ -63,14 +63,23 @@ public class TestPreviewFragment extends Fragment {
                     .actionTestPreviewFragmentToTestPassFragment(testId, testTitle);
             NavHostFragment.findNavController(this).navigate(action);
         });
+
+        binding.btnFinish.setOnClickListener(v -> {
+            calculateScores();
+            testResultViewModel.createTestResult(result, it -> {
+                NavDirections action = TestPreviewFragmentDirections.actionTestPreviewFragmentToTestResultFragment();
+                NavHostFragment.findNavController(this).navigate(action);
+            });
+        });
     }
 
     private void calculateScores() {
-        int scores = 0;
+        float scores = 0;
+        float questionScores = 0;
+
         List<TestResult.TestResultQuestion> resultQuestions = result.questionsToArray();
 
         for (int i = 0; i < resultQuestions.size(); i++) {
-            int questionScores = 0;
             TestResult.TestResultQuestion resQ = resultQuestions.get(i);
             Question question = questions.get(i);
 
@@ -96,7 +105,7 @@ public class TestPreviewFragment extends Fragment {
                     }
                 }
 
-                questionScores += (question.getScore() * countCorrectAnswers) / countCorrectOptions;
+                questionScores += (question.getScore() * countCorrectAnswers) / (float) countCorrectOptions;
             }
 
             resQ.setScore(questionScores);

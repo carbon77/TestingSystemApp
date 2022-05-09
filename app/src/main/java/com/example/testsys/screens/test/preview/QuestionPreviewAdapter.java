@@ -1,6 +1,8 @@
 package com.example.testsys.screens.test.preview;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +37,13 @@ public class QuestionPreviewAdapter extends RecyclerView.Adapter<QuestionPreview
         QuestionPreviewItemBinding binding = holder.getBinding();
         binding.tvAnswerText.setText(answers.get(position).getText());
 
-        if (!answers.get(position).getCorrect()) {
-            binding.getRoot().setCardBackgroundColor(context.getResources().getColor(
-                    R.color.fui_transparent,
-                    context.getTheme()
-            ));
+        if (answers.get(position).getCorrect()) {
+            TypedValue typedValue = new TypedValue();
+            context.getTheme().resolveAttribute(R.attr.rightAnswerCardColor, typedValue, true);
+
+            binding.getRoot().setCardBackgroundColor(typedValue.data);
+        } else {
+            binding.getRoot().setCardBackgroundColor(context.getColor(R.color.fui_transparent));
         }
     }
 
