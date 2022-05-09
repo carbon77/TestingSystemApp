@@ -1,5 +1,7 @@
 package com.example.testsys.models.user;
 
+import android.net.Uri;
+
 import com.example.testsys.models.ModelService;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -97,6 +99,14 @@ public class UserService extends ModelService {
             if (task.isSuccessful()) {
                 completeListener.run();
             }
+        });
+    }
+
+    public static void uploadAvatar(String uid, Uri file, Runnable completeListener) {
+        storageRef.child("avatars").child(uid).putFile(file).addOnCompleteListener(task -> {
+           if (task.isSuccessful()) {
+               completeListener.run();
+           }
         });
     }
 }

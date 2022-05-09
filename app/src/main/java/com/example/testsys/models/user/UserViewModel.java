@@ -1,5 +1,7 @@
 package com.example.testsys.models.user;
 
+import android.net.Uri;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -45,5 +47,9 @@ public class UserViewModel extends ViewModel {
 
     public void updateUser(String uid, Map<String, Object> updates, Runnable completeListener) {
         UserService.updateUser(uid, updates, completeListener);
+    }
+
+    public void uploadAvatar(String uid, Uri file, Runnable completeListener) {
+        UserService.uploadAvatar(uid, file, completeListener);
     }
 }
