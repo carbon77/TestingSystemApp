@@ -6,6 +6,7 @@ import com.example.testsys.models.ModelService;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,10 +104,21 @@ public class UserService extends ModelService {
     }
 
     public static void uploadAvatar(String uid, Uri file, Runnable completeListener) {
-        storageRef.child("avatars").child(uid).putFile(file).addOnCompleteListener(task -> {
-           if (task.isSuccessful()) {
-               completeListener.run();
-           }
-        });
+        StorageReference avatarsRef = storageRef.child("avatars").child(uid);
+        avatarsRef.putFile(file)
+            .continueWithTask(task -> {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return avatarsRef.getDownloadUrl();
+            }).continueWithTask(task -> {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                Uri uri = task.getResult();
+                return dbRef.child("users").child(uid).child("avatarUrl").setValue(uri.toString());
+            }).addOnCompleteListener(t -> {
+                completeListener.run();
+            });
     }
 }

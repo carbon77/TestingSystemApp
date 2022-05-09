@@ -1,10 +1,13 @@
 package com.example.testsys.models.user;
 
+import android.net.Uri;
+
 public class User {
     private String id;
     private String email;
     private String displayName;
     private String username;
+    private String avatarUrl;
 
     public User() {
 
@@ -47,5 +50,13 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }
