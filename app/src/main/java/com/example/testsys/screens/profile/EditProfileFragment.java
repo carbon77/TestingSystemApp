@@ -19,6 +19,7 @@ import com.example.testsys.R;
 import com.example.testsys.databinding.EditProfileFragmentBinding;
 import com.example.testsys.models.user.User;
 import com.example.testsys.models.user.UserViewModel;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -54,6 +55,7 @@ public class EditProfileFragment extends Fragment {
 
             binding.etDisplayName.addTextChangedListener(new EditTextListener("displayName"));
             binding.etEmail.addTextChangedListener(new EditTextListener("email"));
+            binding.avatarView.setImageURI(user.getAvatarUrl());
         });
 
         binding.btnGoBack.setOnClickListener(v -> {
@@ -63,6 +65,12 @@ public class EditProfileFragment extends Fragment {
         binding.btnChangeAvatar.setOnClickListener(v -> {
             getPictureLauncher.launch("image/*");
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Fresco.initialize(requireContext());
     }
 
     private void onSaveClick(View view) {
@@ -97,6 +105,7 @@ public class EditProfileFragment extends Fragment {
             Snackbar.make(binding.getRoot(), "Uploaded", Snackbar.LENGTH_SHORT)
                     .setAnchorView(binding.buttonsLayout)
                     .show();
+            userViewModel.loadUser();
         });
     }
 

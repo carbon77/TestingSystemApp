@@ -45,6 +45,7 @@ public class ProfileFragment extends Fragment {
 
             binding.tvDisplayName.setText(user.getDisplayName());
             binding.tvUsername.setText("@" + user.getUsername());
+            binding.avatarImageView.setImageURI(user.getAvatarUrl());
         });
     }
 
