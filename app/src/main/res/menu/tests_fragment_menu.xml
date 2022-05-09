@@ -7,8 +7,4 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_data_usage"
         />
-    <item
-        android:id="@+id/tests_refresh_item"
-        android:title="Refresh"
-        app:showAsAction="never" />
 </menu>
