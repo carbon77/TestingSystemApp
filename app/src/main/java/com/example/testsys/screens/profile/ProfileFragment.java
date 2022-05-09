@@ -3,13 +3,16 @@ package com.example.testsys.screens.profile;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -55,6 +58,22 @@ public class ProfileFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.profile_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit_profile_item:
+                goToEditProfile();
+                break;
+        }
+
+        return false;
+    }
+
+    private void goToEditProfile() {
+        NavDirections action = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment();
+        NavHostFragment.findNavController(this).navigate(action);
     }
 
     private void goToSignIn() {

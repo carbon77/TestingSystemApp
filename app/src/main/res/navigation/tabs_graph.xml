@@ -9,7 +9,11 @@
         android:id="@+id/profile_fragment"
         android:name="com.example.testsys.screens.profile.ProfileFragment"
         android:label="@string/profile"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/profile_fragment" >
+        <action
+            android:id="@+id/action_profile_fragment_to_editProfileFragment"
+            app:destination="@id/edit_profile_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/settings_fragment"
         android:name="com.example.testsys.screens.SettingsFragment"
@@ -32,4 +36,9 @@
             android:name="testId"
             app:argType="string" />
     </dialog>
+    <fragment
+        android:id="@+id/edit_profile_fragment"
+        android:name="com.example.testsys.screens.profile.EditProfileFragment"
+        android:label="Edit profile"
+        tools:layout="@layout/edit_profile_fragment"/>
 </navigation>

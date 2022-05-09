@@ -26,7 +26,13 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private final int[] NO_ACTION_BAR_DESTINATIONS = {
             R.id.sign_in_fragment,
-            R.id.sign_up_fragment
+            R.id.sign_up_fragment,
+            R.id.splash_fragment,
+    };
+
+    private final int[] HOME_UP_ENABLED = {
+            R.id.test_form_fragment,
+            R.id.edit_profile_fragment,
     };
 
     private ActivityMainBinding binding;
@@ -47,7 +53,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (supportActionBar == null) return;
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(navDestination.getId() == R.id.test_form_fragment);
+
+        for (int id : HOME_UP_ENABLED) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(navDestination.getId() == id);
+        }
 
         for (int id : NO_ACTION_BAR_DESTINATIONS) {
             if (id == navDestination.getId()) {
