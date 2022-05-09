@@ -5,4 +5,9 @@
         android:id="@+id/edit_profile_item"
         android:title="Edit profile"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/settings_item"
+        android:title="Settings"
+        app:showAsAction="never"/>
 </menu>
