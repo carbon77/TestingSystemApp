@@ -53,9 +53,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (supportActionBar == null) return;
 
-
         for (int id : HOME_UP_ENABLED) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(navDestination.getId() == id);
+            if (navDestination.getId() == id) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                break;
+            } else {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            }
         }
 
         for (int id : NO_ACTION_BAR_DESTINATIONS) {
