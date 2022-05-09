@@ -100,8 +100,10 @@ public class TestPreviewFragment extends Fragment {
                         countCorrectOptions++;
                     }
 
-                    if (entry.getValue().getCorrect() && entry.getValue().getCorrect() == questionAnswer.getCorrect()) {
+                    if (entry.getValue().getCorrect() && questionAnswer.getCorrect()) {
                         countCorrectAnswers++;
+                    } else if (entry.getValue().getCorrect() && !questionAnswer.getCorrect()) {
+                        countCorrectAnswers--;
                     }
                 }
 
