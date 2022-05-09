@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/user_statistics_item"
+        android:title="Statistics"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_data_usage"
+        />
+    <item
         android:id="@+id/tests_refresh_item"
         android:title="Refresh"
         app:showAsAction="never" />

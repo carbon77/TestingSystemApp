@@ -95,7 +95,7 @@ public class TestsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.tests_refresh_menu, menu);
+        inflater.inflate(R.menu.tests_fragment_menu, menu);
     }
 
     private void btnTestFormClick(View view) {
