@@ -85,6 +85,7 @@ public class ProfileFragment extends Fragment {
                 .setTitle("Sign out")
                 .setMessage("Are you sure you want to sign out?")
                 .setPositiveButton("Yes", (dialog, which) -> {
+                    userViewModel.signOut();
                     requireActivity().getViewModelStore().clear();
                     NavHostFragment navHost = (NavHostFragment) requireActivity()
                             .getSupportFragmentManager()
