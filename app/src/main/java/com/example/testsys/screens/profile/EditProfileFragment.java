@@ -1,11 +1,14 @@
 package com.example.testsys.screens.profile;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -27,6 +30,11 @@ public class EditProfileFragment extends Fragment {
     private UserViewModel userViewModel;
     private User user;
     private Map<String, Boolean> fieldsChanged = new HashMap<>();
+
+    private ActivityResultLauncher<String> getPictureLauncher = registerForActivityResult(
+        new ActivityResultContracts.GetContent(),
+        this::uploadAvatar
+    );
 
     public EditProfileFragment() {
         super(R.layout.edit_profile_fragment);
@@ -52,6 +60,9 @@ public class EditProfileFragment extends Fragment {
             NavHostFragment.findNavController(this).navigateUp();
         });
         binding.btnSave.setOnClickListener(this::onSaveClick);
+        binding.btnChangeAvatar.setOnClickListener(v -> {
+            getPictureLauncher.launch("image/*");
+        });
     }
 
     private void onSaveClick(View view) {
@@ -79,6 +90,14 @@ public class EditProfileFragment extends Fragment {
                 userViewModel.loadUser();
             });
         }
+    }
+
+    private void uploadAvatar(Uri file) {
+        userViewModel.uploadAvatar(user.getId(), file, () -> {
+            Snackbar.make(binding.getRoot(), "Uploaded", Snackbar.LENGTH_SHORT)
+                    .setAnchorView(binding.buttonsLayout)
+                    .show();
+        });
     }
 
     public class EditTextListener implements TextWatcher {
