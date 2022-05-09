@@ -28,7 +28,11 @@
          tools:layout="@layout/sign_in_fragment">
          <action
              android:id="@+id/action_sign_in_fragment_to_sign_up_fragment"
-             app:destination="@id/sign_up_fragment" />
+             app:destination="@id/sign_up_fragment"
+             app:enterAnim="@android:anim/slide_in_left"
+             app:exitAnim="@android:anim/slide_out_right"
+             app:popEnterAnim="@android:anim/slide_in_left"
+             app:popExitAnim="@android:anim/slide_out_right" />
          <action
              android:id="@+id/action_sign_in_fragment_to_navFragment"
              app:destination="@id/tabs_fragment"
