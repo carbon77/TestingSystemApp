@@ -30,7 +30,7 @@ public class SplashFragment extends Fragment {
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             NavDirections action;
             if (user != null) {
-                action = SplashFragmentDirections.actionSplashFragmentToNavFragment();
+                action = SplashFragmentDirections.actionSplashFragmentToNavFragment(null);
             } else {
                 action = SplashFragmentDirections.actionSplashFragmentToSignInFragment();
             }

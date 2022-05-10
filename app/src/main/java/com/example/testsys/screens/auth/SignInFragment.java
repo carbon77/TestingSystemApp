@@ -57,7 +57,7 @@ public class SignInFragment extends Fragment {
             binding.etPassword.setText("");
             return;
         }
-        NavDirections action = SignInFragmentDirections.actionSignInFragmentToNavFragment();
+        NavDirections action = SignInFragmentDirections.actionSignInFragmentToNavFragment("You have signed in");
         NavHostFragment.findNavController(this).navigate(action);
     }
 }

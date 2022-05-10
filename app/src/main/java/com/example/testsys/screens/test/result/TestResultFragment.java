@@ -75,7 +75,7 @@ public class TestResultFragment extends Fragment {
     }
 
     private void goToTabs() {
-        NavDirections action = TestResultFragmentDirections.actionTestResultFragmentToTabsFragment();
+        NavDirections action = TestResultFragmentDirections.actionTestResultFragmentToTabsFragment(null);
         NavHostFragment.findNavController(this).navigate(action);
     }
 }

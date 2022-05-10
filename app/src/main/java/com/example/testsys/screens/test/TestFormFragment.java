@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -188,7 +189,11 @@ public class TestFormFragment extends Fragment {
                 updates.put("totalScores", calculateTotalScores());
                 testViewModel.updateTest(t.getId(), updates, () -> {
                     testViewModel.updateTests(tests -> {});
-                    navController.navigateUp();
+                    NavDirections action = TestFormFragmentDirections
+                            .actionTestFormFragmentToTabsFragment(
+                                    "Test has created"
+                            );
+                    NavHostFragment.findNavController(this).navigate(action);
                 });
             });
         });
@@ -331,8 +336,13 @@ public class TestFormFragment extends Fragment {
             questionViewModel.deleteQuestions(testId, questionsToDeleteIds, () -> {
                 questionViewModel.updateQuestions(testId, questionUpdates, newQs -> {
                     testViewModel.updateTest(testId, testUpdates, () -> {
-                        testViewModel.updateTests(tests -> {});
-                        navController.navigateUp();
+                        testViewModel.updateTests(tests -> {
+                            NavDirections action = TestFormFragmentDirections
+                                    .actionTestFormFragmentToTabsFragment(
+                                            "Test has updated"
+                                    );
+                            NavHostFragment.findNavController(this).navigate(action);
+                        });
                     });
                 });
             });

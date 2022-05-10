@@ -14,6 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TabsFragmentBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 public class TabsFragment extends Fragment {
     private TabsFragmentBinding binding;
@@ -32,5 +33,12 @@ public class TabsFragment extends Fragment {
         navController = navHostFragment.getNavController();
 
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
+
+        String snackbarMessage = TabsFragmentArgs.fromBundle(getArguments()).getSnackbackMessage();
+        if (snackbarMessage != null) {
+            Snackbar.make(binding.getRoot(), snackbarMessage, Snackbar.LENGTH_SHORT)
+                    .setAnchorView(binding.bottomNavigation)
+                    .show();
+        }
     }
 }
