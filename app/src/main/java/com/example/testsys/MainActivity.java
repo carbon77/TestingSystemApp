@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private final int[] HOME_UP_ENABLED = {
             R.id.test_form_fragment,
             R.id.edit_profile_fragment,
+            R.id.change_password_fragment
     };
 
     private ActivityMainBinding binding;

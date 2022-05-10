@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
@@ -68,6 +69,10 @@ public class EditProfileFragment extends Fragment {
         binding.btnSave.setOnClickListener(this::onSaveClick);
         binding.btnChangeAvatar.setOnClickListener(v -> {
             getPictureLauncher.launch("image/*");
+        });
+        binding.btnChangePassword.setOnClickListener(v -> {
+            NavDirections action = EditProfileFragmentDirections.actionEditProfileFragmentToChangePasswordFragment();
+            NavHostFragment.findNavController(this).navigate(action);
         });
     }
 
