@@ -6,7 +6,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;

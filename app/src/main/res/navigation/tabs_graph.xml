@@ -13,15 +13,7 @@
         <action
             android:id="@+id/action_profile_fragment_to_editProfileFragment"
             app:destination="@id/edit_profile_fragment" />
-        <action
-            android:id="@+id/action_profile_fragment_to_settings_fragment"
-            app:destination="@id/settings_fragment" />
     </fragment>
-    <fragment
-        android:id="@+id/settings_fragment"
-        android:name="com.example.testsys.screens.SettingsFragment"
-        android:label="Settings"
-        tools:layout="@layout/settings_fragment"/>
     <fragment
         android:id="@+id/tests_fragment"
         android:name="com.example.testsys.screens.test.TestsFragment"
