@@ -52,4 +52,12 @@ public class UserViewModel extends ViewModel {
     public void uploadAvatar(String uid, Uri file, Runnable completeListener) {
         UserService.uploadAvatar(uid, file, completeListener);
     }
+
+    public void reauthenticate(String email, String password, Runnable completeListener, Runnable cancelListener) {
+        UserService.reauthenticate(email, password, completeListener, cancelListener);
+    }
+
+    public void updatePassword(String password, Runnable completeListener) {
+        UserService.updatePassword(password, completeListener);
+    }
 }

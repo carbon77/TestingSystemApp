@@ -5,6 +5,8 @@ import android.net.Uri;
 import com.example.testsys.models.ModelService;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.StorageReference;
 
@@ -120,5 +122,24 @@ public class UserService extends ModelService {
             }).addOnCompleteListener(t -> {
                 completeListener.run();
             });
+    }
+
+    public static void reauthenticate(String email, String password, Runnable completeListener, Runnable cancelListener) {
+        AuthCredential credential = EmailAuthProvider.getCredential(email, password);
+        auth.getCurrentUser().reauthenticate(credential).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                completeListener.run();
+            } else {
+                cancelListener.run();
+            }
+        });
+    }
+
+    public static void updatePassword(String password, Runnable completeListener) {
+        auth.getCurrentUser().updatePassword(password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                completeListener.run();
+            }
+        });
     }
 }
