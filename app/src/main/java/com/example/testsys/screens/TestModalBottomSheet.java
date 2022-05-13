@@ -1,9 +1,13 @@
 package com.example.testsys.screens;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,13 +61,28 @@ public class TestModalBottomSheet extends BottomSheetDialogFragment {
             }
 
             binding.testBottomSheetTitle.setText(test.getTitle());
+
+            if (!test.getUserId().equals(user.getId())) {
+                binding.editTestBtnTestSheet.setVisibility(View.GONE);
+            } else {
+                binding.editTestBtnTestSheet.setVisibility(View.VISIBLE);
+            }
         });
 
         binding.deleteBtnTestSheet.setOnClickListener(v -> {
-            testViewModel.deleteTest(test.getId(), user.getId(), () -> {
+            testViewModel.deleteTest(test, user.getId(), () -> {
                 testViewModel.updateTests(tests -> {});
                 NavHostFragment.findNavController(this).navigateUp();
             });
+        });
+
+        binding.copyLinkBtn.setOnClickListener(v -> {
+            String link = "http://elite.testing.com/" + testId;
+            ClipboardManager clipboard = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("test link", link);
+            clipboard.setPrimaryClip(clip);
+            getDialog().dismiss();
+            Toast.makeText(requireContext(), "Copied", Toast.LENGTH_SHORT).show();
         });
 
         binding.editTestBtnTestSheet.setOnClickListener(v -> {

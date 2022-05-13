@@ -1,5 +1,6 @@
 package com.example.testsys.screens.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,9 +18,13 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.ProfileFragmentBinding;
+import com.example.testsys.models.test.TestViewModel;
 import com.example.testsys.models.user.UserViewModel;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class ProfileFragment extends Fragment {
 
@@ -36,6 +41,7 @@ public class ProfileFragment extends Fragment {
         setHasOptionsMenu(true);
         binding = ProfileFragmentBinding.bind(view);
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        TestViewModel testViewModel = new ViewModelProvider(requireActivity()).get(TestViewModel.class);
 
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             if (user == null) {
@@ -49,6 +55,17 @@ public class ProfileFragment extends Fragment {
                 binding.avatarImageView.setActualImageResource(R.drawable.avatar_placeholder);
             } else {
                 binding.avatarImageView.setImageURI(user.getAvatarUrl());
+            }
+
+            Intent intent = requireActivity().getIntent();
+            if (intent.getDataString() != null) {
+                try {
+                    URL path = new URL(intent.getDataString());
+                    String testId = path.getPath().substring(1);
+                    testViewModel.addTest(user.getId(), testId, () -> {});
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

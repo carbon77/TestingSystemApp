@@ -17,10 +17,12 @@ import com.example.testsys.models.test.Test;
 import com.example.testsys.models.test.TestViewModel;
 import com.example.testsys.models.testresult.TestResult;
 import com.example.testsys.models.testresult.TestResultViewModel;
+import com.example.testsys.models.user.UserViewModel;
 
 public class TestDetailFragment extends Fragment {
     private TestDetailFragmentBinding binding;
     private String testId;
+    private String userId;
     private Test test;
     private TestViewModel testViewModel;
 
@@ -38,6 +40,7 @@ public class TestDetailFragment extends Fragment {
         testViewModel = new ViewModelProvider(requireActivity()).get(TestViewModel.class);
         QuestionViewModel questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
         TestResultViewModel testResultViewModel = new ViewModelProvider(requireActivity()).get(TestResultViewModel.class);
+        UserViewModel userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         testViewModel.getTests().observe(getViewLifecycleOwner(), tests -> {
             for (Test t : tests) {
@@ -59,8 +62,12 @@ public class TestDetailFragment extends Fragment {
             }
         });
 
-        questionViewModel.getQuestions().observe(getViewLifecycleOwner(), questions -> {
-            testResultViewModel.updateTestResult(new TestResult(test, questions));
+        userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            userId = user.getId();
+
+            questionViewModel.getQuestions().observe(getViewLifecycleOwner(), questions -> {
+                testResultViewModel.updateTestResult(new TestResult(test, userId, questions));
+            });
         });
 
         binding.btnTestCancel.setOnClickListener(v -> {
