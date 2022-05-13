@@ -26,9 +26,9 @@ public class TestResult {
 
     }
 
-    public TestResult(Test test, List<Question> questions) {
+    public TestResult(Test test, String uid, List<Question> questions) {
         this.testId = test.getId();
-        this.userId = test.getUserId();
+        this.userId = uid;
         this.passingDate = DateService.fromCalendar(new GregorianCalendar());
         this.questions = new HashMap<>();
 
