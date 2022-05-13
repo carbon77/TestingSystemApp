@@ -31,8 +31,8 @@ public class TestViewModel extends ViewModel {
         });
     }
 
-    public void deleteTest(String testId, String uid, Runnable completeListener) {
-        TestService.deleteTest(testId, uid, completeListener);
+    public void deleteTest(Test test, String uid, Runnable completeListener) {
+        TestService.deleteTest(test, uid, completeListener);
     }
 
     public void updateTest(String testId, Map<String, Object> updates, Runnable completeListener) {
@@ -46,5 +46,9 @@ public class TestViewModel extends ViewModel {
         TestService.loadTestsByUid(uid, tests -> {
             this.tests.setValue(tests);
         });
+    }
+
+    public void addTest(String uid, String testId, Runnable completeListener) {
+        TestService.addTest(uid, testId, completeListener);
     }
 }

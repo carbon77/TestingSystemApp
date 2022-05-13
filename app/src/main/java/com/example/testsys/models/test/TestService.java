@@ -1,8 +1,11 @@
 package com.example.testsys.models.test;
 
+import androidx.annotation.NonNull;
+
 import com.example.testsys.models.ModelService;
 import com.example.testsys.models.user.User;
 import com.example.testsys.utils.DateService;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
@@ -72,21 +75,36 @@ public class TestService extends ModelService {
         });
     }
 
-    static public void deleteTest(String testId, String uid, Runnable completeListener) {
+    static public void deleteTest(Test test, String uid, Runnable completeListener) {
         List<Task<Void>> tasks = new ArrayList<>();
-        tasks.add(dbRef.child("tests").child(testId).removeValue());
+        String testId = test.getId();
+
+        if (test.getUserId().equals(uid)) {
+            tasks.add(dbRef.child("tests").child(testId).removeValue());
+            tasks.add(dbRef.child("questions").child(testId).removeValue());
+            tasks.add(dbRef.child("testTestResult").child(testId).get()
+                .continueWithTask(task -> {
+                    List<Task<Void>> taskList = new ArrayList<>();
+
+                    for (DataSnapshot snapshot : task.getResult().getChildren()) {
+                        taskList.add(dbRef.child("testResults").child(snapshot.getKey()).removeValue());
+                        taskList.add(dbRef.child("userTestResult").child(uid).child(snapshot.getKey()).removeValue());
+                    }
+
+                    return Tasks.whenAll(taskList);
+                }));
+            tasks.add(dbRef.child("testTestResult").child(testId).removeValue());
+        }
+
         tasks.add(dbRef.child("userTest").child(uid).child(testId).removeValue());
         tasks.add(dbRef.child("testUser").child(testId).child(uid).removeValue());
-        tasks.add(dbRef.child("questions").child(testId).removeValue());
         tasks.add(dbRef.child("testTestResult").child(testId).get().continueWith(testResultsSnapshot -> {
             for (DataSnapshot testResultSnapshot : testResultsSnapshot.getResult().getChildren()) {
-                dbRef.child("testResults").child(testResultSnapshot.getKey()).removeValue();
                 dbRef.child("userTestResult").child(uid).child(testResultSnapshot.getKey()).removeValue();
             }
 
             return null;
         }));
-        tasks.add(dbRef.child("testTestResult").child(testId).removeValue());
 
         Tasks.whenAll(tasks).addOnSuccessListener(v -> {
             completeListener.run();
@@ -103,6 +121,16 @@ public class TestService extends ModelService {
                         test.setId(dataSnapshot.getKey());
                         completeListener.accept(test);
                     });
+                });
+    }
+
+    static public void addTest(String uid, String testId, Runnable completeListener) {
+        dbRef.child("userTest").child(uid).child(testId).setValue(true)
+                .continueWithTask(task -> dbRef.child("testUser").child(testId).child(uid).setValue(true))
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        completeListener.run();
+                    }
                 });
     }
 }
