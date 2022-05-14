@@ -16,4 +16,4 @@
 3. Для взаимодействия между UI и данными используется архитектура MVVM
 
 ### Граф фрагментов приложения
-![Fragments graph](assets/Testing system graph.drawio.png "Fragments graph")
+![Fragments graph](assets/"Testing system graph.drawio.png" "Fragments graph")
