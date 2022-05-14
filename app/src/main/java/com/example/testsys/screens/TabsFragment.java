@@ -34,11 +34,12 @@ public class TabsFragment extends Fragment {
 
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
 
-        String snackbarMessage = TabsFragmentArgs.fromBundle(getArguments()).getSnackbackMessage();
+        String snackbarMessage = TabsFragmentArgs.fromBundle(getArguments()).getSnackbarMessage();
         if (snackbarMessage != null) {
             Snackbar.make(binding.getRoot(), snackbarMessage, Snackbar.LENGTH_SHORT)
                     .setAnchorView(binding.bottomNavigation)
                     .show();
+            getArguments().putString("snackbarMessage", null);
         }
     }
 }
