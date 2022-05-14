@@ -79,4 +79,30 @@ public class TestResultService extends ModelService {
             });
         });
     }
+
+    static public void loadResults(String uid, String testId, Consumer<List<TestResult>> completeListener) {
+        dbRef.child("userTestResult").child(uid).get().addOnCompleteListener(task -> {
+            List<Task<Void>> tasks = new ArrayList<>();
+            List<TestResult> trs = new ArrayList<>();
+            if (task.isSuccessful()) {
+                for (DataSnapshot snapshot : task.getResult().getChildren()) {
+                    String trId = snapshot.getKey();
+
+                    tasks.add(dbRef.child("testResults").child(trId).get().continueWith(t -> {
+                        if (t.isSuccessful()) {
+                            TestResult tr = t.getResult().getValue(TestResult.class);
+                            if (tr.getTestId().equals(testId)) {
+                                trs.add(tr);
+                            }
+                        }
+                        return null;
+                    }));
+                }
+
+                Tasks.whenAll(tasks).addOnSuccessListener(v -> {
+                    completeListener.accept(trs);
+                });
+            }
+        });
+    }
 }

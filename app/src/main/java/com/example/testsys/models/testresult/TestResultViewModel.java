@@ -29,4 +29,8 @@ public class TestResultViewModel extends ViewModel {
     public void loadTestResultsByUser(String uid, Consumer<List<TestResult>> completeListener) {
         TestResultService.loadResultsByUser(uid, completeListener);
     }
+
+    public void loadResults(String uid, String testId, Consumer<List<TestResult>> completeListener) {
+        TestResultService.loadResults(uid, testId, completeListener);
+    }
 }
