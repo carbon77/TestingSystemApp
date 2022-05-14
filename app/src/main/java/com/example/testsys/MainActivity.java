@@ -33,7 +33,16 @@ public class MainActivity extends AppCompatActivity {
     private final int[] HOME_UP_ENABLED = {
             R.id.test_form_fragment,
             R.id.edit_profile_fragment,
-            R.id.change_password_fragment
+            R.id.change_password_fragment,
+            R.id.test_results_fragment
+    };
+
+    private final int[] IS_SUBTITLE = {
+            R.id.question_pass_fragment,
+            R.id.test_result_fragment,
+            R.id.test_pass_fragment,
+            R.id.test_preview_fragment,
+            R.id.test_results_fragment
     };
 
     private ActivityMainBinding binding;
@@ -72,9 +81,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if (navDestination.getId() == R.id.question_pass_fragment ||
-                navDestination.getId() == R.id.test_pass_fragment ||
-                navDestination.getId() == R.id.test_preview_fragment) {
+        if (Arrays.stream(IS_SUBTITLE).anyMatch(id -> id == navDestination.getId())) {
             supportActionBar.setTitle(navDestination.getLabel());
             supportActionBar.setSubtitle(bundle.getString("subtitle"));
             return;

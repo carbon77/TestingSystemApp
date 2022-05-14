@@ -13,7 +13,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/test_preview_actions_view">
+        app:layout_constraintBottom_toTopOf="@id/test_preview_actions_view"
+        android:layout_margin="16dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 

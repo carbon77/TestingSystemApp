@@ -87,7 +87,8 @@ public class TestPreviewFragment extends Fragment {
             }
 
             testResultViewModel.createTestResult(result, it -> {
-                NavDirections action = TestPreviewFragmentDirections.actionTestPreviewFragmentToTestResultFragment();
+                NavDirections action = TestPreviewFragmentDirections
+                        .actionTestPreviewFragmentToTestResultFragment(test.getTitle());
                 NavHostFragment.findNavController(this).navigate(action);
             });
         });
@@ -95,18 +96,18 @@ public class TestPreviewFragment extends Fragment {
 
     private void calculateScores() {
         float scores = 0;
-        float questionScores = 0;
 
         List<TestResult.TestResultQuestion> resultQuestions = result.questionsToArray();
 
         for (int i = 0; i < resultQuestions.size(); i++) {
+            float questionScores = 0;
             TestResult.TestResultQuestion resQ = resultQuestions.get(i);
             Question question = questions.get(i);
 
             if (resQ.getType() == QuestionType.RADIO) {
                 for (Map.Entry<String, Answer> entry : resQ.getAnswers().entrySet()) {
                     Answer questionAnswer = question.getAnswers().get(entry.getKey());
-                    if (entry.getValue().getCorrect() && entry.getValue().getCorrect() == questionAnswer.getCorrect()) {
+                    if (entry.getValue().getCorrect() && questionAnswer.getCorrect()) {
                         questionScores += question.getScore();
                     }
                 }

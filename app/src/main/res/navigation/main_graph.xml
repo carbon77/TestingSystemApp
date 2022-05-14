@@ -69,9 +69,12 @@
              android:id="@+id/action_tabs_fragment_to_testDetailFragment"
              app:destination="@id/testDetailFragment" />
          <argument
-             android:name="snackbackMessage"
+             android:name="snackbarMessage"
              app:argType="string"
              app:nullable="true" />
+         <action
+             android:id="@+id/action_tabs_fragment_to_testResultsFragment"
+             app:destination="@id/test_results_fragment" />
      </fragment>
      <fragment
          android:id="@+id/test_form_fragment"
@@ -149,5 +152,20 @@
             app:destination="@id/tabs_fragment"
             app:popUpTo="@id/test_result_fragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="subtitle"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/test_results_fragment"
+        android:name="com.example.testsys.screens.test.TestResultsFragment"
+        android:label="Test resutls" >
+        <argument
+            android:name="testId"
+            app:argType="string" />
+        <argument android:name="subtitle" />
+        <action
+            android:id="@+id/action_test_results_fragment_to_test_result_fragment"
+            app:destination="@id/test_result_fragment" />
     </fragment>
 </navigation>

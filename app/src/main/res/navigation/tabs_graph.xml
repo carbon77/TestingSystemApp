@@ -26,7 +26,8 @@
     <dialog
         android:id="@+id/testModalBottomSheet"
         android:name="com.example.testsys.screens.TestModalBottomSheet"
-        android:label="Tests">
+        android:label="Tests"
+        tools:layout="@layout/test_bottom_sheet">
         <argument
             android:name="testId"
             app:argType="string" />

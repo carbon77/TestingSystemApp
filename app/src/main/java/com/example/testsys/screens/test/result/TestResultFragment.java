@@ -1,10 +1,7 @@
 package com.example.testsys.screens.test.result;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.TokenWatcher;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,9 +18,7 @@ import com.example.testsys.models.question.QuestionViewModel;
 import com.example.testsys.models.testresult.TestResultViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 public class TestResultFragment extends Fragment {
     private TestResultFragmentBinding binding;
@@ -42,11 +37,11 @@ public class TestResultFragment extends Fragment {
         testResultViewModel = new ViewModelProvider(requireActivity()).get(TestResultViewModel.class);
         questionViewModel = new ViewModelProvider(requireActivity()).get(QuestionViewModel.class);
 
-
         questionViewModel.getQuestions().observe(getViewLifecycleOwner(), questions -> {
             questions.sort(Comparator.comparingInt(Question::getOrder));
 
             testResultViewModel.getTestResult().observe(getViewLifecycleOwner(), tr -> {
+                int totalScores = questions.stream().map(Question::getScore).reduce(0, Integer::sum);
                 QuestionResultAdapter adapter = new QuestionResultAdapter(
                         requireContext(),
                         tr.questionsToArray(),
@@ -54,8 +49,11 @@ public class TestResultFragment extends Fragment {
                 );
                 binding.recyclerView.setAdapter(adapter);
                 binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                String status = tr.isSuccessful() ? "Passed" : "Not passed";
+                binding.tvStatus.setText(status);
+                binding.tvPassed.setText(tr.getPassingDate());
+                binding.tvScores.setText(String.format("%.2f/%d", tr.getTotalScores(), totalScores));
 
-                int totalScores = questions.stream().map(Question::getScore).reduce(0, Integer::sum);
                 new MaterialAlertDialogBuilder(requireContext())
                         .setTitle(tr.isSuccessful() ? "The test is passed" : "The test is not passed")
                         .setMessage(String.format("Scores: %.2f/%d", tr.getTotalScores(), totalScores))
