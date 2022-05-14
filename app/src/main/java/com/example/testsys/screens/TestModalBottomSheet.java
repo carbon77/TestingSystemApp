@@ -107,7 +107,7 @@ public class TestModalBottomSheet extends BottomSheetDialogFragment {
                         .findFragmentById(R.id.main_nav_host_fragment);
 
                 getDialog().dismiss();
-                navHost.getNavController().navigate(R.id.testDetailFragment, args);
+                navHost.getNavController().navigate(R.id.test_detail_fragment, args);
             });
         });
 
