@@ -59,4 +59,7 @@
     <string name="view_the_result">View the result</string>
     <string name="not_passed">Not passed</string>
     <string name="add_answer">Add answer</string>
+    <string name="registration">Registration</string>
+    <string name="sign_out_confirmation">Are you sure you want to sign out?</string>
+    <string name="yes">Yes</string>
 </resources>

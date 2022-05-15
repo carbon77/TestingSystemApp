@@ -60,4 +60,7 @@
     <string name="view_the_result">Посмотреть результат</string>
     <string name="not_passed">Не пройден</string>
     <string name="add_answer">Добавить ответ</string>
+    <string name="registration">Регистрация</string>
+    <string name="sign_out_confirmation">Вы уверены, что хотите выйти?</string>
+    <string name="yes">Да</string>
 </resources>

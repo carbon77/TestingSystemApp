@@ -98,9 +98,9 @@ public class ProfileFragment extends Fragment {
 
     private void singOut() {
         new MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Sign out")
-                .setMessage("Are you sure you want to sign out?")
-                .setPositiveButton("Yes", (dialog, which) -> {
+                .setTitle(getString(R.string.sign_out))
+                .setMessage(getString(R.string.sign_out_confirmation))
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     userViewModel.signOut();
                     requireActivity().getViewModelStore().clear();
                     NavHostFragment navHost = (NavHostFragment) requireActivity()
@@ -115,7 +115,7 @@ public class ProfileFragment extends Fragment {
                             navOptions
                     );
                 })
-                .setNegativeButton("Cancel", (dialog, which) -> {
+                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
                     dialog.dismiss();
                 })
                 .show();

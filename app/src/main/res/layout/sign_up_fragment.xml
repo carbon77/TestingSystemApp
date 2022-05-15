@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sign_up"
+        android:text="@string/registration"
         android:textAppearance="?attr/textAppearanceHeadline4"
         android:layout_marginBottom="15dp"/>
 
@@ -91,7 +91,7 @@
         android:id="@+id/btn_sign_up"
         android:layout_width="@dimen/btn_width_auth"
         android:layout_height="wrap_content"
-        android:text="@string/sign_up" />
+        android:text="@string/create_an_account" />
 
     <Button
         android:id="@+id/btn_go_back"
