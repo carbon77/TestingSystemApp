@@ -133,6 +133,6 @@ public class ProfileFragment extends Fragment {
                         .findFragmentById(R.id.main_nav_host_fragment);
         NavController navController = navHost.getNavController();
         NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.nav_fragment, true).build();
-        navController.navigate(R.id.sign_in_fragment, null, navOptions);
+        navController.navigate(R.id.auth_graph, null, navOptions);
     }
 }

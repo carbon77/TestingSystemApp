@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testsys.R;
 import com.example.testsys.databinding.TestResultCardBinding;
+import com.example.testsys.models.question.QuestionViewModel;
 import com.example.testsys.models.test.Test;
 import com.example.testsys.models.testresult.TestResult;
 import com.example.testsys.models.testresult.TestResultViewModel;
@@ -25,6 +26,7 @@ public class TestResultsAdapter extends RecyclerView.Adapter<TestResultsAdapter.
     private int totalScores;
     private AppCompatActivity activity;
     private TestResultViewModel testResultViewModel;
+    private QuestionViewModel questionViewModel;
 
     public TestResultsAdapter(Test test, List<TestResult> testResults, int totalScores, AppCompatActivity activity) {
         this.test = test;
@@ -37,6 +39,7 @@ public class TestResultsAdapter extends RecyclerView.Adapter<TestResultsAdapter.
     @Override
     public TestResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         testResultViewModel = new ViewModelProvider(activity).get(TestResultViewModel.class);
+        questionViewModel = new ViewModelProvider(activity).get(QuestionViewModel.class);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.test_result_card, parent, false);
         return new TestResultViewHolder(view);
     }
@@ -54,13 +57,15 @@ public class TestResultsAdapter extends RecyclerView.Adapter<TestResultsAdapter.
         binding.tvTestResultScores.setText(scores);
         binding.tvNumber.setText(String.valueOf(position + 1));
         binding.getRoot().setOnClickListener(v -> {
-            testResultViewModel.updateTestResult(testResult);
-            NavDirections action = TestResultsFragmentDirections
-                    .actionTestResultsFragmentToTestResultFragment(test.getTitle());
-            NavHostFragment navHost = (NavHostFragment) activity
-                    .getSupportFragmentManager()
-                    .findFragmentById(R.id.main_nav_host_fragment);
-            navHost.getNavController().navigate(action);
+            questionViewModel.updateTestId(test.getId(), () -> {
+                testResultViewModel.updateTestResult(testResult);
+                NavDirections action = TestResultsFragmentDirections
+                        .actionTestResultsFragmentToTestResultFragment(test.getTitle());
+                NavHostFragment navHost = (NavHostFragment) activity
+                        .getSupportFragmentManager()
+                        .findFragmentById(R.id.main_nav_host_fragment);
+                navHost.getNavController().navigate(action);
+            });
         });
     }
 
