@@ -18,5 +18,5 @@
 ### Граф фрагментов приложения
 ![Fragments graph](assets/graph.png "Fragments graph")
 
-###
-![Video](assets/testing_system_video.gif | width=100)
+### Видео, демонстирирующее создание и прохождение теста
+<img src="assets/testing_system_video.gif" width="280">
