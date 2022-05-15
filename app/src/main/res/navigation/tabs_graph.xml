@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/tests_fragment"
         android:name="com.example.testsys.screens.test.TestsFragment"
-        android:label="Tests"
+        android:label="@string/tests"
         tools:layout="@layout/tests_fragment">
         <action
             android:id="@+id/action_tests_fragment_to_testModalBottomSheet"
@@ -26,7 +26,7 @@
     <dialog
         android:id="@+id/testModalBottomSheet"
         android:name="com.example.testsys.screens.TestModalBottomSheet"
-        android:label="Tests"
+        android:label="@string/tests"
         tools:layout="@layout/test_bottom_sheet">
         <argument
             android:name="testId"
@@ -35,7 +35,7 @@
     <fragment
         android:id="@+id/edit_profile_fragment"
         android:name="com.example.testsys.screens.profile.EditProfileFragment"
-        android:label="Edit profile"
+        android:label="@string/edit_profile"
         tools:layout="@layout/edit_profile_fragment">
         <action
             android:id="@+id/action_edit_profile_fragment_to_changePasswordFragment"
@@ -44,6 +44,6 @@
     <fragment
         android:id="@+id/change_password_fragment"
         android:name="com.example.testsys.screens.profile.ChangePasswordFragment"
-        android:label="Change password"
+        android:label="@string/change_password"
         tools:layout="@layout/change_password_fragment" />
 </navigation>

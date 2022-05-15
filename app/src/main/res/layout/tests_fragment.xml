@@ -10,7 +10,7 @@
         android:id="@+id/tv_no_tests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="You don't have tests"
+        android:text="@string/you_don_t_have_tests"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

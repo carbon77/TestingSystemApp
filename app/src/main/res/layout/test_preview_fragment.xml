@@ -34,14 +34,14 @@
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
+            android:text="@string/cancel"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
         <Button
             android:id="@+id/btn_finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Finish test"
+            android:text="@string/finish_test"
             android:layout_marginLeft="16dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,18 +49,23 @@ public class TestResultFragment extends Fragment {
                 );
                 binding.recyclerView.setAdapter(adapter);
                 binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-                String status = tr.isSuccessful() ? "Passed" : "Not passed";
+                String status = tr.isSuccessful() ? getString(R.string.passed) : getString(R.string.not_passed);
                 binding.tvStatus.setText(status);
                 binding.tvPassed.setText(tr.getPassingDate());
                 binding.tvScores.setText(String.format("%.2f/%d", tr.getTotalScores(), totalScores));
 
                 new MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(tr.isSuccessful() ? "The test is passed" : "The test is not passed")
-                        .setMessage(String.format("Scores: %.2f/%d", tr.getTotalScores(), totalScores))
-                        .setPositiveButton("Close", (dialog, which) -> {
+                        .setTitle(status)
+                        .setMessage(String.format(
+                                "%s: %.2f/%d",
+                                getString(R.string.scores),
+                                tr.getTotalScores(),
+                                totalScores
+                        ))
+                        .setPositiveButton(getString(R.string.close), (dialog, which) -> {
                             goToTabs();
                         })
-                        .setNegativeButton("View the result", ((dialog, which) -> {
+                        .setNegativeButton(getString(R.string.view_the_result), ((dialog, which) -> {
                             dialog.dismiss();
                         }))
                         .show();

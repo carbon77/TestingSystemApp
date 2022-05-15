@@ -27,15 +27,15 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_weight="1"
-                    android:text="Status"
+                    android:text="@string/status"
                     android:textAppearance="?attr/textAppearanceBody1"/>
                 <TextView
                     android:layout_weight="1"
-                    android:text="Scores"
+                    android:text="@string/scores"
                     android:textAppearance="?attr/textAppearanceBody1"/>
                 <TextView
                     android:layout_weight="1"
-                    android:text="Passed"
+                    android:text="@string/passed"
                     android:textAppearance="?attr/textAppearanceBody1"/>
             </TableRow>
 
@@ -84,6 +84,6 @@
             android:id="@+id/btn_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Close" />
+            android:text="@string/close" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

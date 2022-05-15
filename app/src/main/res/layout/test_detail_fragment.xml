@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minWidth="120dp"
-                    android:text="Author: "/>
+                    android:text="@string/author"/>
                 <TextView
                     android:id="@+id/tv_test_author"
                     android:layout_width="match_parent"
@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minWidth="120dp"
-                    android:text="Question count: "/>
+                    android:text="@string/question_count"/>
                 <TextView
                     android:id="@+id/tv_test_question_count"
                     android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minWidth="120dp"
-                    android:text="Created: "/>
+                    android:text="@string/created"/>
                 <TextView
                     android:id="@+id/tv_test_created"
                     android:layout_width="match_parent"

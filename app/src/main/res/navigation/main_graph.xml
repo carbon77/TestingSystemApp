@@ -47,7 +47,7 @@
      <fragment
          android:id="@+id/test_form_fragment"
          android:name="com.example.testsys.screens.test.TestFormFragment"
-         android:label="Test form"
+         android:label="@string/test_form"
          tools:layout="@layout/test_form_fragment">
          <argument
              android:name="testId"
@@ -62,7 +62,7 @@
      <fragment
          android:id="@+id/test_detail_fragment"
          android:name="com.example.testsys.screens.test.TestDetailFragment"
-         android:label="Test"
+         android:label="@string/test_detail"
          tools:layout="@layout/test_detail_fragment">
          <argument android:name="testId" />
          <action
@@ -74,7 +74,7 @@
     <fragment
         android:id="@+id/test_pass_fragment"
         android:name="com.example.testsys.screens.test.TestPassFragment"
-        android:label="Test passing"
+        android:label="@string/test_passing"
         tools:layout="@layout/test_pass_fragment">
         <action
             android:id="@+id/action_testPassFragment_to_testPreviewFragment"
@@ -91,7 +91,7 @@
     <fragment
         android:id="@+id/test_preview_fragment"
         android:name="com.example.testsys.screens.test.preview.TestPreviewFragment"
-        android:label="Result preview"
+        android:label="@string/result_preview"
         tools:layout="@layout/test_preview_fragment">
         <action
             android:id="@+id/action_test_preview_fragment_to_test_pass_fragment"
@@ -113,7 +113,7 @@
     <fragment
         android:id="@+id/test_result_fragment"
         android:name="com.example.testsys.screens.test.result.TestResultFragment"
-        android:label="Test result"
+        android:label="@string/test_result"
         tools:layout="@layout/test_result_fragment">
         <action
             android:id="@+id/action_test_result_fragment_to_tabs_fragment"
@@ -127,7 +127,7 @@
     <fragment
         android:id="@+id/test_results_fragment"
         android:name="com.example.testsys.screens.test.TestResultsFragment"
-        android:label="Test results"
+        android:label="@string/test_results"
         tools:layout="@layout/test_results_fragment">
         <argument
             android:name="testId"

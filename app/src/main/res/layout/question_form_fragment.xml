@@ -50,7 +50,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Text"
+            android:hint="@string/text"
             app:hintTextAppearance="@style/TextAppearance.AppCompat.Small"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:minWidth="220dp"
-                android:hint="Type"
+                android:hint="@string/type"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
                 <AutoCompleteTextView
@@ -84,7 +84,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Score"
+                android:hint="@string/score"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -104,7 +104,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Answers"
+                android:text="@string/answers"
                 android:textSize="18dp"
                 android:textColor="@color/grey"
                 app:layout_constraintTop_toTopOf="parent"
@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 app:icon="@drawable/ic_plus"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:text="Add question"/>
+                android:text="@string/add_answer"/>
         </LinearLayout>
     </LinearLayout>
 

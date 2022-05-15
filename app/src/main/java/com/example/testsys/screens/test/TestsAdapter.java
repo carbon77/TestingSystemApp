@@ -42,9 +42,15 @@ public class TestsAdapter extends RecyclerView.Adapter<TestsAdapter.TestViewHold
         Test test = tests.get(position);
 
         binding.testCardText.setText(test.getTitle());
-        binding.testCardAuthor.setText("Author: " + test.getUserUsername());
-        binding.testCreationDate.setText("Created: " + test.getCreationDate());
-        binding.testCardQuestionCount.setText("Question count: " + test.getQuestionCount());
+        binding.testCardAuthor.setText(
+                String.format("%s: %s", activity.getString(R.string.author), test.getUserUsername())
+        );
+        binding.testCreationDate.setText(
+                String.format("%s: %s", activity.getString(R.string.created), test.getCreationDate())
+        );
+        binding.testCardQuestionCount.setText(
+                String.format("%s: %d", activity.getString(R.string.question_count), test.getQuestionCount())
+        );
         binding.getRoot().setOnClickListener(v -> {
             NavDirections action = TestsFragmentDirections.actionTestsFragmentToTestModalBottomSheet(test.getId());
             navController.navigate(action);

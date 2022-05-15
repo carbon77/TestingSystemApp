@@ -71,7 +71,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="wrap_content"
-        android:hint="Password confirmation"
+        android:hint="@string/password_confirmation"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:endIconDrawable="@drawable/ic_password_eye"
         app:endIconMode="password_toggle"

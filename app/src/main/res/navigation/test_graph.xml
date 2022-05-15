@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/question_pass_fragment"
         android:name="com.example.testsys.screens.test.question.QuestionPassFragment"
-        android:label="Test passing"
+        android:label="@string/test_passing"
         tools:layout="@layout/question_pass_fragment">
         <argument
             android:name="progress"

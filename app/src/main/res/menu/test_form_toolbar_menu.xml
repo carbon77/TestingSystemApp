@@ -4,11 +4,11 @@
     <item
         android:id="@+id/add_question_item"
         android:icon="@drawable/ic_plus"
-        android:title="Add question"
+        android:title="@string/add_question"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/save_test_item"
         android:icon="@drawable/ic_check"
-        android:title="Save question"
+        android:title="@string/save_question"
         app:showAsAction="ifRoom"/>
 </menu>

@@ -16,7 +16,7 @@
         android:id="@+id/et_answer_text_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Text"
+        android:hint="@string/text"
         app:hintTextAppearance="@style/TextAppearance.AppCompat.Small"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintTop_toTopOf="parent"

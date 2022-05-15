@@ -43,21 +43,21 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Previous" />
+            android:text="@string/previous" />
 
         <Button
             android:id="@+id/btn_test_pass_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Next" />
+            android:text="@string/next" />
 
         <Button
             android:id="@+id/btn_test_pass_finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Finish test" />
+            android:text="@string/finish_test" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

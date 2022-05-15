@@ -52,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="Start test"/>
+                    android:text="@string/start_test"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="Results"/>
+                    android:text="@string/results"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="Copy link"/>
+                    android:text="@string/copy_link"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -134,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="Edit test"/>
+                    android:text="@string/edit_test"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -157,12 +157,13 @@
                     android:layout_marginEnd="10dp"
                     app:tint="?attr/colorError"
                     />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="Delete test"
-                    android:textColor="?attr/colorError"/>
+                    android:text="@string/delete_test"
+                    android:textColor="?attr/colorError"
+                    android:textSize="20sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
