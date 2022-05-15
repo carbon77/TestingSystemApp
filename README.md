@@ -19,4 +19,4 @@
 ![Fragments graph](assets/graph.png "Fragments graph")
 
 ###
-![Video](assets/testing_system_video.gif)
+![Video](assets/testing_system_video.gif | width=100)
