@@ -19,4 +19,4 @@
 ![Fragments graph](assets/graph.png "Fragments graph")
 
 ###
-[Video](https://github.com/carbon77/TestingSystemApp/blob/master/assets/testing_system_video.gif)
+![Video](assets/testing_system_video.gif)
