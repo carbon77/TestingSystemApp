@@ -191,7 +191,7 @@ public class TestFormFragment extends Fragment {
                     testViewModel.updateTests(tests -> {});
                     NavDirections action = TestFormFragmentDirections
                             .actionTestFormFragmentToTabsFragment(
-                                    "Test has created"
+                                    getString(R.string.test_has_created)
                             );
                     NavHostFragment.findNavController(this).navigate(action);
                 });
@@ -339,7 +339,7 @@ public class TestFormFragment extends Fragment {
                         testViewModel.updateTests(tests -> {
                             NavDirections action = TestFormFragmentDirections
                                     .actionTestFormFragmentToTabsFragment(
-                                            "Test has updated"
+                                            getString(R.string.test_has_updated)
                                     );
                             NavHostFragment.findNavController(this).navigate(action);
                         });

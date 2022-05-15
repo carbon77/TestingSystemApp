@@ -59,13 +59,13 @@ public class ChangePasswordFragment extends Fragment {
                 binding.etOldPassword.getText().toString(),
                 () -> {
                     userViewModel.updatePassword(binding.etNewPassword.getText().toString(), () -> {
-                        Snackbar.make(binding.getRoot(), "Password has changed", Snackbar.LENGTH_SHORT)
+                        Snackbar.make(binding.getRoot(), getString(R.string.password_has_changed), Snackbar.LENGTH_SHORT)
                                 .setAnchorView(binding.actionsView)
                                 .show();
                     });
                 },
                 () -> {
-                    Snackbar.make(binding.getRoot(), "Incorrect password", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(binding.getRoot(), getString(R.string.incorrect_password), Snackbar.LENGTH_SHORT)
                             .setAnchorView(binding.actionsView)
                             .show();
                 }

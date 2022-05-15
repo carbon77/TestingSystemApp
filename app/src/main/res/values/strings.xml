@@ -62,4 +62,8 @@
     <string name="registration">Registration</string>
     <string name="sign_out_confirmation">Are you sure you want to sign out?</string>
     <string name="yes">Yes</string>
+    <string name="test_has_created">Test has created</string>
+    <string name="test_has_updated">Test has updated</string>
+    <string name="password_has_changed">Password has changed</string>
+    <string name="incorrect_password">Incorrect password</string>
 </resources>
