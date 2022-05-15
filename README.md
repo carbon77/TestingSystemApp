@@ -18,5 +18,8 @@
 ### Граф фрагментов приложения
 ![Fragments graph](assets/graph.png "Fragments graph")
 
+### Диаграмма классов моделей
+![Model classes](assets/model_classes.png "Model classes")
+
 ### Видео, демонстирирующее создание и прохождение теста
 <img src="assets/testing_system_video.gif" width="280">
