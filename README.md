@@ -17,3 +17,6 @@
 
 ### Граф фрагментов приложения
 ![Fragments graph](assets/graph.png "Fragments graph")
+
+###
+[Video](assets/testing_system_video.gif "Video")
