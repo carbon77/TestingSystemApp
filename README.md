@@ -8,6 +8,8 @@
 - Хранение и просмотр результатов прохождения тестов
 
 ### Выбранные технологии и библиотеки
+<img src="assets/Firebase_Logo.png" style="float: right;" width="350">
+
 1. Для серверной части приложения был использован сервис облачных услуг Firebase, а конкретно: 
 	- Firebase Authorization для авторизации
 	- Firebase Realtime database для хранение данных
