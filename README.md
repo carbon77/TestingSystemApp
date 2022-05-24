@@ -24,5 +24,5 @@
 ### Диаграмма классов моделей
 ![Model classes](assets/model_classes.png "Model classes")
 
-### Видео, демонстрирующее создание и прохождение теста
+### Видео, демонстрирующее прохождение теста и передачу его другим пользователям
 <img src="assets/testing_system_video.gif" width="280">
