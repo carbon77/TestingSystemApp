@@ -162,7 +162,12 @@ public class TestFormFragment extends Fragment {
 
     private void addQuestion() {
         Question question = new Question("", QuestionType.RADIO);
-        question.setOrder(newQuestions.get(newQuestions.size() - 1).getOrder() + 1);
+
+        if (newQuestions.isEmpty()) {
+            question.setOrder(0);
+        } else {
+            question.setOrder(newQuestions.get(newQuestions.size() - 1).getOrder() + 1);
+        }
         newQuestions.add(question);
         adapter.notifyDataSetChanged();
     }
